@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://easyjobsdev.c325xzlf1dkd.eu-central-1.rds.amazonaws.com:5432/easy_jobs
+    username: postgres
+    password: easyjobs
+  jpa:
+    show-sql: true
+    hibernate:
+      #TODO: deploymentta "create-drop" yerine "update" kullanılacak
+      ddl-auto: update
