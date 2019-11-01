@@ -1,6 +1,7 @@
 package com.easyjobs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,11 +11,12 @@ public class BaseModel {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
+    @JsonIgnore
     public int id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'")
+    @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
     public Date createdAt = new Date();
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'")
+    @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
     public Date updatedAt = new Date();
 

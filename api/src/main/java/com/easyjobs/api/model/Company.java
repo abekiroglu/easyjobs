@@ -19,6 +19,9 @@ public class Company extends BaseModel{
     @JsonManagedReference(value="company_applications")
     private List<JobApplication> applications;
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference(value="company_comments")
+    private List<Comment> comments;
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonManagedReference(value="advertisements")
     private List<Advertisement> advertisements;
     private boolean isDeleted;
@@ -53,6 +56,14 @@ public class Company extends BaseModel{
 
     public void setProfile(CompanyProfile profile) {
         this.profile = profile;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     public boolean isValidated() {

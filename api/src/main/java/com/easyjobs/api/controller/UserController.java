@@ -45,21 +45,25 @@ public class UserController {
     public ResponseEntity createProfile(@RequestBody UserProfile userProfile) {
         return service.createProfile(userProfile);
     }
-    @GetMapping("/{userId}")
-    public ResponseEntity getUser(@PathVariable Integer userId){
-        return service.getUser(userId);
+    @GetMapping("/{userName}")
+    public ResponseEntity getUser(@PathVariable String userName){
+        return service.getUser(userName);
+    }
+    @GetMapping("/")
+    public ResponseEntity getMe(@RequestHeader String auth){
+        return service.getMe(auth);
     }
     @PatchMapping("/")
-    public ResponseEntity updateUser(@RequestBody User user){
-        return service.updateUser(user);
+    public ResponseEntity updateUser(@RequestBody User user, @RequestHeader String auth){
+        return service.updateUser(user, auth);
     }
     @DeleteMapping("/")
-    public ResponseEntity deleteUser(){
-        return service.deleteUser();
+    public ResponseEntity deleteUser(@RequestHeader String auth){
+        return service.deleteUser(auth);
     }
     @PatchMapping("/password")
-    public ResponseEntity changePassword(@RequestBody ChangePasswordRequest changePasswordRequest){
-        return service.changePassword(changePasswordRequest);
+    public ResponseEntity changePassword(@RequestBody String newPassword, @RequestHeader String auth){
+        return service.changePassword(newPassword, auth);
     }
     @PostMapping("/password")
     public ResponseEntity passwordReset(@RequestBody String userIdentifier){

@@ -1,22 +1,21 @@
 package com.easyjobs.api.service;
 
-import com.easyjobs.api.dto.request.ChangePasswordRequest;
-import com.easyjobs.api.dto.request.LoginRequest;
 import com.easyjobs.api.dto.request.SignupRequest;
+import com.easyjobs.api.dto.response.ErrorResponse;
 import com.easyjobs.api.dto.response.Response;
+import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
 import com.easyjobs.api.model.User;
 import com.easyjobs.api.model.UserProfile;
 import com.easyjobs.api.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.Http;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.auth.UserRecord;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -28,11 +27,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.io.*;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 
 @Transactional
@@ -106,7 +104,7 @@ public class EasyJobsService {
 
             return new Response<>(userRecord, HttpStatus.CREATED);
         }catch(Exception e){
-            return new Response<>(e.getMessage(), HttpStatus.CONFLICT, e);
+            return new Response<>(e, HttpStatus.CONFLICT, e);
         }
     }
 
@@ -114,30 +112,77 @@ public class EasyJobsService {
         return new Response<>(userProfileRepository.save(userProfile), HttpStatus.CREATED);
     }
 
-    public ResponseEntity getUser(Integer userId) {
-        if(userId.equals(0)){
-            //TODO return the authenticated users information
-            return new Response<>("{TODO}", HttpStatus.OK);
-        }else{
-            return new Response<>(userRepository.getOne(userId), HttpStatus.OK);
+    public ResponseEntity getUser(String userName) {
+        return new Response<>(userRepository.findOneByUsername(userName), HttpStatus.OK);
+    }
+
+    public ResponseEntity getMe(String auth) {
+        try {
+            return new Response<>(userRepository.findOneByEmail(FirebaseUtil.decodeToken(auth).getEmail()), HttpStatus.OK);
+        } catch (Exception e) {
+            return new Response<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity updateUser(User user) {
-        //TODO check if the payload is forged (i.e. trying to update another user) with the authentication token
-        return new Response<>(userRepository.save(user), HttpStatus.OK);
+    public ResponseEntity updateUser(User user, String auth) {
+        try {
+            FirebaseToken token = FirebaseUtil.decodeToken(auth);
+            //TODO Field checks, picture update
+            UserRecord.UpdateRequest request = new UserRecord.UpdateRequest(token.getUid())
+                    .setEmail(user.getEmail())
+                    .setDisplayName(String.format("%s %s", user.getProfile().getName(), user.getProfile().getSurname()));
+            UserRecord userRecord = FirebaseAuth.getInstance().updateUser(request);
+            User dbUser = userRepository.findOneByEmail(token.getEmail());
+            return new Response<>(userRepository.save(user), HttpStatus.OK);
+        } catch (Exception e) {
+            return new Response<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    public ResponseEntity deleteUser() {
-        //TODO check if the payload is forged (i.e. trying to delete another user) with the authentication token
-        User user = userRepository.getOne(0);
-        user.setDeleted(true);
-        return new Response<>(userRepository.save(user), HttpStatus.NO_CONTENT);
+    public ResponseEntity deleteUser(String auth) {
+        try {
+            User user = userRepository.findOneByEmail(FirebaseUtil.decodeToken(auth).getEmail());
+            user.setDeleted(true);
+            return new Response<>(null, HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new Response<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    public ResponseEntity changePassword(ChangePasswordRequest changePasswordRequest) {
-        //TODO not decided on whose task this is (front-end vs back-end)
-        return new Response<>("{TODO}", HttpStatus.OK);
+    public ResponseEntity changePassword(String newPassword, String auth) {
+        try {
+            FirebaseToken token = FirebaseUtil.decodeToken(auth);
+
+            HttpClient httpclient = HttpClients.createDefault();
+            HttpPost httppost = new HttpPost("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyC872wZNSFlc_iBSbZsHZ1OSOi2MG8Adn4");
+
+            List<NameValuePair> params = new ArrayList<>(3);
+            params.add(new BasicNameValuePair("idToken", auth));
+            params.add(new BasicNameValuePair("password", newPassword));
+            params.add(new BasicNameValuePair("returnSecureToken", "true"));
+            httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+            HttpResponse response = httpclient.execute(httppost);
+            HttpEntity entity = response.getEntity();
+
+            if (entity != null) {
+                InputStream inputstream = entity.getContent();
+                ObjectMapper mapper = new ObjectMapper();
+                Map jsonMap = mapper.readValue(inputstream, Map.class);
+                if(jsonMap.containsKey("error")){
+                    Map error = (Map) jsonMap.get("error");
+                    String code = (String) error.get("code");
+                    String message = (String) error.get("message");
+                    new Response<>(new ErrorResponse(code, message), HttpStatus.INTERNAL_SERVER_ERROR);
+                }else{
+                    new Response<>(userRepository.findOneByEmail(token.getEmail()), HttpStatus.OK);
+                }
+            }
+        } catch (Exception e) {
+            return new Response<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return null;
     }
 
     public ResponseEntity passwordReset(String userIdentifier) {
