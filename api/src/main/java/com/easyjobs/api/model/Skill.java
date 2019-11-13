@@ -1,5 +1,8 @@
 package com.easyjobs.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,18 +15,16 @@ public class Skill extends BaseModel{
     @ManyToMany(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
     @JoinTable(name = "user_skills",
             joinColumns = { @JoinColumn(name = "skill_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_profile_id") })
+            inverseJoinColumns = { @JoinColumn(name = "user_id") })
+    @JsonBackReference("user_skills")
     private List<User> users;
     @ManyToMany(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
     @JoinTable(name = "profession_skills",
             joinColumns = { @JoinColumn(name = "skill_id") },
             inverseJoinColumns = { @JoinColumn(name = "profession_id") })
+    @JsonBackReference(value="profession_skills")
     private List<Profession> professions;
-    @ManyToMany(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
-    @JoinTable(name = "assessment_skills",
-            joinColumns = { @JoinColumn(name = "skill_id") },
-            inverseJoinColumns = { @JoinColumn(name = "assessment_id") })
-    private List<Assessment> assessments;
+    @JsonIgnore
     private boolean isDeleted;
 
     public boolean isDeleted() {
@@ -58,11 +59,4 @@ public class Skill extends BaseModel{
         this.professions = professions;
     }
 
-    public List<Assessment> getAssessments() {
-        return assessments;
-    }
-
-    public void setAssessments(List<Assessment> assessments) {
-        this.assessments = assessments;
-    }
 }

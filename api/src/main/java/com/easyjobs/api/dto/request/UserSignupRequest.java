@@ -1,30 +1,20 @@
 package com.easyjobs.api.dto.request;
 
-public class SignupRequest {
-    private String username;
+public class UserSignupRequest {
     private String password;
     private String email;
     private String phoneNumber;
     private String name;
     private String surname;
 
-    public SignupRequest() { }
+    public UserSignupRequest() { }
 
-    public SignupRequest(String username, String password, String email, String phoneNumber, String name, String surname) {
-        this.username = username;
+    public UserSignupRequest(String password, String email, String phoneNumber, String name, String surname) {
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.name = name;
         this.surname = surname;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {

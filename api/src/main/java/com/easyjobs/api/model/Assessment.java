@@ -1,6 +1,7 @@
 package com.easyjobs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Table(name = "assessment")
 public class Assessment extends BaseModel{
     private Double weight;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="advertisement_id", referencedColumnName = "id")
     @JsonBackReference(value="advertisement_assessments")
     private Advertisement advertisement;
@@ -18,6 +19,7 @@ public class Assessment extends BaseModel{
             joinColumns = { @JoinColumn(name = "assessment_id") },
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
     private List<Skill> skills;
+    @JsonIgnore
     private boolean isDeleted;
 
     public boolean isDeleted() {

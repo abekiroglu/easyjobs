@@ -1,6 +1,7 @@
 package com.easyjobs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,14 +11,15 @@ import java.util.Date;
 public class JobApplication extends BaseModel{
     private Date postDate;
     private boolean isResolved;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", referencedColumnName = "id")
     @JsonBackReference(value="user_applications")
     private User applicant;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="company_id", referencedColumnName = "id")
     @JsonBackReference(value="company_applications")
     private Company appliedTo;
+    @JsonIgnore
     private boolean isDeleted;
 
     public boolean isDeleted() {

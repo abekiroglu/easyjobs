@@ -1,6 +1,7 @@
 package com.easyjobs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,16 +12,17 @@ import java.util.List;
 public class Experience extends BaseModel{
     private Date startDate;
     private Date endDate;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "company", referencedColumnName = "id")
     private Company company;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "profession", referencedColumnName = "id")
     private Profession profession;
-    @ManyToOne
-    @JoinColumn(name="user_profile_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id", referencedColumnName = "id")
     @JsonBackReference(value="user_experience")
-    private UserProfile user;
+    private User user;
+    @JsonIgnore
     private boolean isDeleted;
 
     public boolean isDeleted() {
@@ -63,11 +65,11 @@ public class Experience extends BaseModel{
         this.profession = profession;
     }
 
-    public UserProfile getUsers() {
+    public User getUsers() {
         return user;
     }
 
-    public void setUsers(UserProfile user) {
+    public void setUsers(User user) {
         this.user = user;
     }
 }

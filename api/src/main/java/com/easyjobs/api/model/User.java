@@ -1,28 +1,43 @@
 package com.easyjobs.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "app_user")
 public class User extends BaseModel{
-    private String username;
     private String email;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile", referencedColumnName = "id")
-    @JsonManagedReference(value="user_profile")
-    private UserProfile profile;
     private boolean isValidated;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value="user_comments")
     private List<Comment> comments;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value="user_applications")
     private List<JobApplication> applications;
+    @JsonIgnore
     private boolean isDeleted;
+    private Date birthDate;
+    private String name;
+    private String surname;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "profession_id", referencedColumnName = "id")
+    @JsonManagedReference(value="user_profession")
+    private Profession profession;
+    @ManyToMany(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
+    @JoinTable(name = "user_skills",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "skill_id") })
+    @JsonManagedReference("user_skills")
+    private List<Skill> skills;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value="user_experience")
+    private List<Experience> experiences;
+    //TODO: Use AWS EC3 to store images.
+    // private URI picture
 
     public boolean isDeleted() {
         return isDeleted;
@@ -32,12 +47,52 @@ public class User extends BaseModel{
         isDeleted = deleted;
     }
 
-    public String getUsername() {
-        return username;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public Profession getProfession() {
+        return profession;
+    }
+
+    public void setProfession(Profession profession) {
+        this.profession = profession;
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public List<Experience> getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(List<Experience> experiences) {
+        this.experiences = experiences;
     }
 
     public String getEmail() {
@@ -46,14 +101,6 @@ public class User extends BaseModel{
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public UserProfile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(UserProfile profile) {
-        this.profile = profile;
     }
 
     public boolean isValidated() {

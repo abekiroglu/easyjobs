@@ -1,6 +1,7 @@
 package com.easyjobs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,18 +12,19 @@ public class Comment extends BaseModel{
     private Date commentedAt;
     private String content;
     private Double rating;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", referencedColumnName = "id")
     @JsonBackReference(value="user_comments")
     private User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="company_id", referencedColumnName = "id")
     @JsonBackReference(value="company_comments")
     private Company company;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="advertisement_id", referencedColumnName = "id")
     @JsonBackReference(value="advertisement_comments")
     private Advertisement advertisement;
+    @JsonIgnore
     private boolean isDeleted;
 
     public boolean isDeleted() {

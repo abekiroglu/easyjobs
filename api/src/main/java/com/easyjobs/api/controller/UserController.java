@@ -1,24 +1,12 @@
 package com.easyjobs.api.controller;
 
-import com.easyjobs.api.dto.request.ChangePasswordRequest;
-import com.easyjobs.api.dto.request.LoginRequest;
-import com.easyjobs.api.dto.request.SignupRequest;
-import com.easyjobs.api.dto.response.Response;
+import com.easyjobs.api.dto.request.UserSignupRequest;
 import com.easyjobs.api.model.User;
-import com.easyjobs.api.model.UserProfile;
 import com.easyjobs.api.service.EasyJobsService;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord;
-import javafx.concurrent.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
 
 @CrossOrigin
 @RestController
@@ -33,8 +21,8 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody SignupRequest signupRequest) {
-        return service.signup(signupRequest);
+    public ResponseEntity signup(@RequestBody UserSignupRequest userSignupRequest) {
+        return service.signup(userSignupRequest);
     }
 //    @PostMapping("/login")
 //    public ResponseEntity login(@RequestBody LoginRequest loginRequest, @RequestHeader String uid){
@@ -42,16 +30,16 @@ public class UserController {
 //    }
 
     @PostMapping("/profile")
-    public ResponseEntity createProfile(@RequestBody UserProfile userProfile) {
-        return service.createProfile(userProfile);
+    public ResponseEntity createProfile(@RequestBody User userProfile) {
+        return service.createUserProfile(userProfile);
     }
-    @GetMapping("/{userName}")
-    public ResponseEntity getUser(@PathVariable String userName){
-        return service.getUser(userName);
+    @GetMapping("/{email}")
+    public ResponseEntity getUser(@PathVariable String email){
+        return service.getUser(email);
     }
     @GetMapping("/")
     public ResponseEntity getMe(@RequestHeader String auth){
-        return service.getMe(auth);
+        return service.getUserMe(auth);
     }
     @PatchMapping("/")
     public ResponseEntity updateUser(@RequestBody User user, @RequestHeader String auth){

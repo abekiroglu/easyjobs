@@ -1,6 +1,7 @@
 package com.easyjobs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -13,16 +14,21 @@ public class Advertisement extends BaseModel{
     private Date publishDate;
     private Date validUntil;
     private String description;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference(value="advertisement_assessments")
     private List<Assessment> requirements;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference(value="advertisement_comments")
     private List<Comment> comments;
     @ManyToOne
     @JoinColumn(name="profession_id", referencedColumnName = "id")
     @JsonBackReference(value="advertisement_profession")
     private Profession profession;
+    @ManyToOne
+    @JoinColumn(name="company_id", referencedColumnName = "id")
+    @JsonBackReference(value="advertisement_company")
+    private Company company;
+    @JsonIgnore
     private boolean isDeleted;
 
     public boolean isDeleted() {
@@ -80,4 +86,13 @@ public class Advertisement extends BaseModel{
     public void setProfession(Profession profession) {
         this.profession = profession;
     }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
 }

@@ -8,7 +8,7 @@ import java.io.IOException;
 @Component
 public class SendGridUtil {
 
-    private static final String FROM = "no-reply@easyjobs.com";
+    private static final String FROM = "noreply@easyjobs.com";
 
     public static void send(String to, String subject, String emailContent) throws IOException {
         Content content = new Content("text/plain", emailContent);

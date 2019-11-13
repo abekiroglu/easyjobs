@@ -1,30 +1,60 @@
 package com.easyjobs.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "company")
 public class Company extends BaseModel{
-    private String username;
     private String email;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile", referencedColumnName = "id")
-    @JsonManagedReference(value="company_profile")
-    private CompanyProfile profile;
     private boolean isValidated;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value="company_applications")
     private List<JobApplication> applications;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value="company_comments")
     private List<Comment> comments;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonManagedReference(value="advertisements")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference(value="advertisement_company")
     private List<Advertisement> advertisements;
+    @JsonIgnore
     private boolean isDeleted;
+
+    private Date foundedDate;
+    private String name;
+    private String description;
+    // TODO: Design a meaningful way to represent and store geographic location.
+    //  private Location location
+    //TODO: Use AWS EC3 to store images.
+    // private URI picture
+
+    public Date getFoundedDate() {
+        return foundedDate;
+    }
+
+    public void setFoundedDate(Date foundedDate) {
+        this.foundedDate = foundedDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public boolean isDeleted() {
         return isDeleted;
@@ -34,28 +64,12 @@ public class Company extends BaseModel{
         isDeleted = deleted;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public CompanyProfile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(CompanyProfile profile) {
-        this.profile = profile;
     }
 
     public List<Comment> getComments() {

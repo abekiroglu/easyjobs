@@ -1,5 +1,7 @@
 package com.easyjobs.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -14,10 +16,12 @@ public class Profession extends BaseModel{
     @JoinTable(name = "profession_skills",
             joinColumns = { @JoinColumn(name = "profession_id") },
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
+    @JsonManagedReference(value="profession_skills")
     private List<Skill> skills;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference(value="advertisement_profession")
     private List<Advertisement> advertisements;
+    @JsonIgnore
     private boolean isDeleted;
 
     public boolean isDeleted() {
