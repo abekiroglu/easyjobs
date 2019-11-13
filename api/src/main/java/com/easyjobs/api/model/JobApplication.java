@@ -19,14 +19,14 @@ public class JobApplication extends BaseModel{
     @JoinColumn(name="company_id", referencedColumnName = "id")
     @JsonBackReference(value="company_applications")
     private Company appliedTo;
-    @JsonIgnore
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
-    public boolean isDeleted() {
+    @JsonIgnore
+    public Boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 

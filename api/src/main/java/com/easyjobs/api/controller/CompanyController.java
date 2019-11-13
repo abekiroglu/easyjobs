@@ -6,6 +6,7 @@ import com.easyjobs.api.service.EasyJobsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
@@ -31,8 +32,8 @@ public class CompanyController {
     }
 
     @GetMapping("/")
-    public ResponseEntity getCompanyMe(@RequestHeader String auth){
-        return service.getCompanyMe(auth);
+    public ResponseEntity getCompanyMe(Authentication authentication){
+        return service.getCompanyMe(authentication.getName());
     }
 
     @GetMapping("/{companyId}")
@@ -46,7 +47,7 @@ public class CompanyController {
     }
 
     @DeleteMapping("/")
-    public ResponseEntity deleteCompany(@RequestHeader String auth){
-        return service.deleteCompany(auth);
+    public ResponseEntity deleteCompany(Authentication authentication){
+        return service.deleteCompany(authentication.getName());
     }
 }

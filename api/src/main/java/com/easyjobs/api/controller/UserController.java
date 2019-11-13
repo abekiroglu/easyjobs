@@ -2,11 +2,16 @@ package com.easyjobs.api.controller;
 
 import com.easyjobs.api.dto.request.UserSignupRequest;
 import com.easyjobs.api.model.User;
+import com.easyjobs.api.security.EasyJobsUser;
 import com.easyjobs.api.service.EasyJobsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @CrossOrigin
 @RestController
@@ -38,16 +43,16 @@ public class UserController {
         return service.getUser(email);
     }
     @GetMapping("/")
-    public ResponseEntity getMe(@RequestHeader String auth){
-        return service.getUserMe(auth);
+    public ResponseEntity getMe(Authentication authentication){
+        return service.getUserMe(authentication.getName());
     }
     @PatchMapping("/")
     public ResponseEntity updateUser(@RequestBody User user, @RequestHeader String auth){
         return service.updateUser(user, auth);
     }
     @DeleteMapping("/")
-    public ResponseEntity deleteUser(@RequestHeader String auth){
-        return service.deleteUser(auth);
+    public ResponseEntity deleteUser(Authentication authentication){
+        return service.deleteUser(authentication.getName());
     }
     @PatchMapping("/password")
     public ResponseEntity changePassword(@RequestBody String newPassword, @RequestHeader String auth){

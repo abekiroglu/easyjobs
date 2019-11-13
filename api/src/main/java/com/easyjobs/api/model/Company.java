@@ -21,8 +21,10 @@ public class Company extends BaseModel{
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value="advertisement_company")
     private List<Advertisement> advertisements;
-    @JsonIgnore
     private boolean isDeleted;
+    @JsonIgnore
+    @Column(nullable = true)
+    private Long lastActionTime;
 
     private Date foundedDate;
     private String name;
@@ -31,6 +33,14 @@ public class Company extends BaseModel{
     //  private Location location
     //TODO: Use AWS EC3 to store images.
     // private URI picture
+
+    public Long getLastActionTime() {
+        return lastActionTime;
+    }
+
+    public void setLastActionTime(Long lastActionTime) {
+        this.lastActionTime = lastActionTime;
+    }
 
     public Date getFoundedDate() {
         return foundedDate;
@@ -56,6 +66,7 @@ public class Company extends BaseModel{
         this.description = description;
     }
 
+    @JsonIgnore
     public boolean isDeleted() {
         return isDeleted;
     }

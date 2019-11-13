@@ -24,14 +24,14 @@ public class Skill extends BaseModel{
             inverseJoinColumns = { @JoinColumn(name = "profession_id") })
     @JsonBackReference(value="profession_skills")
     private List<Profession> professions;
-    @JsonIgnore
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
-    public boolean isDeleted() {
+    @JsonIgnore
+    public Boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 

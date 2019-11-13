@@ -19,14 +19,14 @@ public class Assessment extends BaseModel{
             joinColumns = { @JoinColumn(name = "assessment_id") },
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
     private List<Skill> skills;
-    @JsonIgnore
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
-    public boolean isDeleted() {
+    @JsonIgnore
+    public Boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 

@@ -75,7 +75,7 @@ public class EasyJobsService {
             //Create a request for Firebase
             UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                     .setEmail(userSignupRequest.getEmail())
-                    .setEmailVerified(false)
+                    .setEmailVerified(true)
                     .setPassword(userSignupRequest.getPassword())
                     .setDisplayName(String.format("%s %s", userSignupRequest.getName(), userSignupRequest.getSurname()))
                     .setDisabled(false);
@@ -111,9 +111,9 @@ public class EasyJobsService {
         return new Response<>(userRepository.findOneByEmail(email), HttpStatus.OK);
     }
 
-    public ResponseEntity getUserMe(String auth) {
+    public ResponseEntity getUserMe(String email) {
         try {
-            return new Response<>(userRepository.findOneByEmail(FirebaseUtil.decodeToken(auth).getEmail()), HttpStatus.OK);
+            return new Response<>(userRepository.findOneByEmail(email), HttpStatus.OK);
         } catch (Exception e) {
             return new Response<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -141,9 +141,9 @@ public class EasyJobsService {
         }
     }
 
-    public ResponseEntity deleteUser(String auth) {
+    public ResponseEntity deleteUser(String email) {
         try {
-            User user = userRepository.findOneByEmail(FirebaseUtil.decodeToken(auth).getEmail());
+            User user = userRepository.findOneByEmail(email);
             user.setDeleted(true);
             return new Response<>(null, HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -222,9 +222,9 @@ public class EasyJobsService {
         return new Response<>(companyRepository.save(companyProfile), HttpStatus.CREATED);
     }
 
-    public ResponseEntity getCompanyMe(String auth) {
+    public ResponseEntity getCompanyMe(String email) {
         try {
-            return new Response<>(companyRepository.findOneByEmail(FirebaseUtil.decodeToken(auth).getEmail()), HttpStatus.OK);
+            return new Response<>(companyRepository.findOneByEmail(email), HttpStatus.OK);
         } catch (Exception e) {
             return new Response<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -250,7 +250,7 @@ public class EasyJobsService {
 
     public ResponseEntity deleteCompany(String auth) {
         try {
-            Company company = companyRepository.findOneByEmail(FirebaseUtil.decodeToken(auth).getEmail());
+            Company company = companyRepository.findOneByEmail(auth);
             company.setDeleted(true);
             return new Response<>(null, HttpStatus.NO_CONTENT);
         } catch (Exception e) {
@@ -258,9 +258,9 @@ public class EasyJobsService {
         }
     }
 
-    public ResponseEntity createAdvertisement(Advertisement advertisement, String auth) {
+    public ResponseEntity createAdvertisement(Advertisement advertisement, String email) {
         try {
-            advertisement.setCompany(companyRepository.findOneByEmail(FirebaseUtil.decodeToken(auth).getEmail()));
+            advertisement.setCompany(companyRepository.findOneByEmail(email));
             advertisement.setProfession(professionRepository.findOneById(advertisement.getProfession().getId()));
             return new Response<>(advertisementRepository.save(advertisement), HttpStatus.CREATED);
         }catch (Exception e) {
@@ -268,10 +268,10 @@ public class EasyJobsService {
         }
     }
 
-    public ResponseEntity getAdvertisement(String advertisementId, String auth) {
+    public ResponseEntity getAdvertisement(String advertisementId, String email) {
         Advertisement advertisement = advertisementRepository.findOneById(Integer.parseInt(advertisementId));
         try {
-            if(FirebaseUtil.decodeToken(auth).getEmail().equalsIgnoreCase(advertisement.getCompany().getEmail())) {
+            if(email.equalsIgnoreCase(advertisement.getCompany().getEmail())) {
                 return new Response<>(advertisement, HttpStatus.OK);
             } else {
                 return new Response<>(new ErrorResponse("500", "Advertisement does not belong to the authenticated company"), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -281,10 +281,10 @@ public class EasyJobsService {
         }
     }
 
-    public ResponseEntity updateAdvertisement(Advertisement advertisement, String advertisementId, String auth) {
+    public ResponseEntity updateAdvertisement(Advertisement advertisement, String advertisementId, String email) {
         Advertisement dbAdvertisement = advertisementRepository.findOneById(Integer.parseInt(advertisementId));
         try {
-            if(FirebaseUtil.decodeToken(auth).getEmail().equalsIgnoreCase(advertisement.getCompany().getEmail())) {
+            if(email.equalsIgnoreCase(advertisement.getCompany().getEmail())) {
                 dbAdvertisement.setDescription(advertisement.getDescription());
                 dbAdvertisement.setRequirements(advertisement.getRequirements());
                 dbAdvertisement.setValidUntil(advertisement.getValidUntil());
@@ -297,10 +297,10 @@ public class EasyJobsService {
         }
     }
 
-    public ResponseEntity deleteAdvertisement(String advertisementId, String auth) {
+    public ResponseEntity deleteAdvertisement(String advertisementId, String email) {
         Advertisement advertisement = advertisementRepository.findOneById(Integer.parseInt(advertisementId));
         try {
-            if(FirebaseUtil.decodeToken(auth).getEmail().equalsIgnoreCase(advertisement.getCompany().getEmail())) {
+            if(email.equalsIgnoreCase(advertisement.getCompany().getEmail())) {
                 advertisement.setDeleted(true);
                 advertisementRepository.save(advertisement);
                 return new Response<>(null, HttpStatus.NO_CONTENT);
@@ -312,7 +312,7 @@ public class EasyJobsService {
         }
     }
 
-    public ResponseEntity searchAdvertisements(Integer id, Integer companyId, String auth) {
+    public ResponseEntity searchAdvertisements(Integer id, Integer companyId, String email) {
         try {
             if (companyId != null && id != null) {
                 return new Response<>(new ErrorResponse("409", "Too many parameters"), HttpStatus.CONFLICT);
@@ -321,7 +321,7 @@ public class EasyJobsService {
             }else if(companyId != null) {
                 return new Response<>(companyRepository.findOneById(companyId).getAdvertisements(), HttpStatus.OK);
             }else {
-                List<Advertisement> advertisements = userRepository.findOneByEmail(FirebaseUtil.decodeToken(auth).getEmail()).getProfession().getAdvertisements();
+                List<Advertisement> advertisements = userRepository.findOneByEmail(email).getProfession().getAdvertisements();
                 return new Response<>(advertisements, HttpStatus.OK);
             }
         }catch (Exception e) {

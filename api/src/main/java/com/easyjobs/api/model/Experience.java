@@ -22,14 +22,14 @@ public class Experience extends BaseModel{
     @JoinColumn(name="user_id", referencedColumnName = "id")
     @JsonBackReference(value="user_experience")
     private User user;
-    @JsonIgnore
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
-    public boolean isDeleted() {
+    @JsonIgnore
+    public Boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 

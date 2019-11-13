@@ -21,14 +21,14 @@ public class Profession extends BaseModel{
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference(value="advertisement_profession")
     private List<Advertisement> advertisements;
-    @JsonIgnore
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
-    public boolean isDeleted() {
+    @JsonIgnore
+    public Boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 

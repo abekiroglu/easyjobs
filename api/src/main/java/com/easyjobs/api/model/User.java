@@ -18,8 +18,10 @@ public class User extends BaseModel{
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value="user_applications")
     private List<JobApplication> applications;
+    private Boolean isDeleted;
     @JsonIgnore
-    private boolean isDeleted;
+    @Column(nullable = true)
+    private Long lastActionTime;
     private Date birthDate;
     private String name;
     private String surname;
@@ -36,14 +38,27 @@ public class User extends BaseModel{
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value="user_experience")
     private List<Experience> experiences;
+
+    public User() {
+    }
     //TODO: Use AWS EC3 to store images.
     // private URI picture
 
-    public boolean isDeleted() {
+
+    public Long getLastActionTime() {
+        return lastActionTime;
+    }
+
+    public void setLastActionTime(Long lastActionTime) {
+        this.lastActionTime = lastActionTime;
+    }
+
+    @JsonIgnore
+    public Boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 
@@ -126,4 +141,6 @@ public class User extends BaseModel{
     public void setApplications(List<JobApplication> applications) {
         this.applications = applications;
     }
+
+
 }

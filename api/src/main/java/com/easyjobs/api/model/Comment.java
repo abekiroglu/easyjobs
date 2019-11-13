@@ -24,14 +24,14 @@ public class Comment extends BaseModel{
     @JoinColumn(name="advertisement_id", referencedColumnName = "id")
     @JsonBackReference(value="advertisement_comments")
     private Advertisement advertisement;
-    @JsonIgnore
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
-    public boolean isDeleted() {
+    @JsonIgnore
+    public Boolean isDeleted() {
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 
