@@ -4,6 +4,7 @@ import com.easyjobs.api.dto.request.CompanySignupRequest;
 import com.easyjobs.api.dto.request.UserSignupRequest;
 import com.easyjobs.api.dto.response.ErrorResponse;
 import com.easyjobs.api.dto.response.Response;
+import com.easyjobs.api.dto.response.SimpleProfession;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
 import com.easyjobs.api.model.*;
@@ -31,6 +32,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Transactional
@@ -359,6 +361,12 @@ public class EasyJobsService {
         }catch (Exception e) {
             return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public ResponseEntity getProfessions() {
+        List<Profession> professions = professionRepository.findAll();
+        List<SimpleProfession> response = professions.stream().map(SimpleProfession::new).collect(Collectors.toList());
+        return new Response<>(response, HttpStatus.OK);
     }
 
 
