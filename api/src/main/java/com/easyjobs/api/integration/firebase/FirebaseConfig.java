@@ -14,7 +14,7 @@ import java.io.IOException;
 @Configuration
 public class FirebaseConfig{
 
-    private static final String firebaseConfigPath = "src\\main\\resources\\easyjobs-fc136-firebase-adminsdk-23ozg-36c9f89c60.json";
+    private static final String firebaseConfigPath = "C:\\Users\\ABEKIROGLU14\\Desktop\\easyjobs-fc136-firebase-adminsdk-23ozg-36c9f89c60.json";
 
     @Bean
     FirebaseApp createFirebaseApp() throws IOException {
