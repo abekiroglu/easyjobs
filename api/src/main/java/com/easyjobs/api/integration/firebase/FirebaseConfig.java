@@ -14,17 +14,17 @@ import java.io.IOException;
 @Configuration
 public class FirebaseConfig{
 
-    private static final String firebaseConfigPath = "C:\\Users\\ABEKIROGLU14\\Desktop\\easyjobs-fc136-firebase-adminsdk-23ozg-36c9f89c60.json";
+    private static final String firebaseConfigPath = "easyjobs-fc136-firebase-adminsdk-23ozg-36c9f89c60.json";
 
     @Bean
-    FirebaseApp createFirebaseApp() throws IOException {
-        FileInputStream serviceAccount =
-                new FileInputStream(firebaseConfigPath);
+        FirebaseApp createFirebaseApp() throws IOException {
+            FileInputStream serviceAccount =
+                    new FileInputStream(firebaseConfigPath);
 
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setDatabaseUrl("https://easyjobs-fc136.firebaseio.com")
-                .build();
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .setDatabaseUrl("https://easyjobs-fc136.firebaseio.com")
+                    .build();
 
         return  FirebaseApp.initializeApp(options);
     }
