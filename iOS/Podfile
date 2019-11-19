@@ -1,0 +1,35 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'EasyJobs' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for EasyJobs
+    pod 'Firebase/Core'
+    pod 'FirebaseUI/Auth'
+    pod 'Firebase/Analytics'	
+    pod 'Firebase/Firestore'
+    pod 'LBTATools'		
+	
+  target 'EasyJobsTests' do
+    inherit! :search_paths
+    # Pods for testing
+      pod 'Firebase/Core'
+      pod 'FirebaseUI/Auth'
+      pod 'Firebase/Analytics'
+      pod 'Firebase/Firestore'
+      pod 'LBTATools'		
+  end
+
+  target 'EasyJobsUITests' do
+    inherit! :search_paths
+    # Pods for testing
+      pod 'Firebase/Core'
+      pod 'FirebaseUI/Auth'	
+      pod 'Firebase/Analytics'
+      pod 'Firebase/Firestore'
+      pod 'LBTATools'
+  end
+
+end
