@@ -9,8 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 public class UserUpdateRequest {
-    private List<Comment> newComments;
-    private List<Comment> deletedComments;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date birthDate;
     private String name;
@@ -22,23 +20,6 @@ public class UserUpdateRequest {
     private List<Skill> deletedSkills;
     //TODO: Use AWS EC3 to store images.
     // private URI picture
-
-
-    public List<Comment> getNewComments() {
-        return newComments;
-    }
-
-    public void setNewComments(List<Comment> newComments) {
-        this.newComments = newComments;
-    }
-
-    public List<Comment> getDeletedComments() {
-        return deletedComments;
-    }
-
-    public void setDeletedComments(List<Comment> deletedComments) {
-        this.deletedComments = deletedComments;
-    }
 
     public Date getBirthDate() {
         return birthDate;

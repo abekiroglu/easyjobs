@@ -24,8 +24,8 @@ public class ProfessionService {
     private ProfessionRepository professionRepository;
 
     @Autowired
-    public ProfessionService(ProfessionRepository professionRepository){
-        this.professionRepository= professionRepository;
+    public ProfessionService(ProfessionRepository professionRepository) {
+        this.professionRepository = professionRepository;
     }
 
 

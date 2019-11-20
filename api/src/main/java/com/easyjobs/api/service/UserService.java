@@ -9,8 +9,7 @@ import com.easyjobs.api.dto.response.SimpleUser;
 import com.easyjobs.api.dto.response.exception.ResourceNotFoundException;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
-import com.easyjobs.api.model.Profession;
-import com.easyjobs.api.model.User;
+import com.easyjobs.api.model.*;
 import com.easyjobs.api.repository.ProfessionRepository;
 import com.easyjobs.api.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,10 +46,10 @@ public class UserService {
 
     @Autowired
     public UserService(ProfessionRepository professionRepository,
-                           UserRepository userRepository,
-                           FirebaseApp firebaseApp){
-        this.professionRepository= professionRepository;
-        this.userRepository= userRepository;
+                       UserRepository userRepository,
+                       FirebaseApp firebaseApp) {
+        this.professionRepository = professionRepository;
+        this.userRepository = userRepository;
         this.firebaseApp = firebaseApp;
     }
 
@@ -63,7 +62,7 @@ public class UserService {
                     .setPassword(userSignupRequest.getPassword())
                     .setDisplayName(String.format("%s %s", userSignupRequest.getName(), userSignupRequest.getSurname()))
                     .setDisabled(false);
-            if(userSignupRequest.getPhoneNumber() != null && userSignupRequest.getPhoneNumber().length() == 13){
+            if (userSignupRequest.getPhoneNumber() != null && userSignupRequest.getPhoneNumber().length() == 13) {
                 request.setPhoneNumber(userSignupRequest.getPhoneNumber());
             }
             // Send request to Firebase
@@ -73,7 +72,7 @@ public class UserService {
             SendGridUtil.send(userRecord.getEmail(), "Activate your EasyJobs account", verificationLink);
             // Create user entity in DB
             User user = new User();
-            user.setProfession(professionRepository.getOne( 1));
+            user.setProfession(professionRepository.getOne(1));
             user.setEmail(userSignupRequest.getEmail());
             user.setName(userSignupRequest.getName());
             user.setSurname(userSignupRequest.getSurname());
@@ -82,15 +81,15 @@ public class UserService {
             userRepository.save(user);
 
             return new Response<>(userRecord, HttpStatus.CREATED);
-        }catch(Exception e){
+        } catch (Exception e) {
             return new Response<>(e, HttpStatus.CONFLICT, e);
         }
     }
 
     public ResponseEntity getUser(String email) {
-        try{
+        try {
             return new Response<>(new SimpleUser(userRepository.findOneByEmailAndIsDeleted(email, false)), HttpStatus.OK);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new Response<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -103,44 +102,42 @@ public class UserService {
         }
     }
 
-    public ResponseEntity updateUser(UserUpdateRequest user, String email) {
+    public ResponseEntity updateUser(UserUpdateRequest request, String email) {
         try {
             User dbUser = userRepository.findOneByEmail(email);
 
-            if(user.getProfession() != null){
-                Profession profession = professionRepository.findOneById(user.getProfession());
-                if(profession != null){
+            if (request.getProfession() != null) {
+                Profession profession = professionRepository.findOneById(request.getProfession());
+                if (profession != null) {
                     dbUser.setProfession(profession);
-                }else{
+                } else {
                     throw new ResourceNotFoundException();
                 }
             }
-            if(user.getDeletedComments() != null && user.getDeletedComments().size() != 0){
-                dbUser.getComments().removeAll(user.getNewComments());
+            if (request.getNewSkills() != null && request.getNewSkills().size() != 0) {
+                dbUser.getSkills().addAll(request.getNewSkills());
             }
-            if(user.getNewComments() != null && user.getNewComments().size() != 0){
-                dbUser.getComments().addAll(user.getNewComments());
+            if (request.getNewExperiences() != null && request.getNewExperiences().size() != 0) {
+                dbUser.getExperiences().addAll(request.getNewExperiences());
             }
-            if(user.getDeletedExperiences() != null && user.getDeletedExperiences().size() != 0){
-                dbUser.getExperiences().removeAll(user.getDeletedExperiences());
+            // Collection Deletion
+            if (request.getDeletedSkills() != null && request.getDeletedSkills().size() != 0) {
+                List<Skill> skills = dbUser.getSkills();
+                request.getDeletedSkills().forEach(removedSkill -> skills.removeIf(skill -> skill.getId() == removedSkill.getId()));
             }
-            if(user.getNewExperiences() != null && user.getNewExperiences().size() != 0){
-                dbUser.getExperiences().addAll(user.getNewExperiences());
+            if (request.getDeletedExperiences() != null && request.getDeletedExperiences().size() != 0) {
+                List<Experience> experiences = dbUser.getExperiences();
+                request.getDeletedExperiences().forEach(removedExp -> experiences.removeIf(exp -> exp.getId() == removedExp.getId()));
             }
-            if(user.getDeletedSkills() != null && user.getDeletedSkills().size() != 0){
-                dbUser.getSkills().removeAll(user.getDeletedSkills());
+
+            if (request.getBirthDate() != null) {
+                dbUser.setBirthDate(request.getBirthDate());
             }
-            if(user.getNewSkills() != null && user.getNewSkills().size() != 0){
-                dbUser.getSkills().addAll(user.getNewSkills());
+            if (request.getName() != null) {
+                dbUser.setName(request.getName());
             }
-            if(user.getBirthDate() != null){
-                dbUser.setBirthDate(user.getBirthDate());
-            }
-            if(user.getName() != null){
-                dbUser.setName(user.getName());
-            }
-            if(user.getSurname() != null) {
-                dbUser.setSurname(user.getSurname());
+            if (request.getSurname() != null) {
+                dbUser.setSurname(request.getSurname());
             }
             return new Response<>(userRepository.save(dbUser), HttpStatus.OK);
         } catch (Exception e) {
@@ -184,12 +181,12 @@ public class UserService {
                 InputStream inputstream = entity.getContent();
                 ObjectMapper mapper = new ObjectMapper();
                 Map jsonMap = mapper.readValue(inputstream, Map.class);
-                if(jsonMap.containsKey("error")){
+                if (jsonMap.containsKey("error")) {
                     Map error = (Map) jsonMap.get("error");
                     String code = (String) error.get("code");
                     String message = (String) error.get("message");
                     return new Response<>(new ErrorResponse(code, message), HttpStatus.INTERNAL_SERVER_ERROR);
-                }else{
+                } else {
                     return new Response<>(userRepository.findOneByEmail(token.getEmail()), HttpStatus.OK);
                 }
             }

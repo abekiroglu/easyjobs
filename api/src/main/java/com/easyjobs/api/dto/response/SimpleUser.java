@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public class SimpleUser {
+    private int id;
     private String email;
     private Date birthDate;
     private String name;
@@ -18,6 +19,7 @@ public class SimpleUser {
     private List<Experience> experiences;
 
     public SimpleUser(User user) {
+        this.id = user.getId();
         this.email = user.getEmail();
         this.birthDate = user.getBirthDate();
         this.name = user.getName();
@@ -27,7 +29,8 @@ public class SimpleUser {
         this.experiences = user.getExperiences();
     }
 
-    public SimpleUser(String email, Date birthDate, String name, String surname, Profession profession, List<Skill> skills, List<Experience> experiences) {
+    public SimpleUser(int id, String email, Date birthDate, String name, String surname, Profession profession, List<Skill> skills, List<Experience> experiences) {
+        this.id = id;
         this.email = email;
         this.birthDate = birthDate;
         this.name = name;

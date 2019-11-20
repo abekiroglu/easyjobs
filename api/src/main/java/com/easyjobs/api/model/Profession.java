@@ -1,7 +1,6 @@
 package com.easyjobs.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -9,14 +8,15 @@ import java.util.List;
 
 @Entity
 @Table(name = "profession")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Profession extends BaseModel{
     private String title;
     private String description;
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "profession_skills",
             joinColumns = { @JoinColumn(name = "profession_id") },
-            inverseJoinColumns = { @JoinColumn(name = "skill_id") })
-    private List<Skill> skills;
+            inverseJoinColumns = { @JoinColumn(name = "skill_group_id") })
+    private List<SkillGroup> skillGroups;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference(value="advertisement_profession")
     private List<Advertisement> advertisements;
@@ -37,12 +37,12 @@ public class Profession extends BaseModel{
         this.description = description;
     }
 
-    public List<Skill> getSkills() {
-        return skills;
+    public List<SkillGroup> getSkillGroups() {
+        return skillGroups;
     }
 
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
+    public void setSkillGroups(List<SkillGroup> skillGroups) {
+        this.skillGroups = skillGroups;
     }
 
     public List<Advertisement> getAdvertisements() {

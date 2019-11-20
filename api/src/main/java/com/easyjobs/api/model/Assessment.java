@@ -2,19 +2,26 @@ package com.easyjobs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "assessment")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Assessment extends BaseModel{
     private Double weight;
-    @ManyToMany(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
-    @JoinTable(name = "assessment_skills",
-            joinColumns = { @JoinColumn(name = "assessment_id") },
-            inverseJoinColumns = { @JoinColumn(name = "skill_id") })
-    private List<Skill> skills;
+    @ManyToOne(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
+    @JoinColumn(name="skill_id", referencedColumnName = "id")
+    private Skill skill;
+
+    public Assessment(){}
+
+    public Assessment(Double weight, Skill skill) {
+        this.weight = weight;
+        this.skill = skill;
+    }
 
     public Double getWeight() {
         return weight;
@@ -24,11 +31,11 @@ public class Assessment extends BaseModel{
         this.weight = weight;
     }
 
-    public List<Skill> getSkills() {
-        return skills;
+    public Skill getSkill() {
+        return skill;
     }
 
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
+    public void setSkill(Skill skill) {
+        this.skill = skill;
     }
 }

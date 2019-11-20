@@ -1,24 +1,29 @@
 package com.easyjobs.api.dto.response;
 import com.easyjobs.api.model.Profession;
 import com.easyjobs.api.model.Skill;
+import com.easyjobs.api.model.SkillGroup;
+
 import java.util.List;
 
 public class SimpleProfession {
 
+    private int id;
     private String title;
     private String description;
-    private List<Skill> skills;
+    private List<SkillGroup> skills;
 
-    public SimpleProfession(String title, String description, List<Skill> skills) {
+    public SimpleProfession(int id, String title, String description, List<SkillGroup> skills) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.skills = skills;
     }
 
     public SimpleProfession(Profession profession){
+        this.id = profession.getId();
         this.title = profession.getTitle();
         this.description = profession.getDescription();
-        this.skills = profession.getSkills();
+        this.skills = profession.getSkillGroups();
     }
 
     public String getTitle() {
@@ -37,11 +42,11 @@ public class SimpleProfession {
         this.description = description;
     }
 
-    public List<Skill> getSkills() {
+    public List<SkillGroup> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<Skill> skills) {
+    public void setSkills(List<SkillGroup> skills) {
         this.skills = skills;
     }
 }

@@ -1,6 +1,8 @@
 package com.easyjobs.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.NaturalId;
 
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "app_user")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User extends BaseModel{
     @NaturalId
     private String email;
@@ -34,6 +37,7 @@ public class User extends BaseModel{
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
     private List<Skill> skills;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference(value="user_experience")
     private List<Experience> experiences;
 
     public User() {

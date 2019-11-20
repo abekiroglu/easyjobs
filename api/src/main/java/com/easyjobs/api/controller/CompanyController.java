@@ -36,9 +36,9 @@ public class CompanyController {
         return service.getCompanyProfile(companyId);
     }
 
-    @PatchMapping("/profile")
-    public ResponseEntity updateCompany(@RequestBody CompanyUpdateRequest company, Authentication authentication){
-        return service.updateCompany(company, authentication.getName());
+    @PatchMapping("/{companyId}")
+    public ResponseEntity updateCompany(@RequestBody CompanyUpdateRequest company, Authentication authentication, @PathVariable String companyId){
+        return service.updateCompany(company, authentication, companyId);
     }
 
     @DeleteMapping("/")
