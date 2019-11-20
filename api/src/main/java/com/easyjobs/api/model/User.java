@@ -1,7 +1,10 @@
 package com.easyjobs.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,16 +12,16 @@ import java.util.List;
 
 @Entity
 @Table(name = "app_user")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User extends BaseModel{
+    @NaturalId
     private String email;
     private boolean isValidated;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference(value="user_comments")
     private List<Comment> comments;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value="user_applications")
     private List<JobApplication> applications;
-    private Boolean isDeleted;
     @JsonIgnore
     @Column(nullable = true)
     private Long lastActionTime;
@@ -27,16 +30,14 @@ public class User extends BaseModel{
     private String surname;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "profession_id", referencedColumnName = "id")
-    @JsonManagedReference(value="user_profession")
     private Profession profession;
     @ManyToMany(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
     @JoinTable(name = "user_skills",
             joinColumns = { @JoinColumn(name = "user_id") },
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
-    @JsonManagedReference("user_skills")
     private List<Skill> skills;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference(value="user_experience")
+    @JsonBackReference(value="user_experience")
     private List<Experience> experiences;
 
     public User() {
@@ -51,15 +52,6 @@ public class User extends BaseModel{
 
     public void setLastActionTime(Long lastActionTime) {
         this.lastActionTime = lastActionTime;
-    }
-
-    @JsonIgnore
-    public Boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
     }
 
     public Date getBirthDate() {

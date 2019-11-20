@@ -1,8 +1,6 @@
 package com.easyjobs.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -10,15 +8,16 @@ import java.util.List;
 
 @Entity
 @Table(name = "advertisement")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Advertisement extends BaseModel{
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date publishDate;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date validUntil;
     private String description;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference(value="advertisement_assessments")
     private List<Assessment> requirements;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference(value="advertisement_comments")
     private List<Comment> comments;
     @ManyToOne
     @JoinColumn(name="profession_id", referencedColumnName = "id")
@@ -28,16 +27,6 @@ public class Advertisement extends BaseModel{
     @JoinColumn(name="company_id", referencedColumnName = "id")
     @JsonBackReference(value="advertisement_company")
     private Company company;
-    private Boolean isDeleted;
-
-    @JsonIgnore
-    public Boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 
     public Date getPublishDate() {
         return publishDate;

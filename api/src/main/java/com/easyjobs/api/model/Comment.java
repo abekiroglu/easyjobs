@@ -1,39 +1,22 @@
 package com.easyjobs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "comment")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Comment extends BaseModel{
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date commentedAt;
     private String content;
     private Double rating;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", referencedColumnName = "id")
-    @JsonBackReference(value="user_comments")
-    private User user;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="company_id", referencedColumnName = "id")
-    @JsonBackReference(value="company_comments")
-    private Company company;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="advertisement_id", referencedColumnName = "id")
-    @JsonBackReference(value="advertisement_comments")
-    private Advertisement advertisement;
-    private Boolean isDeleted;
 
-    @JsonIgnore
-    public Boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 
     public Date getCommentedAt() {
         return commentedAt;
@@ -59,27 +42,4 @@ public class Comment extends BaseModel{
         this.rating = rating;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public Advertisement getAdvertisement() {
-        return advertisement;
-    }
-
-    public void setAdvertisement(Advertisement advertisement) {
-        this.advertisement = advertisement;
-    }
 }

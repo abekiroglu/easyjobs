@@ -1,14 +1,18 @@
 package com.easyjobs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "job_application")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class JobApplication extends BaseModel{
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date postDate;
     private boolean isResolved;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -19,16 +23,6 @@ public class JobApplication extends BaseModel{
     @JoinColumn(name="company_id", referencedColumnName = "id")
     @JsonBackReference(value="company_applications")
     private Company appliedTo;
-    private Boolean isDeleted;
-
-    @JsonIgnore
-    public Boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 
     public Date getPostDate() {
         return postDate;

@@ -1,7 +1,10 @@
 package com.easyjobs.api.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,23 +12,23 @@ import java.util.List;
 
 @Entity
 @Table(name = "company")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Company extends BaseModel{
+    @NaturalId
     private String email;
     private boolean isValidated;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value="company_applications")
     private List<JobApplication> applications;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference(value="company_comments")
     private List<Comment> comments;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference(value="advertisement_company")
     private List<Advertisement> advertisements;
-    private boolean isDeleted;
     @JsonIgnore
     @Column(nullable = true)
     private Long lastActionTime;
-
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date foundedDate;
     private String name;
     private String description;
@@ -66,14 +69,6 @@ public class Company extends BaseModel{
         this.description = description;
     }
 
-    @JsonIgnore
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
 
     public String getEmail() {
         return email;

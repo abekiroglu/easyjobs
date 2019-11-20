@@ -1,6 +1,7 @@
 package com.easyjobs.api.controller;
 
-import com.easyjobs.api.service.EasyJobsService;
+import com.easyjobs.api.service.AdvertisementService;
+import com.easyjobs.api.service.ProfessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAutoConfiguration
 @RequestMapping(value = "/v1/professions")
 public class ProfessionController {
-    private EasyJobsService service;
+    private ProfessionService service;
 
     @Autowired
-    public ProfessionController(EasyJobsService service) {
+    public ProfessionController(ProfessionService service) {
         this.service = service;
     }
 

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AdvertisementRepository extends JpaRepository<Advertisement, Integer> {
     Advertisement findOneById(int id);
+    Advertisement findOneByIdAndIsDeleted(int id, boolean isDeleted);
 }

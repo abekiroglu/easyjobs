@@ -2,32 +2,25 @@ package com.easyjobs.api.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "assessment")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Assessment extends BaseModel{
     private Double weight;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="advertisement_id", referencedColumnName = "id")
-    @JsonBackReference(value="advertisement_assessments")
-    private Advertisement advertisement;
-    @ManyToMany(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
-    @JoinTable(name = "assessment_skills",
-            joinColumns = { @JoinColumn(name = "assessment_id") },
-            inverseJoinColumns = { @JoinColumn(name = "skill_id") })
-    private List<Skill> skills;
-    private Boolean isDeleted;
+    @ManyToOne(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
+    @JoinColumn(name="skill_id", referencedColumnName = "id")
+    private Skill skill;
 
-    @JsonIgnore
-    public Boolean isDeleted() {
-        return isDeleted;
-    }
+    public Assessment(){}
 
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
+    public Assessment(Double weight, Skill skill) {
+        this.weight = weight;
+        this.skill = skill;
     }
 
     public Double getWeight() {
@@ -38,19 +31,11 @@ public class Assessment extends BaseModel{
         this.weight = weight;
     }
 
-    public Advertisement getAdvertisement() {
-        return advertisement;
+    public Skill getSkill() {
+        return skill;
     }
 
-    public void setAdvertisement(Advertisement advertisement) {
-        this.advertisement = advertisement;
-    }
-
-    public List<Skill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(List<Skill> skills) {
-        this.skills = skills;
+    public void setSkill(Skill skill) {
+        this.skill = skill;
     }
 }

@@ -1,28 +1,29 @@
 package com.easyjobs.api.controller;
 
+import com.easyjobs.api.dto.request.AdvertisementCreateRequest;
+import com.easyjobs.api.dto.request.AdvertisementUpdateRequest;
 import com.easyjobs.api.model.Advertisement;
-import com.easyjobs.api.service.EasyJobsService;
+import com.easyjobs.api.service.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
-@RestController
+@CrossOrigin@RestController
 @EnableAutoConfiguration
 @RequestMapping(value = "/v1/advertisements")
 public class AdvertisementController {
-    private EasyJobsService service;
+    private AdvertisementService service;
 
     @Autowired
-    public AdvertisementController(EasyJobsService service) {
+    public AdvertisementController(AdvertisementService service) {
         this.service = service;
     }
 
     @PostMapping("/")
-    public ResponseEntity createAdvertisement(@RequestBody Advertisement advertisement, Authentication authentication){
-        return service.createAdvertisement(advertisement, authentication.getName());
+    public ResponseEntity createAdvertisement(@RequestBody AdvertisementCreateRequest request, Authentication authentication){
+        return service.createAdvertisement(request, authentication.getName());
     }
 
     @GetMapping("/{advertisementId}")
@@ -30,19 +31,19 @@ public class AdvertisementController {
         return service.getAdvertisement(advertisementId, authentication.getName());
     }
 
-    @PatchMapping("{advertisementId}")
-    public ResponseEntity updateAdvertisement(@PathVariable String advertisementId, Authentication authentication, @RequestBody Advertisement advertisement){
-        return service.updateAdvertisement(advertisement, advertisementId, authentication.getName());
+    @PatchMapping("/{advertisementId}")
+    public ResponseEntity updateAdvertisement(@PathVariable String advertisementId, Authentication authentication, @RequestBody AdvertisementUpdateRequest request){
+        return service.updateAdvertisement(request, advertisementId, authentication);
     }
 
-    @DeleteMapping("{advertisementId}")
+    @DeleteMapping("/{advertisementId}")
     public ResponseEntity deleteAdvertisement(@PathVariable String advertisementId, Authentication authentication){
         return service.deleteAdvertisement(advertisementId, authentication.getName());
     }
 
     @GetMapping("/search")
     public ResponseEntity getAdvertisements(@RequestParam Integer id, @RequestParam Integer companyId, Authentication authentication){
-        return service.searchAdvertisements(id, companyId, authentication.getName());
+        return service.searchAdvertisements(id, companyId, authentication);
     }
 
     @GetMapping("/{advertisementId}/details")

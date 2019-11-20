@@ -11,7 +11,6 @@ public class BaseModel {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @JsonIgnore
     public int id;
     @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
@@ -19,6 +18,8 @@ public class BaseModel {
     @JsonIgnore
     @Temporal(TemporalType.TIMESTAMP)
     public Date updatedAt = new Date();
+
+    private Boolean isDeleted = false;
 
     public int getId() {
         return id;
@@ -42,6 +43,15 @@ public class BaseModel {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @JsonIgnore
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 }
 
