@@ -53,7 +53,7 @@ extension ProfileViewController: UIPickerViewDelegate, UIPickerViewDataSource{
 
 class ProfileViewController: UIViewController {
         
-    
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var skillLabel1: UILabel!
     @IBOutlet weak var skillLabel2: UILabel!
     @IBOutlet weak var skillLabel3: UILabel!
@@ -66,6 +66,9 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var s1Selecter: UISwitch!
     @IBOutlet weak var s2Selecter: UISwitch!
     @IBOutlet weak var s3Selecter: UISwitch!
+    @IBOutlet weak var cardView: UIView!
+    
+    @IBOutlet weak var tickImageView: UIImageView!
     
     private let dataSource : [String] = ["Please choose a profession","Software Developer"]
     private var datePicker: UIDatePicker?
@@ -96,44 +99,44 @@ class ProfileViewController: UIViewController {
         
         
         setUpElements()
-        professionDataSource.loadProfessionList()
+        //professionDataSource.loadProfessionList()
         // Do any additional setup after loading the view.
     }
     
-    @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer){
-        view.endEditing(true)
+    override func loadView() {
+        super.loadView()
+        NSLayoutConstraint.activate([
+            cardView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            cardView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
     }
     
-    @objc func dateChanged(datePicker: UIDatePicker){
-        let dateFormatter =  DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
-        birthDateTextField.text = dateFormatter.string(from: datePicker.date)
-        //view.endEditing(true)
-    }
     
-    func setUpElements () {
-        errorLabel.alpha = 0
-        s1Selecter.isOn = false
-        s2Selecter.isOn = false
-        s3Selecter.isOn = false
-        s1Selecter.isEnabled = false
-        s2Selecter.isEnabled = false
-        s3Selecter.isEnabled = false
-    }
-    
-    func validate() -> String? {
-        // Check if textfields are filled
-        if
-            nameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-            surnameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-            birthDateTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-            professionTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-            experienceTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""
-            {
-            return "Please fill in all fields"
+    @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
+        
+        let card = sender.view!
+        let translation = sender.translation(in: view)
+        let xFromCenter = card.center.x - view.center.x
+        card.center = CGPoint(x: view.center.x + translation.x, y: view.center.y + translation.y)
+        
+        if xFromCenter > 0 {
+            // image tick
+            tickImageView.tintColor = UIColor.green
+        } else {
+            // image cross
+            tickImageView.tintColor = UIColor.red
         }
-        return nil
+        
+        tickImageView.alpha = abs(xFromCenter) / view.center.x
+        
+        if sender.state == UIGestureRecognizer.State.ended{
+        UIView.animate(withDuration: 0.5) {
+            card.center = self.view.center
+            self.tickImageView.alpha = 0
+            }
+        }
     }
+    
+    
     
     @IBAction func saveButtonTapped(_ sender: Any) {
         
@@ -190,27 +193,5 @@ class ProfileViewController: UIViewController {
         }
     }
         
-    func showError(_ message: String){
-            errorLabel.text = message
-            errorLabel.alpha = 1
-        }
     
-        func goToMenu(){
-            let menuViewController = storyboard?.instantiateViewController(identifier: "MenuVC") as? MenuViewController
-            view.window?.rootViewController = menuViewController
-            view.window?.makeKeyAndVisible()
-        }
-        
-
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

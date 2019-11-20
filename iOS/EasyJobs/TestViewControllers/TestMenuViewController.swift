@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TestViewController: UIViewController {
+class TestMenuViewController: UIViewController {
     
     @IBOutlet weak var bgImage: UIImageView!
     @IBOutlet weak var welcomeLabel: UILabel!
