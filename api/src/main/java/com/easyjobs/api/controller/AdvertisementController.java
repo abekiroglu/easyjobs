@@ -1,7 +1,7 @@
 package com.easyjobs.api.controller;
 
 import com.easyjobs.api.model.Advertisement;
-import com.easyjobs.api.service.EasyJobsService;
+import com.easyjobs.api.service.AdvertisementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @EnableAutoConfiguration
 @RequestMapping(value = "/v1/advertisements")
 public class AdvertisementController {
-    private EasyJobsService service;
+    private AdvertisementService service;
 
     @Autowired
-    public AdvertisementController(EasyJobsService service) {
+    public AdvertisementController(AdvertisementService service) {
         this.service = service;
     }
 

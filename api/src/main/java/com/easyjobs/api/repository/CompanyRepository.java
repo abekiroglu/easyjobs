@@ -7,4 +7,6 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     Company findOneByEmail(String email);
 
     Company findOneById(int id);
+
+    Company findOneByIdAndIsDeleted(Integer id, boolean isDeleted);
 }

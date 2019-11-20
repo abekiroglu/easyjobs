@@ -18,7 +18,6 @@ public class Advertisement extends BaseModel{
     @JsonManagedReference(value="advertisement_assessments")
     private List<Assessment> requirements;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference(value="advertisement_comments")
     private List<Comment> comments;
     @ManyToOne
     @JoinColumn(name="profession_id", referencedColumnName = "id")
@@ -28,16 +27,6 @@ public class Advertisement extends BaseModel{
     @JoinColumn(name="company_id", referencedColumnName = "id")
     @JsonBackReference(value="advertisement_company")
     private Company company;
-    private Boolean isDeleted;
-
-    @JsonIgnore
-    public Boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 
     public Date getPublishDate() {
         return publishDate;

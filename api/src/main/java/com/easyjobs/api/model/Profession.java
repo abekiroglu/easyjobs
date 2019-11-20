@@ -16,21 +16,10 @@ public class Profession extends BaseModel{
     @JoinTable(name = "profession_skills",
             joinColumns = { @JoinColumn(name = "profession_id") },
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
-    @JsonManagedReference(value="profession_skills")
     private List<Skill> skills;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference(value="advertisement_profession")
     private List<Advertisement> advertisements;
-    private Boolean isDeleted;
-
-    @JsonIgnore
-    public Boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 
     public String getTitle() {
         return title;

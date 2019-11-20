@@ -10,25 +10,11 @@ import java.util.List;
 @Table(name = "assessment")
 public class Assessment extends BaseModel{
     private Double weight;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="advertisement_id", referencedColumnName = "id")
-    @JsonBackReference(value="advertisement_assessments")
-    private Advertisement advertisement;
     @ManyToMany(fetch = FetchType.LAZY, cascade =CascadeType.ALL)
     @JoinTable(name = "assessment_skills",
             joinColumns = { @JoinColumn(name = "assessment_id") },
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
     private List<Skill> skills;
-    private Boolean isDeleted;
-
-    @JsonIgnore
-    public Boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 
     public Double getWeight() {
         return weight;
@@ -36,14 +22,6 @@ public class Assessment extends BaseModel{
 
     public void setWeight(Double weight) {
         this.weight = weight;
-    }
-
-    public Advertisement getAdvertisement() {
-        return advertisement;
-    }
-
-    public void setAdvertisement(Advertisement advertisement) {
-        this.advertisement = advertisement;
     }
 
     public List<Skill> getSkills() {
