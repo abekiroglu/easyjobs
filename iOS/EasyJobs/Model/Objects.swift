@@ -18,32 +18,17 @@ import FirebaseAuth
     //var isValidated:Bool
 //}
 
-struct UserSignUpRequest: Codable{
-    var username: String
-    var password: String
-    var email: String
-    var name: String
-    var surname: String
-    
-    init(password: String, email: String, username: String, name: String, surname: String){
-        self.password = password
-        self.email = email
-        self.username = username
-        self.name = name
-        self.surname = surname
-    }
-}
-
 struct Company: Codable{
     var email: String
     var isValidated: Bool
     var applications: [JobApplication]
     var comments: [Comment]
     var advertisements: [Advertisement]
-    var isDeleted: Bool
+    var lastActionTime: Int
     var foundedDate: Date
     var name: String
     var description: String
+    var picture: String
     
     init(name: String){
         email = ""
@@ -51,21 +36,23 @@ struct Company: Codable{
         applications = []
         comments = []
         advertisements = []
-        isDeleted = false
+        lastActionTime = 0
         foundedDate = Date()
         self.name = name
         description = ""
+        picture = ""
     }
 }
 
 struct Advertisement: Codable{
+    var id: Int
     var publishDate: Date
     var validUntil: Date
     var description: String
     var requirements: [Assessment]
     var comments: [Comment]
-    var profession: Profession
-    var company: Company
+    //var profession: Profession
+   // var company: Company
 }
 
 struct Assessment: Codable{
@@ -95,17 +82,7 @@ struct SkillGroup: Codable{
     
 }
 
-struct SimpleProfession: Codable{
-    var title: String
-    var description: String
-    var skills: [SkillGroup]
-    
-    init(title: String){
-           self.title = title
-           description = title
-           skills = []
-       }
-}
+
 
 struct Skill: Codable{
     var description: String
@@ -116,25 +93,23 @@ struct Skill: Codable{
 }
 
 struct Profession: Codable{
+    var id: Int
     var title: String
     var description: String
-    var skills: [SkillGroup]
+    var skillGroups: [SkillGroup]
     var advertisements: [Advertisement]
-    var isDeleted: Bool
     
     init(title: String){
+        id = 0
         self.title = title
         description = title
         let skill1 = Skill(description: "Java")
         let skill2 = Skill(description: "C#")
         let skill3 = Skill(description: "Javascript")
-        skills  = []
+        skillGroups  = []
         advertisements = []
-        isDeleted = false
     }
 }
-
-
 
 struct Experience: Codable{
     var startDate: Date
@@ -142,15 +117,16 @@ struct Experience: Codable{
     var company: Company
     var profession: Profession
     var user: User
-    var isDeleted: Bool
 }
+
 struct JobApplication: Codable{
     var postDate: Date
     var isResolved: Bool
     var applicant: User
     var appliedTo: Company
-    var isDeleted: Bool
+    var issuedBy: String
 }
+
 struct User: Codable{
     var email: String
     var isValidated: Bool

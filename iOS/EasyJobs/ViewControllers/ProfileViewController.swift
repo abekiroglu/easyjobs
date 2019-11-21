@@ -81,7 +81,16 @@ class ProfileViewController: UIViewController {
         
         setUpElements()
         professionDataSource.loadProfessionList()
+        userHelper.loadUser()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+        
+        nameTextField.text = userHelper.loadedUser.name
+        surnameTextField.text = userHelper.loadedUser.surname
+        professionTextField.text = userHelper.loadedUser.profession.title
     }
     
     
@@ -185,11 +194,15 @@ class ProfileViewController: UIViewController {
             var profession = professionTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let experience = experienceTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
-            profession = professionDataSource.professionList[1].title
-            
             let email = Auth.auth().currentUser?.email
             
-            let simpleProfessionObject : SimpleProfession = professionDataSource.getMatchingProfession(title: profession, professionList: professionDataSource.professionList)
+            var professionInt: Int = 1
+            
+            if profession == "Software Developer" {
+                professionInt = 2
+            }
+            
+      /*      let simpleProfessionObject : SimpleProfession = professionDataSource.getMatchingProfession(title: profession, professionList: professionDataSource.professionList)
             let professionObject = Profession(title: simpleProfessionObject.title)
             let simpleSkillList : [Skill] = professionDataSource.getSkills(profession: simpleProfessionObject)
             var skillList : [Skill] = []
@@ -201,12 +214,11 @@ class ProfileViewController: UIViewController {
             }
             if s3Selecter.isOn{
                 skillList.append(Skill(description: simpleSkillList[2].description))
-            }
+            }*/
             
             
-            userHelper.updateProfile(email: email!, birthDate: Date.init(), name: "Burak", surname: "Ozdemir", profession: professionObject, skills: skillList, experiences: [])
+            userHelper.updateProfile(name: name, surname: surname, profession: professionInt)
             
-            self.goToMenu()
             
             
            /* var professionObject = Profession(title: "x", description: "x", skills: [], advertisements: [], isDeleted: false)

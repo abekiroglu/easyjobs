@@ -20,6 +20,8 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var profileButton: DesignableButton!
     @IBOutlet weak var logOutButton: DesignableButton!
     
+    var userHelper = UserHelper()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,7 +31,8 @@ class MenuViewController: UIViewController {
         applicationsButton.alpha = 0
         profileButton.alpha = 0
         logOutButton.alpha = 0
-
+        
+        userHelper.loadUser()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,6 +43,7 @@ class MenuViewController: UIViewController {
         }) { (true) in
             self.showLabel()
         }
+        welcomeLabel.text = "Welcome \(userHelper.loadedUser.name)"
     }
   
 

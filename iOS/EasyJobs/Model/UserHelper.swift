@@ -23,6 +23,10 @@ class UserHelper{
     var simpleProfession: SimpleProfession
     var professionList: [SimpleProfession]
     var delegate: UserHelperDelegate?
+    var loadedUser: LoadedUser
+    var profession = Profession(title: "")
+    var userUpdateRequest: UserUpdateRequest
+    var bigLoadedUser: BigLoadedUser
     
 
     
@@ -30,6 +34,10 @@ class UserHelper{
         self.userSignUpRequest = UserSignUpRequest(password: "x", email: "x", username: "x", name: "x", surname: "x")
         self.simpleProfession = SimpleProfession(title: "Software Developer")
         self.professionList = []
+        /*user = User(email: "", isValidated: false, comments: [], applications: [], lastActionTime: 0, birthDate: Date(), name: "", surname:"", profession: profession, skills: [], experiences: [], picture: "")*/
+        loadedUser = LoadedUser()
+        userUpdateRequest = UserUpdateRequest()
+        bigLoadedUser = BigLoadedUser()
     }
     
     func signUp(password: String, email: String, username: String, name: String, surname: String){
@@ -55,45 +63,39 @@ class UserHelper{
         uploadTask.resume()
     }
     
-    func createProfile(email: String, birthDate:Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience] ){
-        
-        let user = User(email: email, isValidated: true, comments: [], applications: [], lastActionTime: 0 , birthDate: birthDate, name: name, surname: surname, profession: profession , skills: skills, experiences: [],picture: "")
-        let session = URLSession.shared
-        
-        var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/profile")!)
-        request.httpMethod = "POST"
-               
-        let currentUser = Auth.auth().currentUser
-        currentUser?.getIDTokenForcingRefresh(true) { idToken, error in
-          if let error = error {
-            // Handle error
-            return;
-          }
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.addValue(idToken!, forHTTPHeaderField: "auth" )
-            guard let uploadData = try? JSONEncoder().encode(user) else{
-                return
-            }
-            let uploadTask = session.uploadTask(with: request, from: uploadData) { (data, response, error) in
-                if error == nil{
-                    print("Profile created")
-                } else{
-                    print(error)
-                }
-            }
-            uploadTask.resume()
-          // Send token to your backend via HTTPS
-          // ...
-        }
-    }
-    
     func loadUser(){
-        
-    }
+        let session = URLSession.shared
+            var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/")!)
+           let currentUser = Auth.auth().currentUser
+           currentUser?.getIDToken() { idToken, error in
+             if let error = error {
+               // Handle error
+               return;
+             }
+             print("Here is the token: \(idToken)")
+             request.httpMethod = "GET"
+             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+             request.addValue(idToken!, forHTTPHeaderField: "auth" )
+             let dataTask = session.dataTask(with: request) {(data, response, error) in
+             print("HERE: \(String.init(data: data!, encoding: .utf8))")
+             let decoder = JSONDecoder()
+                print(data!.count)
+                if data!.count > 500 {
+                    self.bigLoadedUser = try! decoder.decode(BigLoadedUser.self, from: data!)
+                } else {
+             self.loadedUser = try! decoder.decode(LoadedUser.self, from: data!)
+                }
+                       }
+             dataTask.resume()
+             // Send token to your backend via HTTPS
+             // ...
+           }
+        }
     
-    func updateProfile(email: String, birthDate:Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience] ){
+    
+    func updateProfile(name: String, surname: String, profession: Int){
         
-        let user = User(email: email, isValidated: true, comments: [], applications: [], lastActionTime: 0, birthDate: birthDate, name: name, surname: surname, profession: profession , skills: skills, experiences: [], picture: "")
+        userUpdateRequest = UserUpdateRequest(name: name, surname: surname, profession: profession, newExperiences: [], deletedExperiences: [], newSkills: [], deletedSkills: [])
         let session = URLSession.shared
         
         var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/")!)
@@ -105,9 +107,10 @@ class UserHelper{
             // Handle error
             return;
           }
+            print(self.userUpdateRequest)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue(idToken!, forHTTPHeaderField: "auth" )
-            guard let uploadData = try? JSONEncoder().encode(user) else{
+            guard let uploadData = try? JSONEncoder().encode(self.userUpdateRequest) else{
                 return
             }
             let uploadTask = session.uploadTask(with: request, from: uploadData) { (data, response, error) in
