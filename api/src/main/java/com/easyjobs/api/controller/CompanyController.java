@@ -55,4 +55,9 @@ public class CompanyController {
     public Response uploadImage(@RequestParam("file") MultipartFile file, Authentication authentication){
         return service.updateImageUrl(awsService.uploadImage(file), authentication.getName());
     }
+
+    @GetMapping("/hire")
+    public ResponseEntity hireAUser(@RequestParam Integer advertisementId, @RequestParam Integer userId, Authentication authentication){
+        return service.hireAUser(advertisementId, userId, authentication);
+    }
 }
