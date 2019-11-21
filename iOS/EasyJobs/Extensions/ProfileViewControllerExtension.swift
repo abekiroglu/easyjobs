@@ -63,8 +63,8 @@ extension ProfileViewController{
     func setupSelecters(){
         UIView.animate(withDuration: 1) {
             self.skillLabel1.text = self.skillNames[0]
-            self.skillLabel1.text = self.skillNames[0]
-            self.skillLabel1.text = self.skillNames[0]
+            self.skillLabel2.text = self.skillNames[1]
+            self.skillLabel3.text = self.skillNames[2]
             self.s1Selecter.isOn = self.skills[0]
             self.s2Selecter.isOn = self.skills[1]
             self.s3Selecter.isOn = self.skills[2]

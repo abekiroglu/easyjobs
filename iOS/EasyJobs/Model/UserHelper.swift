@@ -57,7 +57,7 @@ class UserHelper{
     
     func createProfile(email: String, birthDate:Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience] ){
         
-        let user = User(email: email, isValidated: true, comments: [], applications: [], isDeleted: false, birthDate: birthDate, name: name, surname: surname, profession: profession , skills: skills, experiences: [])
+        let user = User(email: email, isValidated: true, comments: [], applications: [], lastActionTime: 0 , birthDate: birthDate, name: name, surname: surname, profession: profession , skills: skills, experiences: [])
         let session = URLSession.shared
         
         var request = URLRequest(url: URL(string: "http://localhost:8080/v1/users/profile")!)
@@ -89,10 +89,10 @@ class UserHelper{
     
     func updateProfile(email: String, birthDate:Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience] ){
         
-        let user = User(email: email, isValidated: true, comments: [], applications: [], isDeleted: false, birthDate: birthDate, name: name, surname: surname, profession: profession , skills: skills, experiences: [])
+        let user = User(email: email, isValidated: true, comments: [], applications: [], lastActionTime: 0, birthDate: birthDate, name: name, surname: surname, profession: profession , skills: skills, experiences: [])
         let session = URLSession.shared
         
-        var request = URLRequest(url: URL(string: "http://localhost:8080/v1/users/")!)
+        var request = URLRequest(url: URL(string: "ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/")!)
         request.httpMethod = "PATCH"
                
         let currentUser = Auth.auth().currentUser

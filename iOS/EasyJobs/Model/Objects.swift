@@ -44,6 +44,18 @@ struct Company: Codable{
     var foundedDate: Date
     var name: String
     var description: String
+    
+    init(name: String){
+        email = ""
+        isValidated = true
+        applications = []
+        comments = []
+        advertisements = []
+        isDeleted = false
+        foundedDate = Date()
+        self.name = name
+        description = ""
+    }
 }
 
 struct Advertisement: Codable{
@@ -53,6 +65,19 @@ struct Advertisement: Codable{
     var requirements: [Assessment]
     var comments: [Comment]
     var profession: Profession
+    var company: Company
+}
+
+struct SimpleAdvertisement: Codable{
+    var description: String
+    var profession: SimpleProfession
+    var company: Company
+    
+    init(description: String){
+        self.description = description
+        profession = SimpleProfession(title: "Software Developer")
+        self.company = Company(name: "XM")
+    }
 }
 
 struct Assessment: Codable{
@@ -160,7 +185,7 @@ struct User: Codable{
     var isValidated: Bool
     var comments: [Comment]
     var applications: [JobApplication]
-    var lastActionTime: CLong
+    var lastActionTime: Int
     var birthDate: Date
     var name: String
     var surname: String
@@ -168,10 +193,7 @@ struct User: Codable{
     var skills: [Skill]
     var experiences: [Experience]
     
-    
-    
-    
-    init(email: String, isValidated: Bool, comments: [Comment], applications: [JobApplication], lastActionTime: CLong, birthDate: Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience]){
+    init(email: String, isValidated: Bool, comments: [Comment], applications: [JobApplication], lastActionTime: Int, birthDate: Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience]){
         self.email = email
         self.isValidated = isValidated
         self.comments = comments
