@@ -17,6 +17,16 @@ public class Comment extends BaseModel{
     private String content;
     private Double rating;
 
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(int ID) {
+        super.setId(ID);
+    }
+
 
     public Date getCommentedAt() {
         return commentedAt;

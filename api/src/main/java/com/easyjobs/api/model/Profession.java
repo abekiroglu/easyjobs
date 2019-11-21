@@ -21,6 +21,16 @@ public class Profession extends BaseModel{
     @JsonManagedReference(value="advertisement_profession")
     private List<Advertisement> advertisements;
 
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(int ID) {
+        super.setId(ID);
+    }
+
     public String getTitle() {
         return title;
     }

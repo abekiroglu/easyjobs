@@ -28,6 +28,16 @@ public class Experience extends BaseModel{
     @JsonBackReference(value="user_experience")
     private User user;
 
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(int ID) {
+        super.setId(ID);
+    }
+
 
     public Date getStartDate() {
         return startDate;

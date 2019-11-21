@@ -28,6 +28,17 @@ public class Advertisement extends BaseModel{
     @JsonBackReference(value="advertisement_company")
     private Company company;
 
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(int ID) {
+        super.setId(ID);
+    }
+
+
     public Date getPublishDate() {
         return publishDate;
     }

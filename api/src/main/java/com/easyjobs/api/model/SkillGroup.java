@@ -16,6 +16,17 @@ public class SkillGroup extends BaseModel {
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
     private List<Skill> skills;
 
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(int ID) {
+        super.setId(ID);
+    }
+
+
     public String getDescription() {
         return description;
     }
