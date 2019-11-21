@@ -43,7 +43,6 @@ extension LoginViewController{
         let nav = self.presentingViewController as! UINavigationController
         nav.setViewControllers([menuViewController], animated: true)
         self.dismiss(animated: true) {
-            
         }
     }
     

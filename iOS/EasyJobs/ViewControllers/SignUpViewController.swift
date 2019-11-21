@@ -24,10 +24,10 @@ extension SignUpViewController: UserHelperDelegate{
 
 class SignUpViewController: UIViewController {
 
+    @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var surnameTextField: UITextField!
-    @IBOutlet weak var phoneNumberTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!

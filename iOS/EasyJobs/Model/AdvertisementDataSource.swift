@@ -34,10 +34,10 @@ class AdvertisementDataSource{
         }
         dataTask.resume()*/
         
-        for n in 1...10{
+      /*  for n in 1...10{
             let advertisement = SimpleAdvertisement(description: "XM is looking for ambitious software Developers ")
             advertisementList.append(advertisement)
-        }
+        }*/
         
     }
 }

@@ -78,7 +78,7 @@ extension ProfileViewController{
     func arrangeSkills(professionName: String){
         professionTextField.text = professionName
         if professionTextField.text != "Please choose a profession"{
-            let skillList : [SimpleSkill] = professionDataSource.getSkills(profession: professionDataSource.getMatchingProfession(title: professionName, professionList: professionDataSource.professionList))
+            let skillList : [Skill] = professionDataSource.getSkills(profession: professionDataSource.getMatchingProfession(title: professionName, professionList: professionDataSource.professionList))
             print(skillList[0].description)
             print(skillList[1].description)
             print(skillList[2].description)

@@ -48,6 +48,7 @@
 		96D561CA236A120B0063AEBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96D561C8236A120B0063AEBB /* LaunchScreen.storyboard */; };
 		96D561D5236A120B0063AEBB /* EasyJobsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D561D4236A120B0063AEBB /* EasyJobsTests.swift */; };
 		96D561E0236A120B0063AEBB /* EasyJobsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D561DF236A120B0063AEBB /* EasyJobsUITests.swift */; };
+		96F73EBE2387268A007AEC7E /* SimpleObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73EBD2387268A007AEC7E /* SimpleObjects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,7 @@
 		96D561DB236A120B0063AEBB /* EasyJobsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EasyJobsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96D561DF236A120B0063AEBB /* EasyJobsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyJobsUITests.swift; sourceTree = "<group>"; };
 		96D561E1236A120B0063AEBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		96F73EBD2387268A007AEC7E /* SimpleObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleObjects.swift; sourceTree = "<group>"; };
 		AE8983FFC0BFEAE6403FFBF5 /* Pods-EasyJobsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyJobsUITests.debug.xcconfig"; path = "Target Support Files/Pods-EasyJobsUITests/Pods-EasyJobsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		DA4262A22F9BE7C14017FA5D /* Pods-EasyJobs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyJobs.release.xcconfig"; path = "Target Support Files/Pods-EasyJobs/Pods-EasyJobs.release.xcconfig"; sourceTree = "<group>"; };
 		ED56119534CA1B9078A1F439 /* Pods-EasyJobsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyJobsUITests.release.xcconfig"; path = "Target Support Files/Pods-EasyJobsUITests/Pods-EasyJobsUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				9610F2C72378971800531E69 /* Objects.swift */,
 				96A74B94237CAE8E0017CD43 /* ProfessionDataSource.swift */,
 				96177900238331CE001E44E7 /* UserHelper.swift */,
+				96F73EBD2387268A007AEC7E /* SimpleObjects.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -611,6 +614,7 @@
 				96022BE22385774600CBF399 /* ProfileViewControllerExtension.swift in Sources */,
 				96B74EB82385EC7C001163B5 /* SignUpViewControllerExtension.swift in Sources */,
 				96A74B95237CAE8E0017CD43 /* ProfessionDataSource.swift in Sources */,
+				96F73EBE2387268A007AEC7E /* SimpleObjects.swift in Sources */,
 				9610F2CC2379E5F800531E69 /* AdvertisementDataSource.swift in Sources */,
 				9632709623860CE9008532F2 /* MenuViewControllerExtension.swift in Sources */,
 				963270942385FA87008532F2 /* LoginViewControllerExtension.swift in Sources */,
