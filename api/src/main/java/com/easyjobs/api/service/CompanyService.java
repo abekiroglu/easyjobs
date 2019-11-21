@@ -134,4 +134,16 @@ public class CompanyService {
         }
     }
 
+    public Response updateImageUrl(Response response, String email) {
+        if(response.getBody().getClass().equals(String.class)){
+            Company dbUser = companyRepository.findOneByEmailAndIsDeleted(email, false);
+            if(dbUser == null){
+                return new Response<>(new ErrorResponse("404", "User not found"), HttpStatus.NOT_FOUND);
+            }
+            dbUser.setPicture((String) response.getBody());
+        }
+
+        return response;
+    }
+
 }

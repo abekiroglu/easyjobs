@@ -17,6 +17,7 @@ public class SimpleUser {
     private Profession profession;
     private List<Skill> skills;
     private List<Experience> experiences;
+    private String picture;
 
     public SimpleUser(User user) {
         this.id = user.getId();
@@ -27,6 +28,7 @@ public class SimpleUser {
         this.profession = user.getProfession();
         this.skills = user.getSkills();
         this.experiences = user.getExperiences();
+        this.picture = user.getPicture();
     }
 
     public SimpleUser(int id, String email, Date birthDate, String name, String surname, Profession profession, List<Skill> skills, List<Experience> experiences) {

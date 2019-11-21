@@ -7,6 +7,7 @@ import com.easyjobs.api.dto.response.ErrorResponse;
 import com.easyjobs.api.dto.response.Response;
 import com.easyjobs.api.dto.response.SimpleUser;
 import com.easyjobs.api.dto.response.exception.ResourceNotFoundException;
+import com.easyjobs.api.integration.aws.AwsService;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
 import com.easyjobs.api.model.*;
@@ -29,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.InputStream;
@@ -202,4 +204,15 @@ public class UserService {
         return new Response<>("{TODO}", HttpStatus.OK);
     }
 
+    public Response updateImageUrl(Response response, String email) {
+        if(response.getBody().getClass().equals(String.class)){
+            User dbUser = userRepository.findOneByEmailAndIsDeleted(email, false);
+            if(dbUser == null){
+                return new Response<>(new ErrorResponse("404", "User not found"), HttpStatus.NOT_FOUND);
+            }
+            dbUser.setPicture((String) response.getBody());
+        }
+
+        return response;
+    }
 }

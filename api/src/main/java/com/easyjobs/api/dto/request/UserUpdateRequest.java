@@ -18,8 +18,6 @@ public class UserUpdateRequest {
     private List<Experience> deletedExperiences;
     private List<Skill> newSkills;
     private List<Skill> deletedSkills;
-    //TODO: Use AWS EC3 to store images.
-    // private URI picture
 
     public Date getBirthDate() {
         return birthDate;

@@ -12,6 +12,7 @@ public class SimpleCompany {
     private Date foundedDate;
     private String name;
     private String description;
+    private String picture;
 
     public SimpleCompany(Company company){
         this.id = company.getId();
@@ -19,6 +20,7 @@ public class SimpleCompany {
         this.foundedDate = company.getFoundedDate();
         this.name = company.getName();
         this.description = company.getDescription();
+        this.picture = company.getPicture();
     }
 
     public SimpleCompany(int id, String email, Date foundedDate, String name, String description) {

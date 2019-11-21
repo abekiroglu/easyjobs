@@ -223,9 +223,4 @@ public class AdvertisementService {
         }
     }
 
-    public ResponseEntity getProfessions() {
-        List<Profession> professions = professionRepository.findAll();
-        List<SimpleProfession> response = professions.stream().map(SimpleProfession::new).collect(Collectors.toList());
-        return new Response<>(response, HttpStatus.OK);
-    }
 }
