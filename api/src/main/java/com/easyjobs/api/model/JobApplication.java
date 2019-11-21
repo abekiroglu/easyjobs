@@ -23,6 +23,7 @@ public class JobApplication extends BaseModel{
     @JoinColumn(name="company_id", referencedColumnName = "id")
     @JsonBackReference(value="company_applications")
     private Company appliedTo;
+    private String issuedBy;
 
     public Date getPostDate() {
         return postDate;
@@ -54,5 +55,13 @@ public class JobApplication extends BaseModel{
 
     public void setAppliedTo(Company appliedTo) {
         this.appliedTo = appliedTo;
+    }
+
+    public String getIssuedBy() {
+        return issuedBy;
+    }
+
+    public void setIssuedBy(String issuedBy) {
+        this.issuedBy = issuedBy;
     }
 }

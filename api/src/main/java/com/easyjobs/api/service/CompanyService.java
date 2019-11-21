@@ -6,10 +6,11 @@ import com.easyjobs.api.dto.response.ErrorResponse;
 import com.easyjobs.api.dto.response.Response;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
-import com.easyjobs.api.model.Comment;
-import com.easyjobs.api.model.Company;
-import com.easyjobs.api.model.User;
+import com.easyjobs.api.model.*;
+import com.easyjobs.api.repository.AdvertisementRepository;
 import com.easyjobs.api.repository.CompanyRepository;
+import com.easyjobs.api.repository.JobApplicationRepository;
+import com.easyjobs.api.repository.UserRepository;
 import com.easyjobs.api.security.EasyJobsUser;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,20 +24,30 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
 @Service
 public class CompanyService {
 
+    private AdvertisementRepository advertisementRepository;
     private CompanyRepository companyRepository;
+    private JobApplicationRepository jobApplicationRepository;
+    private UserRepository userRepository;
     private FirebaseApp firebaseApp;
 
     @Autowired
     public CompanyService(CompanyRepository companyRepository,
-                          FirebaseApp firebaseApp) {
+                          FirebaseApp firebaseApp,
+                          AdvertisementRepository advertisementRepository,
+                          JobApplicationRepository jobApplicationRepository,
+                          UserRepository userRepository) {
         this.companyRepository = companyRepository;
         this.firebaseApp = firebaseApp;
+        this.advertisementRepository = advertisementRepository;
+        this.jobApplicationRepository = jobApplicationRepository;
+        this.userRepository = userRepository;
     }
 
     public ResponseEntity registerCompany(CompanySignupRequest request) {
@@ -133,5 +144,57 @@ public class CompanyService {
             return new Response<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public Response updateImageUrl(Response response, String email) {
+        if(response.getBody().getClass().equals(String.class)){
+            Company dbUser = companyRepository.findOneByEmailAndIsDeleted(email, false);
+            if(dbUser == null){
+                return new Response<>(new ErrorResponse("404", "User not found"), HttpStatus.NOT_FOUND);
+            }
+            dbUser.setPicture((String) response.getBody());
+        }
+
+        return response;
+    }
+
+
+    public ResponseEntity hireAUser(Integer advertisementId, Integer userId, Authentication auth) {
+        try {
+            if(advertisementId == null || userId == null){
+            return new Response<>(new ErrorResponse("400", "Parameters should not be empty"), HttpStatus.BAD_REQUEST);
+            }
+            if(!((EasyJobsUser) auth.getPrincipal()).getType().equals(Company.class)){
+                return new Response<>(new ErrorResponse("401", "Authorized user is not a company"), HttpStatus.UNAUTHORIZED);
+            }
+            Advertisement dbAdvertisement = advertisementRepository.findOneByIdAndIsDeleted(advertisementId, false);
+            if(dbAdvertisement == null){
+                return new Response<>(new ErrorResponse("404", "Advertisement not found"), HttpStatus.NOT_FOUND);
+            }
+            if(!dbAdvertisement.getCompany().getEmail().equals(auth.getName())){
+                return new Response<>(new ErrorResponse("401", "Advertisement does not belong to the authenticated user"), HttpStatus.UNAUTHORIZED);
+            }
+            User dbUser = userRepository.findOneByIdAndIsDeleted(userId, false);
+            if(dbUser == null){
+                return new Response<>(new ErrorResponse("404", "User not found"), HttpStatus.NOT_FOUND);
+            }
+
+            JobApplication jobApplication = new JobApplication();
+            jobApplication.setResolved(false);
+            jobApplication.setPostDate(new Date());
+            jobApplication.setAppliedTo(dbAdvertisement.getCompany());
+            jobApplication.setApplicant(dbUser);
+            //TODO Enumerate
+            jobApplication.setIssuedBy("Company");
+
+            dbAdvertisement.getCompany().getApplications().add(jobApplication);
+            dbUser.getApplications().add(jobApplication);
+            jobApplication = jobApplicationRepository.save(jobApplication);
+
+            return new Response<>(jobApplication, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

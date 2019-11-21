@@ -1,9 +1,12 @@
 package com.easyjobs.api.dto.response;
 
 import com.easyjobs.api.model.Advertisement;
+import com.easyjobs.api.model.Assessment;
+import com.easyjobs.api.model.Skill;
+import com.easyjobs.api.model.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.util.Date;
+import java.util.*;
 
 public class SimpleAdvertisement {
     private int id;
@@ -13,13 +16,15 @@ public class SimpleAdvertisement {
     private Date validUntil;
     private String description;
     private SimpleCompany company;
+    private Double matchRate;
 
-    public SimpleAdvertisement(Advertisement advertisement){
+    public SimpleAdvertisement(Advertisement advertisement, List<Skill> skills){
         this.id = advertisement.getId();
         this.publishDate = advertisement.getPublishDate();
         this.validUntil = advertisement.getValidUntil();
         this.description = advertisement.getDescription();
         this.company = new SimpleCompany(advertisement.getCompany());
+        this.matchRate = calculateMatchRate(advertisement.getRequirements(), skills);
     }
 
     public SimpleAdvertisement(int id, Date publishDate, Date validUntil, String description, SimpleCompany company) {
@@ -29,6 +34,22 @@ public class SimpleAdvertisement {
         this.description = description;
         this.company = company;
     }
+
+
+    private Double calculateMatchRate(List<Assessment> requirements, List<Skill> skills) {
+        List<Skill> skillsCopy = new ArrayList<>(skills);
+        Double sum = 0.0;
+        Double total = 0.0;
+        for (Assessment requirement : requirements){
+            total += requirement.getWeight();
+
+            if(skillsCopy.removeIf(skill -> skill.getId() == requirement.getSkill().getId())){
+                sum += requirement.getWeight();
+            }
+        }
+        return sum / total;
+    }
+
 
     public int getId() {
         return id;
@@ -68,5 +89,13 @@ public class SimpleAdvertisement {
 
     public void setCompany(SimpleCompany company) {
         this.company = company;
+    }
+
+    public Double getMatchRate() {
+        return matchRate;
+    }
+
+    public void setMatchRate(Double matchRate) {
+        this.matchRate = matchRate;
     }
 }

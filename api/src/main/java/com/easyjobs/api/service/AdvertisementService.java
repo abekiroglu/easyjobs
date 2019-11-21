@@ -3,9 +3,9 @@ package com.easyjobs.api.service;
 import com.easyjobs.api.dto.request.AdvertisementCreateRequest;
 import com.easyjobs.api.dto.request.AdvertisementUpdateRequest;
 import com.easyjobs.api.dto.response.ErrorResponse;
+import com.easyjobs.api.dto.response.RecommendedUser;
 import com.easyjobs.api.dto.response.Response;
 import com.easyjobs.api.dto.response.SimpleAdvertisement;
-import com.easyjobs.api.dto.response.SimpleProfession;
 import com.easyjobs.api.model.*;
 import com.easyjobs.api.repository.*;
 import com.easyjobs.api.security.EasyJobsUser;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ public class AdvertisementService {
     private UserRepository userRepository;
     private AssessmentRepository assessmentRepository;
     private SkillRepository skillRepository;
+    private JobApplicationRepository jobApplicationRepository;
 
     @Autowired
     public AdvertisementService(AdvertisementRepository advertisementRepository,
@@ -36,13 +38,15 @@ public class AdvertisementService {
                                 ProfessionRepository professionRepository,
                                 UserRepository userRepository,
                                 AssessmentRepository assessmentRepository,
-                                SkillRepository skillRepository) {
+                                SkillRepository skillRepository,
+                                JobApplicationRepository jobApplicationRepository) {
         this.advertisementRepository = advertisementRepository;
         this.companyRepository = companyRepository;
         this.professionRepository = professionRepository;
         this.userRepository = userRepository;
         this.assessmentRepository = assessmentRepository;
         this.skillRepository = skillRepository;
+        this.jobApplicationRepository = jobApplicationRepository;
     }
 
 
@@ -122,8 +126,8 @@ public class AdvertisementService {
                     }
                     if (request.getDeletedRequirements() != null && request.getDeletedRequirements().size() != 0) {
                         List<Assessment> assessments = dbAdvertisement.getRequirements();
-                        request.getDeletedRequirements().forEach(deletedAssesment -> assessments.removeIf(
-                                assessment -> assessment.getSkill().getId() == deletedAssesment.getSkillId()));
+                        request.getDeletedRequirements().forEach(deletedAssessment -> assessments.removeIf(
+                                assessment -> assessment.getSkill().getId() == deletedAssessment.getSkillId()));
                     }
                     if (request.getDescription() != null) {
                         dbAdvertisement.setDescription(request.getDescription());
@@ -182,8 +186,11 @@ public class AdvertisementService {
                 return new Response<>(companyRepository.findOneById(companyId).getAdvertisements(), HttpStatus.OK);
             } else {
                 //TODO match users skills with the ad requirements
-                List<Advertisement> advertisements = userRepository.findOneByEmail(authentication.getName()).getProfession().getAdvertisements();
-                List<SimpleAdvertisement> response = advertisements.stream().map(SimpleAdvertisement::new).collect(Collectors.toList());
+                User user =  userRepository.findOneByEmail(authentication.getName());
+                List<Advertisement> advertisements = user.getProfession().getAdvertisements();
+
+                List<SimpleAdvertisement> response = advertisements.stream().map(advertisement -> new SimpleAdvertisement(advertisement, user.getSkills())).collect(Collectors.toList());
+                response.removeIf(ad -> ad.getMatchRate() <= 0.5 || ad.getMatchRate().isNaN());
                 return new Response<>(response, HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -195,37 +202,62 @@ public class AdvertisementService {
         try {
             return new Response<>(advertisementRepository.findOneById(advertisementId), HttpStatus.OK);
         } catch (Exception e) {
-            return new Response<>(new ErrorResponse("0", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity applyForJob(String advertisementId) {
+    public ResponseEntity applyForJob(String advertisementId, Authentication authentication) {
         try {
-            return null;
+            if(((EasyJobsUser)authentication.getPrincipal()).getType().equals(Company.class)){
+                return new Response<>(new ErrorResponse("500", "Authenticated person must be a user"), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            Advertisement advertisement = advertisementRepository.findOneByIdAndIsDeleted(Integer.parseInt(advertisementId),false);
+            if(advertisement == null){
+                return new Response<>(new ErrorResponse("500", String.format("Advertisement with id: %s not found", advertisementId)), HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            User dbUser = userRepository.findOneByEmail(authentication.getName());
+
+            JobApplication jobApplication = new JobApplication();
+            jobApplication.setApplicant(dbUser);
+            jobApplication.setAppliedTo(advertisement.getCompany());
+            jobApplication.setPostDate(new Date());
+            jobApplication.setResolved(false);
+            //TODO Enumerate
+            jobApplication.setIssuedBy("User");
+
+            advertisement.getCompany().getApplications().add(jobApplication);
+            dbUser.getApplications().add(jobApplication);
+            jobApplication = jobApplicationRepository.save(jobApplication);
+
+            return new Response<>(jobApplication, HttpStatus.CREATED);
         } catch (Exception e) {
             return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity hireAUser(String advertisementId, String auth) {
+    public ResponseEntity getRecommendedUsers(String advertisementId, Authentication auth) {
         try {
-            return null;
+            if(!((EasyJobsUser) auth.getPrincipal()).getType().equals(Company.class)){
+                return new Response<>(new ErrorResponse("401", "Authorized user is not a company"), HttpStatus.UNAUTHORIZED);
+            }
+            Advertisement dbAdvertisement = advertisementRepository.findOneByIdAndIsDeleted(Integer.parseInt(advertisementId), false);
+            if(dbAdvertisement == null){
+                return new Response<>(new ErrorResponse("404", "Advertisement not found"), HttpStatus.NOT_FOUND);
+            }
+            if(!dbAdvertisement.getCompany().getEmail().equals(auth.getName())){
+                return new Response<>(new ErrorResponse("401", "Advertisement does not belong to the authenticated user"), HttpStatus.UNAUTHORIZED);
+            }
+
+            List<User> users = userRepository.findAllByProfessionId(dbAdvertisement.getProfession().getId());
+            List<RecommendedUser> response = users.stream().map(user -> new RecommendedUser(user, dbAdvertisement.getRequirements())).collect(Collectors.toList());
+            response.removeIf(user -> user.getMatchRate() <= 0.5 || user.getMatchRate().isNaN());
+
+            return new Response<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    public ResponseEntity getRecommendedUsers(String advertisementId, String auth) {
-        try {
-            return null;
-        } catch (Exception e) {
-            return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public ResponseEntity getProfessions() {
-        List<Profession> professions = professionRepository.findAll();
-        List<SimpleProfession> response = professions.stream().map(SimpleProfession::new).collect(Collectors.toList());
-        return new Response<>(response, HttpStatus.OK);
-    }
 }

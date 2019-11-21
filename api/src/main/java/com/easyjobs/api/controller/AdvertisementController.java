@@ -53,16 +53,11 @@ public class AdvertisementController {
 
     @GetMapping("/{advertisementId}/apply")
     public ResponseEntity applyForJob(@PathVariable String advertisementId, Authentication authentication){
-        return service.applyForJob(advertisementId);
-    }
-
-    @GetMapping("/{advertisementId}/hire")
-    public ResponseEntity hireAUser(@PathVariable String advertisementId, Authentication authentication){
-        return service.hireAUser(advertisementId, authentication.getName());
+        return service.applyForJob(advertisementId, authentication);
     }
 
     @GetMapping("/{advertisementId}/recommended")
     public ResponseEntity getRecommendedUsers(@PathVariable String advertisementId, Authentication authentication){
-        return service.getRecommendedUsers(advertisementId, authentication.getName());
+        return service.getRecommendedUsers(advertisementId, authentication);
     }
 }

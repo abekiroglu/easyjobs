@@ -32,10 +32,7 @@ public class Company extends BaseModel{
     private Date foundedDate;
     private String name;
     private String description;
-    // TODO: Design a meaningful way to represent and store geographic location.
-    //  private Location location
-    //TODO: Use AWS EC3 to store images.
-    // private URI picture
+    private String picture;
 
     public Long getLastActionTime() {
         return lastActionTime;
@@ -108,5 +105,13 @@ public class Company extends BaseModel{
 
     public void setAdvertisements(List<Advertisement> advertisements) {
         this.advertisements = advertisements;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

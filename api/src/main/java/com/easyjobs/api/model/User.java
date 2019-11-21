@@ -37,13 +37,12 @@ public class User extends BaseModel{
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
     private List<Skill> skills;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference(value="user_experience")
+    @JsonManagedReference(value="user_experience")
     private List<Experience> experiences;
+    private String picture;
 
     public User() {
     }
-    //TODO: Use AWS EC3 to store images.
-    // private URI picture
 
 
     public Long getLastActionTime() {
@@ -134,5 +133,11 @@ public class User extends BaseModel{
         this.applications = applications;
     }
 
+    public String getPicture() {
+        return picture;
+    }
 
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 }
