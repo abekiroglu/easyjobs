@@ -23,6 +23,17 @@ public class Assessment extends BaseModel{
         this.skill = skill;
     }
 
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(int ID) {
+        super.setId(ID);
+    }
+
+
     public Double getWeight() {
         return weight;
     }

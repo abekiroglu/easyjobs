@@ -25,6 +25,17 @@ public class JobApplication extends BaseModel{
     private Company appliedTo;
     private String issuedBy;
 
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(int ID) {
+        super.setId(ID);
+    }
+
+
     public Date getPostDate() {
         return postDate;
     }

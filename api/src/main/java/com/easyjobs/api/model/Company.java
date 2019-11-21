@@ -34,6 +34,17 @@ public class Company extends BaseModel{
     private String description;
     private String picture;
 
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(int ID) {
+        super.setId(ID);
+    }
+
+
     public Long getLastActionTime() {
         return lastActionTime;
     }

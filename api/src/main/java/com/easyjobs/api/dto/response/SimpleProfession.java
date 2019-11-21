@@ -26,6 +26,14 @@ public class SimpleProfession {
         this.skills = profession.getSkillGroups();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }

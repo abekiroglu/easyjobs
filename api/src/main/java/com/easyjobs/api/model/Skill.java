@@ -16,6 +16,16 @@ public class Skill extends BaseModel{
     //TODO: Use AWS EC3 to store images.
     // private URI picture
 
+    @Override
+    public int getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(int ID) {
+        super.setId(ID);
+    }
+
     public String getDescription() {
         return description;
     }
