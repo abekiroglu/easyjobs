@@ -11,28 +11,36 @@ import Firebase
 
 
 class MenuViewController: UIViewController {
-
+    
+    
+    @IBOutlet weak var bgImage: UIImageView!
+    @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var advertisementsButton: DesignableButton!
+    @IBOutlet weak var applicationsButton: DesignableButton!
+    @IBOutlet weak var profileButton: DesignableButton!
+    @IBOutlet weak var logOutButton: DesignableButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        bgImage.alpha = 0
+        welcomeLabel.alpha = 0
+        advertisementsButton.alpha = 0
+        applicationsButton.alpha = 0
+        profileButton.alpha = 0
+        logOutButton.alpha = 0
 
-        // Do any additional setup after loading the view.
     }
     
-    
-    
-    func goToLogin(){
-        let ViewController = storyboard?.instantiateViewController(identifier: "LoginVC") as? ViewController
-        view.window?.rootViewController = ViewController
-        view.window?.makeKeyAndVisible()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIView.animate(withDuration: 1, animations: {
+            self.bgImage.alpha = 0.6
+        }) { (true) in
+            self.showLabel()
+        }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+  
 
 }

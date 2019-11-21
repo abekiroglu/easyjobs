@@ -30,6 +30,8 @@ extension ProfileViewController{
         s2Selecter.isEnabled = false
         s3Selecter.isEnabled = false
         tickImageView.alpha = 0
+        cardView.alpha = 0
+        
     }
     
     func validate() -> String? {
@@ -56,4 +58,51 @@ extension ProfileViewController{
             view.window?.rootViewController = menuViewController
             view.window?.makeKeyAndVisible()
         }
+    
+    
+    func setupSelecters(){
+        UIView.animate(withDuration: 1) {
+            self.skillLabel1.text = self.skillNames[0]
+            self.skillLabel1.text = self.skillNames[0]
+            self.skillLabel1.text = self.skillNames[0]
+            self.s1Selecter.isOn = self.skills[0]
+            self.s2Selecter.isOn = self.skills[1]
+            self.s3Selecter.isOn = self.skills[2]
+            self.s1Selecter.isEnabled = true
+            self.s2Selecter.isEnabled = true
+            self.s3Selecter.isEnabled = true
+        }
+
+    }
+    
+    func arrangeSkills(professionName: String){
+        professionTextField.text = professionName
+        if professionTextField.text != "Please choose a profession"{
+            let skillList : [SimpleSkill] = professionDataSource.getSkills(profession: professionDataSource.getMatchingProfession(title: professionName, professionList: professionDataSource.professionList))
+            print(skillList[0].description)
+            print(skillList[1].description)
+            print(skillList[2].description)
+            skillNames.append(skillList[0].description)
+            skillNames.append(skillList[1].description)
+            skillNames.append(skillList[2].description)
+            
+            UIView.animate(withDuration: 3) {
+            self.cardView.center = self.view.center
+            self.cardView.alpha = 1
+            self.cardLabel.text = self.skillNames[self.skillNum]
+            }
+        } else{
+            UIView.animate(withDuration: 0.5) {
+                self.s1Selecter.isEnabled = false
+                self.s2Selecter.isEnabled = false
+                self.s3Selecter.isEnabled = false
+                self.skillLabel1.text = "Skill1"
+                self.skillLabel2.text = "Skill2"
+                self.skillLabel3.text = "Skill3"
+            }
+            
+            
+            
+        }
+    }
 }

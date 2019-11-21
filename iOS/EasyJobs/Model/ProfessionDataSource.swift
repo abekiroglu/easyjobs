@@ -42,7 +42,14 @@ class ProfessionDataSource{
     }
     
     func getSkills(profession: SimpleProfession) -> [SimpleSkill]{
-        return profession.skills
+        var skills : [SimpleSkill] = []
+        var skillGroups : [SimpleSkillGroup] = profession.skills
+        for skillGroup in skillGroups{
+            for skill in skillGroup.skills{
+                skills.append(skill)
+            }
+        }
+        return skills
     }
     
     func loadProfessionList(){

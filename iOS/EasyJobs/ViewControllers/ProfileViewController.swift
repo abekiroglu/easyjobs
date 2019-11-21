@@ -18,31 +18,7 @@ extension ProfileViewController: UIPickerViewDelegate, UIPickerViewDataSource{
         return dataSource.count
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        professionTextField.text = dataSource[row]
-        if professionTextField.text != "Please choose a profession"{
-            let skillList : [SimpleSkill] = professionDataSource.getMatchingProfession(title: dataSource[row], professionList: professionDataSource.professionList).skills
-            skillLabel1.text = skillList[0].description
-            skillLabel2.text = skillList[1].description
-            skillLabel3.text = skillList[2].description
-            s1Selecter.isEnabled = true
-            s2Selecter.isEnabled = true
-            s3Selecter.isEnabled = true
-            s1Selecter.isOn = false
-            s2Selecter.isOn = false
-            s3Selecter.isOn = false
-            s1Selecter.isEnabled = true
-            s2Selecter.isEnabled = true
-            s3Selecter.isEnabled = true
-        } else{
-            s1Selecter.isEnabled = false
-            s2Selecter.isEnabled = false
-            s3Selecter.isEnabled = false
-            skillLabel1.text = "Skill1"
-            skillLabel2.text = "Skill2"
-            skillLabel3.text = "Skill3"
-            
-        }
-        
+        arrangeSkills(professionName: dataSource[row])
         
         // Get skills and put them in selectors
     }
@@ -52,7 +28,10 @@ extension ProfileViewController: UIPickerViewDelegate, UIPickerViewDataSource{
 }
 
 class ProfileViewController: UIViewController {
-        
+    
+    
+    @IBOutlet weak var cardLabel: UILabel!
+    @IBOutlet weak var editInformationLabel: UILabel!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var skillLabel1: UILabel!
     @IBOutlet weak var skillLabel2: UILabel!
@@ -67,12 +46,15 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var s2Selecter: UISwitch!
     @IBOutlet weak var s3Selecter: UISwitch!
     @IBOutlet weak var cardView: UIView!
-    
     @IBOutlet weak var tickImageView: UIImageView!
+    @IBOutlet weak var saveButton: DesignableButton!
     
     private let dataSource : [String] = ["Please choose a profession","Software Developer"]
     private var datePicker: UIDatePicker?
     private var professionPicker: UIPickerView?
+    var skillNum : Int = 0
+    var skills : [Bool] = [false,false,false]
+    var skillNames : [String] = []
     
     let professionDataSource = ProfessionDataSource()
     let userHelper = UserHelper()
@@ -97,22 +79,13 @@ class ProfileViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         professionTextField.inputView = professionPicker
         
-        
         setUpElements()
-        //professionDataSource.loadProfessionList()
+        professionDataSource.loadProfessionList()
         // Do any additional setup after loading the view.
-    }
-    
-    override func loadView() {
-        super.loadView()
-        NSLayoutConstraint.activate([
-            cardView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            cardView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
     }
     
     
     @IBAction func panCard(_ sender: UIPanGestureRecognizer) {
-        
         let card = sender.view!
         let translation = sender.translation(in: view)
         let xFromCenter = card.center.x - view.center.x
@@ -129,10 +102,69 @@ class ProfileViewController: UIViewController {
         tickImageView.alpha = abs(xFromCenter) / view.center.x
         
         if sender.state == UIGestureRecognizer.State.ended{
+            
+            
+            
+            if card.center.x > self.view.center.x * 2{
+                // Move card to the right side
+                 self.skills[self.skillNum] = true
+                if(skillNum == 2){
+                    UIView.animate(withDuration: 1) {
+                        card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
+                        card.alpha = 0
+                    }
+                    setupSelecters()
+                    self.skillNum = 0
+                }else{
+                    UIView.animate(withDuration: 1, animations: {
+                        card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
+                        card.alpha = 0
+                    }) { (true) in
+                        
+                        self.skillNum += 1
+                        self.tickImageView.alpha = 0
+                        UIView.animate(withDuration: 1) {
+                            self.cardView.center = self.view.center
+                            self.cardView.alpha = 1
+                            self.cardLabel.text = self.skillNames[self.skillNum]
+                        }
+                        
+                    }
+                }
+            } else if card.center.x < 0 {
+                self.skills[skillNum] =  false
+                if (skillNum == 2){
+                // Move card to the left side
+                    UIView.animate(withDuration: 1) {
+                        card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
+                        card.alpha = 0
+                    }
+                    setupSelecters()
+                    self.skillNum = 0
+                } else{
+                    UIView.animate(withDuration: 1, animations: {
+                         card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
+                         card.alpha = 0
+                    }) { (true) in
+                        self.skillNum += 1
+                        self.tickImageView.alpha = 0
+                        UIView.animate(withDuration: 1) {
+                            self.cardView.center = self.view.center
+                            self.cardView.alpha = 1
+                            self.cardLabel.text = self.skillNames[self.skillNum]
+                        }
+                        
+                    }
+                }
+            } else{
         UIView.animate(withDuration: 0.5) {
-            card.center = self.view.center
+            card.center.x = self.view.center.x
+            card.center.y = self.view.center.y
             self.tickImageView.alpha = 0
+                }
             }
+           // card.center.x = self.view.center.x
+            //card.center.y = self.view.center.y
         }
     }
     

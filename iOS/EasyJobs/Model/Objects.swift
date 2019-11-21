@@ -71,22 +71,26 @@ struct Comment: Codable{
     var advertisement: Advertisement
     var isDeleted: Bool
 }
+struct SimpleSkillGroup: Codable{
+    var description: String
+    var skills: [SimpleSkill]
+    
+    init(description: String){
+        self.description = description
+        skills = []
+    }
+    
+}
 
 struct SimpleProfession: Codable{
     var title: String
     var description: String
-    var skills: [SimpleSkill]
+    var skills: [SimpleSkillGroup]
     
     init(title: String){
            self.title = title
            description = title
-           let skill1 = SimpleSkill(description: "Java")
-           let skill2 = SimpleSkill(description: "C#")
-           let skill3 = SimpleSkill(description: "Javascript")
            skills = []
-           skills.append(skill1)
-           skills.append(skill2)
-           skills.append(skill3)
        }
 }
 
@@ -101,7 +105,7 @@ struct SimpleSkill: Codable{
 struct Profession: Codable{
     var title: String
     var description: String
-    var skills: [Skill]
+    var skills: [SkillGroup]
     var advertisements: [Advertisement]
     var isDeleted: Bool
     
@@ -111,10 +115,7 @@ struct Profession: Codable{
         let skill1 = Skill(description: "Java")
         let skill2 = Skill(description: "C#")
         let skill3 = Skill(description: "Javascript")
-        skills = []
-        skills.append(skill1)
-        skills.append(skill2)
-        skills.append(skill3)
+        skills  = []
         advertisements = []
         isDeleted = false
     }
@@ -132,6 +133,13 @@ struct Skill: Codable{
         isDeleted = false
     }
 }
+
+struct SkillGroup: Codable{
+    var description: String
+    var skills: [Skill]
+}
+
+
 struct Experience: Codable{
     var startDate: Date
     var endDate: Date
@@ -152,7 +160,7 @@ struct User: Codable{
     var isValidated: Bool
     var comments: [Comment]
     var applications: [JobApplication]
-    var isDeleted: Bool
+    var lastActionTime: CLong
     var birthDate: Date
     var name: String
     var surname: String
@@ -163,12 +171,12 @@ struct User: Codable{
     
     
     
-    init(email: String, isValidated: Bool, comments: [Comment], applications: [JobApplication], isDeleted: Bool, birthDate: Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience]){
+    init(email: String, isValidated: Bool, comments: [Comment], applications: [JobApplication], lastActionTime: CLong, birthDate: Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience]){
         self.email = email
         self.isValidated = isValidated
         self.comments = comments
         self.applications = applications
-        self.isDeleted = isDeleted
+        self.lastActionTime = lastActionTime
         self.birthDate = birthDate
         self.name = name
         self.surname = surname
