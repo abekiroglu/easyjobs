@@ -11,7 +11,9 @@ import com.easyjobs.api.integration.aws.AwsService;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
 import com.easyjobs.api.model.*;
+import com.easyjobs.api.repository.CompanyRepository;
 import com.easyjobs.api.repository.ProfessionRepository;
+import com.easyjobs.api.repository.SkillRepository;
 import com.easyjobs.api.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.FirebaseApp;
@@ -44,14 +46,20 @@ import java.util.Map;
 public class UserService {
     private ProfessionRepository professionRepository;
     private UserRepository userRepository;
+    private SkillRepository skillRepository;
+    private CompanyRepository companyRepository;
     private FirebaseApp firebaseApp;
 
     @Autowired
     public UserService(ProfessionRepository professionRepository,
                        UserRepository userRepository,
-                       FirebaseApp firebaseApp) {
+                       FirebaseApp firebaseApp,
+                       CompanyRepository companyRepository,
+                       SkillRepository skillRepository) {
         this.professionRepository = professionRepository;
         this.userRepository = userRepository;
+        this.companyRepository = companyRepository;
+        this.skillRepository = skillRepository;
         this.firebaseApp = firebaseApp;
     }
 
@@ -117,10 +125,18 @@ public class UserService {
                 }
             }
             if (request.getNewSkills() != null && request.getNewSkills().size() != 0) {
-                dbUser.getSkills().addAll(request.getNewSkills());
+                request.getNewSkills().forEach(skill -> dbUser.getSkills().add(skillRepository.findOneById(skill.id)));
             }
             if (request.getNewExperiences() != null && request.getNewExperiences().size() != 0) {
-                dbUser.getExperiences().addAll(request.getNewExperiences());
+                for(UserUpdateRequest.ExperienceWrapper experienceW : request.getNewExperiences()){
+                    Experience experience = new Experience();
+                    experience.setStartDate(experienceW.getStartDate());
+                    experience.setEndDate(experienceW.getEndDate());
+                    experience.setCompany(companyRepository.findOneByIdAndIsDeleted(experienceW.getCompanyId(), false));
+                    experience.setProfession(professionRepository.findOneById(experienceW.getProfessionId()));
+                    experience.setUser(dbUser);
+                    dbUser.getExperiences().add(experience);
+                }
             }
             // Collection Deletion
             if (request.getDeletedSkills() != null && request.getDeletedSkills().size() != 0) {

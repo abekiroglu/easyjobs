@@ -1,13 +1,12 @@
 package com.easyjobs.api.integration.aws;
 
-import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.AmazonSNSClientBuilder;
 import com.easyjobs.api.dto.response.ErrorResponse;
 import com.easyjobs.api.dto.response.Response;
 import org.json.simple.JSONObject;
@@ -18,14 +17,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
-import java.io.*;
-import java.util.Date;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 @Service
 public class AwsService {
 
-    private AmazonS3 service;
-    private static final String awsConfigPath = "aws-bucket.json";
+    private static final String s3configPath = "aws-bucket.json";
+
+    private AmazonS3 s3service;
+    private AmazonSNS snsService;
+
 
     private static String accessKey;
     private static String secretKey;
@@ -35,7 +38,7 @@ public class AwsService {
     public AwsService() throws IOException, ParseException {
 
         JSONParser parser = new JSONParser();
-        Object config = parser.parse(new FileReader(awsConfigPath));
+        Object config = parser.parse(new FileReader(s3configPath));
         JSONObject configJson = (JSONObject) config;
         accessKey = (String) configJson.get("accessKey");
         secretKey = (String) configJson.get("secretKey");
@@ -45,12 +48,19 @@ public class AwsService {
 
     @PostConstruct
     private void initializeAmazon() throws IOException, ParseException {
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
+        AWSStaticCredentialsProvider credentials = new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey));
 
-        this.service = AmazonS3ClientBuilder
+        this.s3service = AmazonS3ClientBuilder
                 .standard()
                 .withRegion(Regions.EU_CENTRAL_1)
-                .withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
+                .withCredentials(credentials)
+                .build();
+
+        this.snsService = AmazonSNSClientBuilder
+                .standard()
+                .withRegion(Regions.EU_CENTRAL_1)
+                .withCredentials(credentials)
+                .build();
     }
 
     public Response uploadImage(MultipartFile mf) {
@@ -59,7 +69,7 @@ public class AwsService {
             File file = AwsUtil.convertMultiPartToFile(mf);
             String fileName = AwsUtil.generateFileName(mf);
             fileUrl = String.format("http://%s/%s/%s", endpointUrl, bucketName, fileName);
-            AwsUtil.uploadFileTos3bucket(fileName, file, this.service);
+            AwsUtil.uploadFileTos3bucket(fileName, file, this.s3service);
             file.delete();
         } catch (Exception e) {
             return new Response<>(new ErrorResponse("500", e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

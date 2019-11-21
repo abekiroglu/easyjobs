@@ -122,8 +122,8 @@ public class AdvertisementService {
                     }
                     if (request.getDeletedRequirements() != null && request.getDeletedRequirements().size() != 0) {
                         List<Assessment> assessments = dbAdvertisement.getRequirements();
-                        request.getDeletedRequirements().forEach(deletedAssesment -> assessments.removeIf(
-                                assessment -> assessment.getSkill().getId() == deletedAssesment.getSkillId()));
+                        request.getDeletedRequirements().forEach(deletedAssessment -> assessments.removeIf(
+                                assessment -> assessment.getSkill().getId() == deletedAssessment.getSkillId()));
                     }
                     if (request.getDescription() != null) {
                         dbAdvertisement.setDescription(request.getDescription());
@@ -182,8 +182,11 @@ public class AdvertisementService {
                 return new Response<>(companyRepository.findOneById(companyId).getAdvertisements(), HttpStatus.OK);
             } else {
                 //TODO match users skills with the ad requirements
-                List<Advertisement> advertisements = userRepository.findOneByEmail(authentication.getName()).getProfession().getAdvertisements();
-                List<SimpleAdvertisement> response = advertisements.stream().map(SimpleAdvertisement::new).collect(Collectors.toList());
+                User user =  userRepository.findOneByEmail(authentication.getName());
+                List<Advertisement> advertisements = user.getProfession().getAdvertisements();
+
+                List<SimpleAdvertisement> response = advertisements.stream().map(advertisement -> new SimpleAdvertisement(advertisement, user.getSkills())).collect(Collectors.toList());
+                response.removeIf(ad -> ad.getMatchRate() <= 0.5 || ad.getMatchRate().isNaN());
                 return new Response<>(response, HttpStatus.OK);
             }
         } catch (Exception e) {

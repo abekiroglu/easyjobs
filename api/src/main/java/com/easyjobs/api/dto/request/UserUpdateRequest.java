@@ -14,8 +14,8 @@ public class UserUpdateRequest {
     private String name;
     private String surname;
     private Integer profession;
-    private List<Experience> newExperiences;
-    private List<Experience> deletedExperiences;
+    private List<ExperienceWrapper> newExperiences;
+    private List<ExperienceWrapper> deletedExperiences;
     private List<Skill> newSkills;
     private List<Skill> deletedSkills;
 
@@ -51,19 +51,19 @@ public class UserUpdateRequest {
         this.profession = profession;
     }
 
-    public List<Experience> getNewExperiences() {
+    public List<ExperienceWrapper> getNewExperiences() {
         return newExperiences;
     }
 
-    public void setNewExperiences(List<Experience> newExperiences) {
+    public void setNewExperiences(List<ExperienceWrapper> newExperiences) {
         this.newExperiences = newExperiences;
     }
 
-    public List<Experience> getDeletedExperiences() {
+    public List<ExperienceWrapper> getDeletedExperiences() {
         return deletedExperiences;
     }
 
-    public void setDeletedExperiences(List<Experience> deletedExperiences) {
+    public void setDeletedExperiences(List<ExperienceWrapper> deletedExperiences) {
         this.deletedExperiences = deletedExperiences;
     }
 
@@ -81,5 +81,55 @@ public class UserUpdateRequest {
 
     public void setDeletedSkills(List<Skill> deletedSkills) {
         this.deletedSkills = deletedSkills;
+    }
+
+    public static class ExperienceWrapper{
+        private Integer id;
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+        private Date startDate;
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+        private Date endDate;
+        private Integer companyId;
+        private Integer professionId;
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public Date getStartDate() {
+            return startDate;
+        }
+
+        public void setStartDate(Date startDate) {
+            this.startDate = startDate;
+        }
+
+        public Date getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(Date endDate) {
+            this.endDate = endDate;
+        }
+
+        public Integer getCompanyId() {
+            return companyId;
+        }
+
+        public void setCompanyId(Integer companyId) {
+            this.companyId = companyId;
+        }
+
+        public Integer getProfessionId() {
+            return professionId;
+        }
+
+        public void setProfessionId(Integer professionId) {
+            this.professionId = professionId;
+        }
     }
 }

@@ -37,7 +37,7 @@ public class User extends BaseModel{
             inverseJoinColumns = { @JoinColumn(name = "skill_id") })
     private List<Skill> skills;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference(value="user_experience")
+    @JsonManagedReference(value="user_experience")
     private List<Experience> experiences;
     private String picture;
 

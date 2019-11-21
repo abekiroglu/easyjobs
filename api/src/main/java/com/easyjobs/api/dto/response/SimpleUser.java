@@ -97,4 +97,20 @@ public class SimpleUser {
     public void setExperiences(List<Experience> experiences) {
         this.experiences = experiences;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 }
