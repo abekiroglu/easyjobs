@@ -24,7 +24,7 @@ class ProfessionDataSource{
 
     
     init(){
-        self.userSignUpRequest = UserSignUpRequest(password: "x", email: "x", phoneNumber: "x", name: "x", surname: "x")
+        self.userSignUpRequest = UserSignUpRequest(password: "x", email: "x", username: "x", name: "x", surname: "x")
         self.simpleProfession = SimpleProfession(title: "Software Developer")
         self.professionList = []
     }
@@ -41,9 +41,9 @@ class ProfessionDataSource{
         return selectedProfession
     }
     
-    func getSkills(profession: SimpleProfession) -> [SimpleSkill]{
-        var skills : [SimpleSkill] = []
-        var skillGroups : [SimpleSkillGroup] = profession.skills
+    func getSkills(profession: SimpleProfession) -> [Skill]{
+        var skills : [Skill] = []
+        var skillGroups : [SkillGroup] = profession.skills
         for skillGroup in skillGroups{
             for skill in skillGroup.skills{
                 skills.append(skill)
@@ -54,7 +54,7 @@ class ProfessionDataSource{
     
     func loadProfessionList(){
            let session = URLSession.shared
-           var request = URLRequest(url: URL(string: "http://localhost:8080/v1/professions/")!)
+           var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/professions/")!)
           let currentUser = Auth.auth().currentUser
           currentUser?.getIDToken() { idToken, error in
             if let error = error {

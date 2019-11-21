@@ -191,7 +191,7 @@ class ProfileViewController: UIViewController {
             
             let simpleProfessionObject : SimpleProfession = professionDataSource.getMatchingProfession(title: profession, professionList: professionDataSource.professionList)
             let professionObject = Profession(title: simpleProfessionObject.title)
-            let simpleSkillList : [SimpleSkill] = professionDataSource.getSkills(profession: simpleProfessionObject)
+            let simpleSkillList : [Skill] = professionDataSource.getSkills(profession: simpleProfessionObject)
             var skillList : [Skill] = []
             if s1Selecter.isOn {
                 skillList.append(Skill(description: simpleSkillList[0].description))

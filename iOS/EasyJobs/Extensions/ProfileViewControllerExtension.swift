@@ -63,8 +63,8 @@ extension ProfileViewController{
     func setupSelecters(){
         UIView.animate(withDuration: 1) {
             self.skillLabel1.text = self.skillNames[0]
-            self.skillLabel1.text = self.skillNames[0]
-            self.skillLabel1.text = self.skillNames[0]
+            self.skillLabel2.text = self.skillNames[1]
+            self.skillLabel3.text = self.skillNames[2]
             self.s1Selecter.isOn = self.skills[0]
             self.s2Selecter.isOn = self.skills[1]
             self.s3Selecter.isOn = self.skills[2]
@@ -78,7 +78,7 @@ extension ProfileViewController{
     func arrangeSkills(professionName: String){
         professionTextField.text = professionName
         if professionTextField.text != "Please choose a profession"{
-            let skillList : [SimpleSkill] = professionDataSource.getSkills(profession: professionDataSource.getMatchingProfession(title: professionName, professionList: professionDataSource.professionList))
+            let skillList : [Skill] = professionDataSource.getSkills(profession: professionDataSource.getMatchingProfession(title: professionName, professionList: professionDataSource.professionList))
             print(skillList[0].description)
             print(skillList[1].description)
             print(skillList[2].description)

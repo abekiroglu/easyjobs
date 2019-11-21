@@ -21,7 +21,7 @@ extension SignUpViewController{
            if
                nameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
                surnameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-               phoneNumberTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
+               usernameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
                emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
                passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""
                {
@@ -41,11 +41,11 @@ extension SignUpViewController{
                
                let name = nameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                let surname = surnameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-               let phoneNumber = phoneNumberTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+               let username = usernameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                
-               userHelper.signUp(password: password, email: email, phoneNumber: phoneNumber, name: name, surname: surname)
+               userHelper.signUp(password: password, email: email, username: username, name: name, surname: surname)
            }
            
        }

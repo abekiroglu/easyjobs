@@ -27,15 +27,15 @@ class UserHelper{
 
     
     init(){
-        self.userSignUpRequest = UserSignUpRequest(password: "x", email: "x", phoneNumber: "x", name: "x", surname: "x")
+        self.userSignUpRequest = UserSignUpRequest(password: "x", email: "x", username: "x", name: "x", surname: "x")
         self.simpleProfession = SimpleProfession(title: "Software Developer")
         self.professionList = []
     }
     
-    func signUp(password: String, email: String, phoneNumber: String, name: String, surname: String){
-        self.userSignUpRequest = UserSignUpRequest(password: password, email: email, phoneNumber: phoneNumber, name: name, surname: surname)
+    func signUp(password: String, email: String, username: String, name: String, surname: String){
+        self.userSignUpRequest = UserSignUpRequest(password: password, email: email, username: username, name: name, surname: surname)
         let session = URLSession.shared
-        var request = URLRequest(url: URL(string: "http://localhost:8080/v1/users/signup")!)
+        var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/signup")!)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         guard let uploadData = try? JSONEncoder().encode(userSignUpRequest) else{
@@ -57,10 +57,10 @@ class UserHelper{
     
     func createProfile(email: String, birthDate:Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience] ){
         
-        let user = User(email: email, isValidated: true, comments: [], applications: [], isDeleted: false, birthDate: birthDate, name: name, surname: surname, profession: profession , skills: skills, experiences: [])
+        let user = User(email: email, isValidated: true, comments: [], applications: [], lastActionTime: 0 , birthDate: birthDate, name: name, surname: surname, profession: profession , skills: skills, experiences: [],picture: "")
         let session = URLSession.shared
         
-        var request = URLRequest(url: URL(string: "http://localhost:8080/v1/users/profile")!)
+        var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/profile")!)
         request.httpMethod = "POST"
                
         let currentUser = Auth.auth().currentUser
@@ -87,12 +87,16 @@ class UserHelper{
         }
     }
     
+    func loadUser(){
+        
+    }
+    
     func updateProfile(email: String, birthDate:Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience] ){
         
-        let user = User(email: email, isValidated: true, comments: [], applications: [], isDeleted: false, birthDate: birthDate, name: name, surname: surname, profession: profession , skills: skills, experiences: [])
+        let user = User(email: email, isValidated: true, comments: [], applications: [], lastActionTime: 0, birthDate: birthDate, name: name, surname: surname, profession: profession , skills: skills, experiences: [], picture: "")
         let session = URLSession.shared
         
-        var request = URLRequest(url: URL(string: "http://localhost:8080/v1/users/")!)
+        var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/")!)
         request.httpMethod = "PATCH"
                
         let currentUser = Auth.auth().currentUser

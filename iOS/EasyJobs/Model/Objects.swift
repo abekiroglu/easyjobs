@@ -19,16 +19,16 @@ import FirebaseAuth
 //}
 
 struct UserSignUpRequest: Codable{
+    var username: String
     var password: String
     var email: String
-    var phoneNumber: String
     var name: String
     var surname: String
     
-    init(password: String, email: String, phoneNumber: String, name: String, surname: String){
+    init(password: String, email: String, username: String, name: String, surname: String){
         self.password = password
         self.email = email
-        self.phoneNumber = phoneNumber
+        self.username = username
         self.name = name
         self.surname = surname
     }
@@ -44,6 +44,18 @@ struct Company: Codable{
     var foundedDate: Date
     var name: String
     var description: String
+    
+    init(name: String){
+        email = ""
+        isValidated = true
+        applications = []
+        comments = []
+        advertisements = []
+        isDeleted = false
+        foundedDate = Date()
+        self.name = name
+        description = ""
+    }
 }
 
 struct Advertisement: Codable{
@@ -53,6 +65,7 @@ struct Advertisement: Codable{
     var requirements: [Assessment]
     var comments: [Comment]
     var profession: Profession
+    var company: Company
 }
 
 struct Assessment: Codable{
@@ -71,9 +84,9 @@ struct Comment: Codable{
     var advertisement: Advertisement
     var isDeleted: Bool
 }
-struct SimpleSkillGroup: Codable{
+struct SkillGroup: Codable{
     var description: String
-    var skills: [SimpleSkill]
+    var skills: [Skill]
     
     init(description: String){
         self.description = description
@@ -85,7 +98,7 @@ struct SimpleSkillGroup: Codable{
 struct SimpleProfession: Codable{
     var title: String
     var description: String
-    var skills: [SimpleSkillGroup]
+    var skills: [SkillGroup]
     
     init(title: String){
            self.title = title
@@ -94,7 +107,7 @@ struct SimpleProfession: Codable{
        }
 }
 
-struct SimpleSkill: Codable{
+struct Skill: Codable{
     var description: String
     
     init(description: String){
@@ -121,23 +134,6 @@ struct Profession: Codable{
     }
 }
 
-struct Skill: Codable{
-    var description: String
-    var users: [User]
-    var professions: [Profession]
-    var isDeleted: Bool
-    init(description: String){
-        self.description = description
-        users = []
-        professions = []
-        isDeleted = false
-    }
-}
-
-struct SkillGroup: Codable{
-    var description: String
-    var skills: [Skill]
-}
 
 
 struct Experience: Codable{
@@ -160,18 +156,16 @@ struct User: Codable{
     var isValidated: Bool
     var comments: [Comment]
     var applications: [JobApplication]
-    var lastActionTime: CLong
+    var lastActionTime: Int
     var birthDate: Date
     var name: String
     var surname: String
     var profession: Profession
     var skills: [Skill]
     var experiences: [Experience]
+    var picture: String
     
-    
-    
-    
-    init(email: String, isValidated: Bool, comments: [Comment], applications: [JobApplication], lastActionTime: CLong, birthDate: Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience]){
+    init(email: String, isValidated: Bool, comments: [Comment], applications: [JobApplication], lastActionTime: Int, birthDate: Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience], picture: String){
         self.email = email
         self.isValidated = isValidated
         self.comments = comments
@@ -183,6 +177,7 @@ struct User: Codable{
         self.profession = profession
         self.skills = skills
         self.experiences = experiences
+        self.picture = picture
     }
     
     
