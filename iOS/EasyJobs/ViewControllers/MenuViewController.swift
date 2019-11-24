@@ -38,13 +38,16 @@ class MenuViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        UIView.animate(withDuration: 1, animations: {
-            self.bgImage.alpha = 0.6
+        UIView.animate(withDuration: 0.5, animations: {
+            self.bgImage.alpha = 0.4
         }) { (true) in
             self.showLabel()
         }
         welcomeLabel.text = "Welcome \(userHelper.loadedUser.name)"
     }
   
-
+    @IBAction func logOutButtonTapped(_ sender: Any) {
+        logOut()
+    }
+    
 }

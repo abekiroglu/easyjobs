@@ -79,7 +79,7 @@ struct UserSignUpRequest: Codable{
 }
 
 struct UserUpdateRequest: Codable{
-   // var birthDate: Date
+    var birthDate: Date?
     var name: String
     var surname: String
     var profession: Int
@@ -87,8 +87,8 @@ struct UserUpdateRequest: Codable{
     var deletedExperiences: [ExperienceWrapper]
     var newSkills: [Skill]
     var deletedSkills: [Skill]
-    init(name: String, surname: String, profession: Int, newExperiences: [ExperienceWrapper], deletedExperiences: [ExperienceWrapper], newSkills: [Skill], deletedSkills: [Skill]){
-        //self.birthDate = birthDate
+    init(birthDate: Date?, name: String, surname: String, profession: Int, newExperiences: [ExperienceWrapper], deletedExperiences: [ExperienceWrapper], newSkills: [Skill], deletedSkills: [Skill]){
+        self.birthDate = birthDate
         self.name = name
         self.surname = surname
         self.profession = profession
@@ -98,7 +98,7 @@ struct UserUpdateRequest: Codable{
         self.deletedSkills = deletedSkills
     }
     init(){
-       // birthDate = Date()
+        birthDate = Date()
         name = ""
         surname = ""
         profession = 1

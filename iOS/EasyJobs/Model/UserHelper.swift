@@ -27,6 +27,7 @@ class UserHelper{
     var profession = Profession(title: "")
     var userUpdateRequest: UserUpdateRequest
     var bigLoadedUser: BigLoadedUser
+    var user: User
     
 
     
@@ -38,6 +39,7 @@ class UserHelper{
         loadedUser = LoadedUser()
         userUpdateRequest = UserUpdateRequest()
         bigLoadedUser = BigLoadedUser()
+        self.user = User(email: "", isValidated: false, comments: [], applications: [], lastActionTime: 0, birthDate: Date(), name: "", surname: "", profession: Profession(title: ""), skills: [], experiences: [], picture: "")
     }
     
     func signUp(password: String, email: String, username: String, name: String, surname: String){
@@ -81,7 +83,7 @@ class UserHelper{
              let decoder = JSONDecoder()
                 print(data!.count)
                 if data!.count > 500 {
-                    self.bigLoadedUser = try! decoder.decode(BigLoadedUser.self, from: data!)
+                    //self.user = try! decoder.decode(User.self, from: data!)
                 } else {
              self.loadedUser = try! decoder.decode(LoadedUser.self, from: data!)
                 }
@@ -95,7 +97,7 @@ class UserHelper{
     
     func updateProfile(name: String, surname: String, profession: Int){
         
-        userUpdateRequest = UserUpdateRequest(name: name, surname: surname, profession: profession, newExperiences: [], deletedExperiences: [], newSkills: [], deletedSkills: [])
+        userUpdateRequest = UserUpdateRequest(birthDate: Date(), name: name, surname: surname, profession: profession, newExperiences: [], deletedExperiences: [], newSkills: [], deletedSkills: [])
         let session = URLSession.shared
         
         var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/")!)

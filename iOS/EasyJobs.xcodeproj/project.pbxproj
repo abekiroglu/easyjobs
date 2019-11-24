@@ -40,6 +40,7 @@
 		96A74B97237CAE8E0017CD43 /* ProfessionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A74B94237CAE8E0017CD43 /* ProfessionDataSource.swift */; };
 		96B74EB82385EC7C001163B5 /* SignUpViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B74EB72385EC7C001163B5 /* SignUpViewControllerExtension.swift */; };
 		96B74EBA2385EF68001163B5 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96B74EB92385EF68001163B5 /* WelcomeViewController.swift */; };
+		96D2FB5F2388A26D0085A118 /* DesignableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D2FB5E2388A26D0085A118 /* DesignableTextField.swift */; };
 		96D561BE236A12080063AEBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D561BD236A12080063AEBB /* AppDelegate.swift */; };
 		96D561C0236A12080063AEBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D561BF236A12080063AEBB /* SceneDelegate.swift */; };
 		96D561C2236A12080063AEBB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D561C1236A12080063AEBB /* LoginViewController.swift */; };
@@ -93,6 +94,7 @@
 		96A74B94237CAE8E0017CD43 /* ProfessionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessionDataSource.swift; sourceTree = "<group>"; };
 		96B74EB72385EC7C001163B5 /* SignUpViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewControllerExtension.swift; sourceTree = "<group>"; };
 		96B74EB92385EF68001163B5 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		96D2FB5E2388A26D0085A118 /* DesignableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableTextField.swift; sourceTree = "<group>"; };
 		96D561BA236A12080063AEBB /* EasyJobs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EasyJobs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96D561BD236A12080063AEBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		96D561BF236A12080063AEBB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			children = (
 				963F5C91238486BD00BBFC7B /* DesignableButton.swift */,
 				968A8A732384CCAE0049B792 /* DesignableView.swift */,
+				96D2FB5E2388A26D0085A118 /* DesignableTextField.swift */,
 			);
 			path = IBDesignables;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 				969E67C2236FABB90070D497 /* Utilities.swift in Sources */,
 				96177901238331CE001E44E7 /* UserHelper.swift in Sources */,
 				96D561C2236A12080063AEBB /* LoginViewController.swift in Sources */,
+				96D2FB5F2388A26D0085A118 /* DesignableTextField.swift in Sources */,
 				9610F2C82378971800531E69 /* Objects.swift in Sources */,
 				96B74EBA2385EF68001163B5 /* WelcomeViewController.swift in Sources */,
 				96080BC4236F8B2800E9854F /* MenuViewController.swift in Sources */,

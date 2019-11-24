@@ -9,8 +9,9 @@
 import UIKit
 
 extension ProfileViewController{
-    
+
     @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer){
+    
         view.endEditing(true)
     }
     
@@ -23,14 +24,15 @@ extension ProfileViewController{
     
     func setUpElements () {
         errorLabel.alpha = 0
-        s1Selecter.isOn = false
+ /*       s1Selecter.isOn = false
         s2Selecter.isOn = false
         s3Selecter.isOn = false
         s1Selecter.isEnabled = false
         s2Selecter.isEnabled = false
-        s3Selecter.isEnabled = false
+        s3Selecter.isEnabled = false*/
         tickImageView.alpha = 0
         cardView.alpha = 0
+        bgImage.alpha = 0.4
         
     }
     
@@ -61,8 +63,8 @@ extension ProfileViewController{
     
     
     func setupSelecters(){
-        UIView.animate(withDuration: 1) {
-            self.skillLabel1.text = self.skillNames[0]
+        UIView.animate(withDuration: 0.5) {
+         /*   self.skillLabel1.text = self.skillNames[0]
             self.skillLabel2.text = self.skillNames[1]
             self.skillLabel3.text = self.skillNames[2]
             self.s1Selecter.isOn = self.skills[0]
@@ -70,7 +72,7 @@ extension ProfileViewController{
             self.s3Selecter.isOn = self.skills[2]
             self.s1Selecter.isEnabled = true
             self.s2Selecter.isEnabled = true
-            self.s3Selecter.isEnabled = true
+            self.s3Selecter.isEnabled = true*/
         }
 
     }
@@ -86,19 +88,19 @@ extension ProfileViewController{
             skillNames.append(skillList[1].description)
             skillNames.append(skillList[2].description)
             
-            UIView.animate(withDuration: 3) {
+            UIView.animate(withDuration: 0.5) {
             self.cardView.center = self.view.center
             self.cardView.alpha = 1
             self.cardLabel.text = self.skillNames[self.skillNum]
             }
         } else{
             UIView.animate(withDuration: 0.5) {
-                self.s1Selecter.isEnabled = false
+               /* self.s1Selecter.isEnabled = false
                 self.s2Selecter.isEnabled = false
                 self.s3Selecter.isEnabled = false
                 self.skillLabel1.text = "Skill1"
                 self.skillLabel2.text = "Skill2"
-                self.skillLabel3.text = "Skill3"
+                self.skillLabel3.text = "Skill3"*/
             }
             
             

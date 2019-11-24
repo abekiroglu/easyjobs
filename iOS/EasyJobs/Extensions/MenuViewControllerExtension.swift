@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import Firebase
+
 
 extension MenuViewController{
     
     func showLabel(){
-        UIView.animate(withDuration: 1, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.welcomeLabel.alpha = 1
         }) { (true) in
             self.showAdvertisements()
@@ -19,7 +21,7 @@ extension MenuViewController{
     }
     
     func showAdvertisements(){
-        UIView.animate(withDuration: 1, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.advertisementsButton.alpha = 1
         }) { (true) in
             self.showApplications()
@@ -27,7 +29,7 @@ extension MenuViewController{
     }
     
     func showApplications(){
-        UIView.animate(withDuration: 1, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.applicationsButton.alpha = 1
         }) { (true) in
             self.showProfile()
@@ -35,7 +37,7 @@ extension MenuViewController{
     }
     
     func showProfile(){
-        UIView.animate(withDuration: 1, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.profileButton.alpha = 1
         }) { (true) in
             self.showLogOut()
@@ -43,14 +45,17 @@ extension MenuViewController{
     }
     
     func showLogOut(){
-        UIView.animate(withDuration: 1) {
+        UIView.animate(withDuration: 0.5) {
             self.logOutButton.alpha = 1
         }
     }
     
-    func goToLogin(){
-        let loginViewController = storyboard?.instantiateViewController(identifier: "LoginVC") as? LoginViewController
-        view.window?.rootViewController = loginViewController
-        view.window?.makeKeyAndVisible()
-    }
+    func logOut(){
+      /*  let welcomeViewController = storyboard?.instantiateViewController(identifier: "WelcomeVC") as! WelcomeViewController
+        //  view.window?.rootViewController = menuViewController
+          //view.window?.makeKeyAndVisible()
+        let nav = self.view.window?.rootViewController?.navigationController as! UINavigationController
+          nav.setViewControllers([welcomeViewController], animated: true)
+          self.dismiss(animated: true)*/
+          }
 }

@@ -46,13 +46,13 @@ struct Company: Codable{
 
 struct Advertisement: Codable{
     var id: Int
-    var publishDate: Date
-    var validUntil: Date
+    var publishDate: String
+    var validUntil: String
     var description: String
     var requirements: [Assessment]
     var comments: [Comment]
-    //var profession: Profession
-   // var company: Company
+    var profession: Profession?
+   //var company: Company
 }
 
 struct Assessment: Codable{
@@ -97,7 +97,7 @@ struct Profession: Codable{
     var title: String
     var description: String
     var skillGroups: [SkillGroup]
-    var advertisements: [Advertisement]
+    var advertisements: [Advertisement]?
     
     init(title: String){
         id = 0
@@ -129,21 +129,21 @@ struct JobApplication: Codable{
 
 struct User: Codable{
     var email: String
-    var isValidated: Bool
+    var validated: Bool
     var comments: [Comment]
     var applications: [JobApplication]
-    var lastActionTime: Int
-    var birthDate: Date
+    var lastActionTime: Int?
+    var birthDate: Date?
     var name: String
     var surname: String
     var profession: Profession
     var skills: [Skill]
     var experiences: [Experience]
-    var picture: String
+    var picture: String?
     
-    init(email: String, isValidated: Bool, comments: [Comment], applications: [JobApplication], lastActionTime: Int, birthDate: Date, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience], picture: String){
+    init(email: String, isValidated: Bool, comments: [Comment], applications: [JobApplication], lastActionTime: Int?, birthDate: Date?, name: String, surname: String, profession: Profession, skills: [Skill], experiences: [Experience], picture: String?){
         self.email = email
-        self.isValidated = isValidated
+        self.validated = isValidated
         self.comments = comments
         self.applications = applications
         self.lastActionTime = lastActionTime

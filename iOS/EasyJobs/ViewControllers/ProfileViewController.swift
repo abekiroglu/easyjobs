@@ -18,8 +18,12 @@ extension ProfileViewController: UIPickerViewDelegate, UIPickerViewDataSource{
         return dataSource.count
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        arrangeSkills(professionName: dataSource[row])
-        
+ 
+        professionTextField.text = dataSource[row]
+        if professionTextField.text != "Please choose a profession"{
+            view.endEditing(true)
+            arrangeSkills(professionName: professionTextField.text!)
+        }
         // Get skills and put them in selectors
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -30,21 +34,16 @@ extension ProfileViewController: UIPickerViewDelegate, UIPickerViewDataSource{
 class ProfileViewController: UIViewController {
     
     
+    @IBOutlet weak var bgImage: UIImageView!
     @IBOutlet weak var cardLabel: UILabel!
     @IBOutlet weak var editInformationLabel: UILabel!
     @IBOutlet weak var contentView: UIView!
-    @IBOutlet weak var skillLabel1: UILabel!
-    @IBOutlet weak var skillLabel2: UILabel!
-    @IBOutlet weak var skillLabel3: UILabel!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var surnameTextField: UITextField!
     @IBOutlet weak var birthDateTextField: UITextField!
     @IBOutlet weak var professionTextField: UITextField!
     @IBOutlet weak var experienceTextField: UITextField!
-    @IBOutlet weak var s1Selecter: UISwitch!
-    @IBOutlet weak var s2Selecter: UISwitch!
-    @IBOutlet weak var s3Selecter: UISwitch!
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var tickImageView: UIImageView!
     @IBOutlet weak var saveButton: DesignableButton!
@@ -118,14 +117,14 @@ class ProfileViewController: UIViewController {
                 // Move card to the right side
                  self.skills[self.skillNum] = true
                 if(skillNum == 2){
-                    UIView.animate(withDuration: 1) {
+                    UIView.animate(withDuration: 0.4) {
                         card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                         card.alpha = 0
                     }
-                    setupSelecters()
+                    //setupSelecters()
                     self.skillNum = 0
                 }else{
-                    UIView.animate(withDuration: 1, animations: {
+                    UIView.animate(withDuration: 0.4, animations: {
                         card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                         card.alpha = 0
                     }) { (true) in
@@ -144,14 +143,14 @@ class ProfileViewController: UIViewController {
                 self.skills[skillNum] =  false
                 if (skillNum == 2){
                 // Move card to the left side
-                    UIView.animate(withDuration: 1) {
+                    UIView.animate(withDuration: 0.4) {
                         card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                         card.alpha = 0
                     }
-                    setupSelecters()
+                    //setupSelecters()
                     self.skillNum = 0
                 } else{
-                    UIView.animate(withDuration: 1, animations: {
+                    UIView.animate(withDuration: 0.4, animations: {
                          card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
                          card.alpha = 0
                     }) { (true) in
@@ -166,7 +165,7 @@ class ProfileViewController: UIViewController {
                     }
                 }
             } else{
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: 0.4) {
             card.center.x = self.view.center.x
             card.center.y = self.view.center.y
             self.tickImageView.alpha = 0
