@@ -1,0 +1,15 @@
+.error-field {
+    display: block;
+    text-align: center;
+    color: #f0f0f0;
+  }
+  
+  .error-div {
+    padding-top: 20px;
+    margin-top: 20px;
+    padding-bottom: 15px;
+    border: 1px solid #ca6262;
+    border-radius: 7px;
+    background-color: #e69f9f;
+  }
+  
