@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { Col, Row } from 'reactstrap';
-import { Link,NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import { redirect } from '../actions/navigation';
 import { PasswordInput } from '../components/passwordInput';
@@ -18,14 +18,16 @@ import '../styles/navlink.css';
 import { loginCompany, getMe, signupCompany } from '../actions/company';
 
 class signupContainer extends Component {
-constructor(props) {
-    super(props);
-    this.state = {
-    email: null,
-    password: null
-    };
-}
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: null,
+            email: null,
+            password: null
+        };
+    }
 
+<<<<<<< HEAD
 onEmailChange = e => {
     this.setState({ email: e.target.value });
 };
@@ -56,18 +58,54 @@ render() {
             />
             </div>
             <div className="login-form-div" />
-            <div>
-            <button type="submit" className="btn btn-primary">
-                Sign Up
-            </button>
-            <ErrorField error={this.props.error} />
-            </div>
-        </div>
-        </form>
-    </div>
-    );
-}
+=======
+    onEmailChange = e => {
+        this.setState({ email: e.target.value });
+    };
+    onUsernameChange = e => {
+        this.setState({ name: e.target.value });
+    };
+    onPasswordChange = e => {
+        this.setState({ password: e.target.value });
+    };
 
+
+    render() {
+        return (
+>>>>>>> dcd9ff2edb145535d3273c2b2e50d0d7b6e53b25
+            <div>
+                <div className="App__Form">
+                    <NavLink exact to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>
+                </div>
+                <span className="login-page-title"> Sign Up </span>
+                <form onSubmit={this.onClickLogin}>
+                    <div className="center">
+                        <div className="login-form-div">
+                            <UsernameInput onChange={this.onUsernameChange} />
+                        </div>
+                        <div className="login-form-div">
+                            <EmailInput onChange={this.onEmailChange} />
+                        </div>
+                        <div className="login-form-div">
+                            <PasswordInput
+                                onChange={this.onPasswordChange}
+                                placeholder="Password"
+                            />
+                        </div>
+                        <div className="login-form-div" />
+                        <div>
+                            <button type="submit" className="btn btn-primary">
+                                Sign Up
+            </button>
+                            <ErrorField error={this.props.error} />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        );
+    }
+
+<<<<<<< HEAD
 onClickLogin = e => {
     e.preventDefault();
     const { signupCompany } = this.props;
@@ -76,9 +114,19 @@ onClickLogin = e => {
     email: email,
     password: password,
     isPersistent: isPersistent
+=======
+    onClickLogin = e => {
+        e.preventDefault();
+        const { signupCompany } = this.props;
+        const { name, email, password } = this.state;
+        let body = {
+            name: name,
+            email: email,
+            password: password
+        };
+        signupCompany(body);
+>>>>>>> dcd9ff2edb145535d3273c2b2e50d0d7b6e53b25
     };
-    signupCompany(body);
-};
 }
 
 const mapStateToProps = state => {
