@@ -1,0 +1,31 @@
+.App__Form {
+    width: 100%;
+    background-color: rgb(0, 0, 0);
+    padding: 25px 40px;
+    overflow: auto;
+  }
+  .PageSwitcher__Item {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 10px 25px;
+    cursor: pointer;
+    font-size: .9em;
+    border: none;
+    outline: none;
+    display: inline-block;
+    text-decoration: none;
+  }
+  
+  .PageSwitcher__Item--Active {
+    background-color: black;
+    color: white;
+  }
+  
+  .PageSwitcher__Item:first-child {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+  .PageSwitcher__Item:last-child {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
