@@ -46,6 +46,8 @@ render() {
         <div className="App__Form">
         <div className="PageSwitcher">
             <NavLink exact to="/sign-up" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
+            <NavLink exact to="/about" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">About Us</NavLink>
+
            </div>
         </div>
         <form onSubmit={this.onClickLogin}>

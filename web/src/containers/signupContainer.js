@@ -29,9 +29,7 @@ constructor(props) {
 onEmailChange = e => {
     this.setState({ email: e.target.value });
 };
-onUsernameChange = e => {
-    this.setState({ email: e.target.value });
-};
+
 onPasswordChange = e => {
     this.setState({ password: e.target.value });
 };
@@ -42,13 +40,12 @@ render() {
     <div>
         <div className="App__Form">
       <NavLink exact to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>
+      <NavLink exact to="/about" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">About Us</NavLink>
+
       </div>
         <span className="login-page-title"> Sign Up </span>
         <form onSubmit={this.onClickLogin}>
-        <div className="center">
-            <div className="login-form-div">
-            <UsernameInput onChange={this.onUsernameChange} />
-            </div>
+        <div className="center">            
             <div className="login-form-div">
             <EmailInput onChange={this.onEmailChange} />
             </div>
@@ -74,9 +71,8 @@ render() {
 onClickLogin = e => {
     e.preventDefault();
     const { signupCompany } = this.props;
-    const { username, email, password, isPersistent } = this.state;
+    const { email, password, isPersistent } = this.state;
     let body = {
-    username: username,
     email: email,
     password: password,
     isPersistent: isPersistent
