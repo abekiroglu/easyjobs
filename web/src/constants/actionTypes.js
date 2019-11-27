@@ -7,3 +7,5 @@ export const REDIRECT = createRequestTypes('REDIRECT');
 export const LOGIN_COMPANY = createRequestTypes('LOGIN_COMPANY'); 
 
 export const GET_ME = createRequestTypes("GET_ME");
+
+export const SIGNUP_COMPANY = createRequestTypes("SIGNUP_COMPANY");

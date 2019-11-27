@@ -23,3 +23,15 @@ export function getMe() {
       url: `${COMPANY}`
     });
   }
+
+  export function signupCompany(body) {
+    var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+   return axios.request({
+     method: 'post',
+     headers: {
+      x_auth: TOKEN
+    },
+     data: body,
+     url: `${COMPANY}/add`
+   })
+  }

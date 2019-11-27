@@ -7,7 +7,7 @@ export class UsernameInput extends Component {
       <input
         className="username-input"
         type="text"
-        placeholder="Your Email"
+        placeholder="Your Username"
         maxLength="50"
         {...this.props}
       />

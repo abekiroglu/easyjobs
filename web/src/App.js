@@ -3,6 +3,7 @@ import { Router, Route } from 'react-router-dom';
 import history from './history';
 import LoginContainer from './containers/loginContainer';
 import MainContainer from './containers/mainContainer';
+import SignupContainer from './containers/signupContainer';
 
 class App extends Component {
   render() {
@@ -11,6 +12,7 @@ class App extends Component {
         <div className="wrap">
           <Route exact path="/" component={LoginContainer} />
           <Route exact path="/main" component={MainContainer} />
+          <Route exact path="/sign-up" component={SignupContainer}/>
         </div>
       </Router>
     );

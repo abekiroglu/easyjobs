@@ -3,13 +3,15 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { Col, Row } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import { redirect } from '../actions/navigation';
 import { PasswordInput } from '../components/passwordInput';
-import { UsernameInput } from '../components/usernameInput';
+import { EmailInput } from '../components/emailInput';
 import { CheckBox } from '../components/checkBox';
 import { ErrorField } from '../components/errorField';
+import '../styles/navlink.css';
+
 
 import { loginCompany, getMe } from '../actions/company';
 
@@ -38,12 +40,18 @@ onKeepMeLoggedInChecked = e => {
 
 render() {
     return (
+       
     <div>
-        <span className="login-page-title"> Welcome. </span>
+        <span className="login-page-title"> Sign In </span>
+        <div className="App__Form">
+        <div className="PageSwitcher">
+            <NavLink exact to="/sign-up" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign Up</NavLink>
+           </div>
+        </div>
         <form onSubmit={this.onClickLogin}>
         <div className="center">
             <div className="login-form-div">
-            <UsernameInput onChange={this.onUsernameChange} />
+            <EmailInput onChange={this.onUsernameChange} />
             </div>
             <div className="login-form-div">
             <PasswordInput

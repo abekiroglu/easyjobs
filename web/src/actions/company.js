@@ -1,7 +1,8 @@
 import { action } from '.';
 import {
     LOGIN_COMPANY,
-    GET_ME
+    GET_ME,
+    SIGNUP_COMPANY
 } from '../constants/actionTypes';
 
 export const loginCompany = {
@@ -14,4 +15,10 @@ export const getMe = {
     request: () => action(GET_ME.REQUEST, { }),
     success: response => action(GET_ME.SUCCESS, { response }),
     failure: error => action(GET_ME.FAILURE, { error })
+}
+
+export const signupCompany = {
+    request: body => action (SIGNUP_COMPANY.REQUEST, { body }),
+    success: response => action(SIGNUP_COMPANY.SUCCESS, { response }),
+    failure: error => action(SIGNUP_COMPANY.FAILURE, { error })
 }
