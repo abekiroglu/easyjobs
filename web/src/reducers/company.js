@@ -1,9 +1,8 @@
-import { LOGIN_COMPANY, GET_ME, SIGNUP_COMPANY  } from '../constants/actionTypes';
+import { LOGIN_COMPANY, GET_ME, SIGNUP_COMPANY } from '../constants/actionTypes';
 
 const initialState = {};
 
 export default function companyReducer(state = initialState, action) {
-    //debugger;
     switch (action.type) {
         case LOGIN_COMPANY.REQUEST:
             return {
@@ -19,7 +18,7 @@ export default function companyReducer(state = initialState, action) {
                 ...state,
                 error: action.error.message
             };
-        
+
         case GET_ME.REQUEST:
             return {
                 ...state,
@@ -55,7 +54,7 @@ export default function companyReducer(state = initialState, action) {
         case SIGNUP_COMPANY.FAILURE:
             return {
                 ...state,
-                error: action.error,
+                error: action.error.response.data.message,
                 isLoading: false,
                 hasError: true
             };
