@@ -36,3 +36,15 @@ export function signupCompany(body) {
     url: `${COMPANY}/signup`
   })
 }
+
+export function formProfileCompany(body){
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  return axios.request({
+  method: 'post',
+  headers: {
+    x_auth: TOKEN
+  },
+  data: body,
+  url: `${COMPANY}/Create Profile`
+})
+}

@@ -1,12 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 
 import { bindActionCreators } from 'redux';
 import { ErrorField } from '../components/errorField'
 import { redirect } from '../actions/navigation';
 
-import { loginCompany, getMe } from '../actions/company';
+import {getMe } from '../actions/company';
+import '../styles/navlink.css';
 
 class MainContainer extends Component {
 
@@ -26,9 +28,15 @@ componentDidMount() {
 render() {
     return (
         <div>
-            {this.props.isLoading ? 'Loading...' : null}
-            {this.props.hasError ? <ErrorField error={this.props.error.message} /> : null}
-            {this.props.company ? <div> Welcome {this.props.company.email} </div> : null}
+            <div className="App__Form">
+             <NavLink exact to="/form-profile" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Profile</NavLink> 
+            </div>
+
+            <div>
+             {this.props.isLoading ? 'Loading...' : null}
+             {this.props.hasError ? <ErrorField error={this.props.error.message} /> : null}
+             {this.props.company ? <div> Welcome {this.props.company.email} </div> : null}
+            </div>
         </div>
     );
 }

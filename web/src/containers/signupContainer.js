@@ -7,7 +7,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 import { redirect } from '../actions/navigation';
 import { PasswordInput } from '../components/passwordInput';
-import { UsernameInput } from '../components/usernameInput';
+import { CompanyNameInput } from '../components/companyNameInput';
 import { CheckBox } from '../components/checkBox';
 import { ErrorField } from '../components/errorField';
 import { EmailInput } from '../components/emailInput';
@@ -34,8 +34,8 @@ onEmailChange = e => {
 onPasswordChange = e => {
     this.setState({ password: e.target.value });
 };
-onUsernameChange = e => {
-    this.setState({ name: e.target.value });
+onCompanyNameChange = e => {
+    this.setState({ companyName: e.target.value });
 };
 
 
@@ -51,7 +51,7 @@ onUsernameChange = e => {
                 <form onSubmit={this.onClickLogin}>
                     <div className="center">
                         <div className="login-form-div">
-                            <UsernameInput onChange={this.onUsernameChange} />
+                            <CompanyNameInput onChange={this.CompanyNameChange} />
                         </div>
                         <div className="login-form-div">
                             <EmailInput onChange={this.onEmailChange} />
@@ -78,9 +78,9 @@ onUsernameChange = e => {
     onClickLogin = e => {
         e.preventDefault();
         const { signupCompany } = this.props;
-        const { name, email, password } = this.state;
+        const { companyName, email, password } = this.state;
         let body = {
-            name: name,
+            companyName: companyName,
             email: email,
             password: password
         };

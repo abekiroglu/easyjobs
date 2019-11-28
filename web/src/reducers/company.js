@@ -1,4 +1,4 @@
-import { LOGIN_COMPANY, GET_ME, SIGNUP_COMPANY } from '../constants/actionTypes';
+import { LOGIN_COMPANY, GET_ME, SIGNUP_COMPANY,FORM_PROFILE_COMPANY } from '../constants/actionTypes';
 
 const initialState = {};
 
@@ -52,6 +52,26 @@ export default function companyReducer(state = initialState, action) {
                 isLoading: false
             };
         case SIGNUP_COMPANY.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                isLoading: false,
+                hasError: true
+            };
+
+        case FORM_PROFILE_COMPANY.REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                hasError: false
+            };
+        case FORM_PROFILE_COMPANY.SUCCESS:
+            return {
+                ...state,
+                company: action.response.data,
+                isLoading: false
+            };
+        case FORM_PROFILE_COMPANY.FAILURE:
             return {
                 ...state,
                 error: action.error.response.data.message,
