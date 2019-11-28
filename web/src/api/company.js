@@ -24,27 +24,27 @@ export function getMe() {
   });
 }
 
-  
+
 export function signupCompany(body) {
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
   return axios.request({
     method: 'post',
     headers: {
-      x_auth: TOKEN
+      auth: TOKEN
     },
     data: body,
     url: `${COMPANY}/signup`
   })
 }
 
-export function formProfileCompany(body){
+export function formProfileCompany(body) {
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
   return axios.request({
-  method: 'post',
-  headers: {
-    x_auth: TOKEN
-  },
-  data: body,
-  url: `${COMPANY}/Create Profile`
-})
+    method: 'patch',
+    headers: {
+      auth: TOKEN
+    },
+    data: body,
+    url: `${COMPANY}/`
+  })
 }
