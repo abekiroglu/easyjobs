@@ -33,7 +33,7 @@ export function* signupCompany({ body }){
     try{
         const response = yield call(api.signupCompany, body);
         yield put(actions.signupCompany.success(response));
-        yield call(history.push, '/login')
+        yield call(history.push, '/')
     } catch (e) {
         yield put(actions.signupCompany.failure(e));
     }

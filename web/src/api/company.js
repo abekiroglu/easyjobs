@@ -24,18 +24,6 @@ export function getMe() {
   });
 }
 
-
-  export function signupCompany(body) {
-   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
-   return axios.request({
-     method: 'post',
-     headers: {
-      x_auth: TOKEN
-     },
-     data: body,
-     url: `${COMPANY}/signup`
-   })
-  }
   
 export function signupCompany(body) {
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);

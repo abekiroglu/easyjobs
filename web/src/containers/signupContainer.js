@@ -27,7 +27,6 @@ class signupContainer extends Component {
         };
     }
 
-<<<<<<< HEAD
 onEmailChange = e => {
     this.setState({ email: e.target.value });
 };
@@ -35,47 +34,18 @@ onEmailChange = e => {
 onPasswordChange = e => {
     this.setState({ password: e.target.value });
 };
-
-
-render() {
-    return (
-    <div>
-        <div className="App__Form">
-      <NavLink exact to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>
-      <NavLink exact to="/about" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">About Us</NavLink>
-
-      </div>
-        <span className="login-page-title"> Sign Up </span>
-        <form onSubmit={this.onClickLogin}>
-        <div className="center">            
-            <div className="login-form-div">
-            <EmailInput onChange={this.onEmailChange} />
-            </div>
-            <div className="login-form-div">
-            <PasswordInput
-                onChange={this.onPasswordChange}
-                placeholder="Password"
-            />
-            </div>
-            <div className="login-form-div" />
-=======
-    onEmailChange = e => {
-        this.setState({ email: e.target.value });
-    };
-    onUsernameChange = e => {
-        this.setState({ name: e.target.value });
-    };
-    onPasswordChange = e => {
-        this.setState({ password: e.target.value });
-    };
+onUsernameChange = e => {
+    this.setState({ name: e.target.value });
+};
 
 
     render() {
         return (
->>>>>>> dcd9ff2edb145535d3273c2b2e50d0d7b6e53b25
             <div>
                 <div className="App__Form">
                     <NavLink exact to="/" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Sign In</NavLink>
+                    <NavLink exact to="/about" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">About Us</NavLink>
+
                 </div>
                 <span className="login-page-title"> Sign Up </span>
                 <form onSubmit={this.onClickLogin}>
@@ -105,16 +75,6 @@ render() {
         );
     }
 
-<<<<<<< HEAD
-onClickLogin = e => {
-    e.preventDefault();
-    const { signupCompany } = this.props;
-    const { email, password, isPersistent } = this.state;
-    let body = {
-    email: email,
-    password: password,
-    isPersistent: isPersistent
-=======
     onClickLogin = e => {
         e.preventDefault();
         const { signupCompany } = this.props;
@@ -125,7 +85,6 @@ onClickLogin = e => {
             password: password
         };
         signupCompany(body);
->>>>>>> dcd9ff2edb145535d3273c2b2e50d0d7b6e53b25
     };
 }
 
