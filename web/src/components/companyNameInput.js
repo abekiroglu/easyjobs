@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import '../styles/usernameInput.css';
+import '../styles/companyNameInput.css';
 
-export class UsernameInput extends Component {
+export class CompanyNameInput extends Component {
   render() {
     return (
       <input
-        className="username-input"
+        className="companyname-input"
         type="text"
         placeholder="Your Username"
         maxLength="50"
