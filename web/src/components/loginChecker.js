@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { redirect } from '../actions/navigation';
-import { loginCompany, getMe } from '../actions/company';
+import { loginCompany, getMe, formProfileCompany } from '../actions/company';
 
 class LoginChecker extends Component {
     // If no token in local storage, redirect to login
@@ -49,7 +49,8 @@ const mapDispatchToProps = dispatch => {
     return {
         redirect: bindActionCreators(redirect.request, dispatch),
         loginCompany: bindActionCreators(loginCompany.request, dispatch),
-        getMe: bindActionCreators(getMe.request, dispatch)
+        getMe: bindActionCreators(getMe.request, dispatch),
+        formProfileCompany: bindActionCreators(getMe.request, dispatch)
     };
 };
 

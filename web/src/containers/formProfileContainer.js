@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
+import { NavLink } from 'react-router-dom';
 
 import { redirect } from '../actions/navigation';
 import { PasswordInput } from '../components/passwordInput';
@@ -11,8 +12,13 @@ import { ErrorField } from '../components/errorField';
 
 
 import { loginCompany, getMe, signupCompany,formProfileCompany } from '../actions/company';
+import '../styles/navlink.css';
+
 
 class formProfileContainer extends Component {
+ constructor(props) {
+    super(props);
+};
 
 onCompanyNameChange = e => {
     this.setState({ companyName: e.target.value });
@@ -21,7 +27,6 @@ onCompanyNameChange = e => {
 onPasswordChange = e => {
     this.setState({ password: e.target.value });
 };
-
 onEmailChange = e => {
     this.setState({ email: e.target.value });
 };
@@ -30,21 +35,26 @@ render() {
     return (
        
     <div>
+         
+         <div className="App__Form">
+             <NavLink exact to="/main" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Home Page</NavLink> 
+        </div>
         <span className="login-page-title"> Design Profile </span>
-        <form onSubmit={this.onClickLogin}>
+        <form onSubmit={this.onClickSubmit}>
         <div className="center">
            
             <div className="login-form-div">   
             <EmailInput
                 onChange={this.onEmailChange}
-                placeholder="Write e-mail"
+                placeholder="e-mail"
             />
             </div>
-            
+
             <div className="login-form-div">
                 <PasswordInput
+                label="Password"
                  onChange={this.onPasswordChange}
-                placeholder="Password"
+                placeholder="password"
                 />
              </div>
 
@@ -68,23 +78,25 @@ render() {
     );
 }
 
-onClickLogin = e => {
+onClickSubmit = e => {
     e.preventDefault();
-    const { formProfileCompany } = this.props;
-    const { companyName, email, password} = this.state;
-    let body = {
-    companyName: companyName,
-    email: email,
-    password: password,
-    };
-    formProfileCompany(body);
+        const { formProfileCompany } = this.props;
+        const { companyName, email, password} = this.state;
+        let body = {
+        companyName: companyName,
+        email: email,
+        password: password,
+        };
+        formProfileCompany(body);
+    
 };
 }
 
 const mapStateToProps = state => {
     return {
         company: state.company.company,
-        error: state.company.error
+        isLoading: state.company.isLoading,
+        hasError: state.company.hasError
     };
 };
 

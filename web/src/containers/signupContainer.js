@@ -21,7 +21,7 @@ class signupContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: null,
+            companyName: null,
             email: null,
             password: null
         };
