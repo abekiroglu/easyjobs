@@ -110,14 +110,17 @@ class UpdateProfileContainer extends Component {
 
     onClickSubmit = e => {
         e.preventDefault();
-        const { updateProfileCompany } = this.props;
+        const { updateProfileCompany, company } = this.props;
         const { name, foundedDate, description } = this.state;
-        let body = {
-            name: name,
-            foundedDate: foundedDate,
-            description: description
-        };
-        updateProfileCompany(body);
+        let request = {
+            body: {
+                name: name,
+                foundedDate: foundedDate,
+                description: description
+            },
+            id: company.id
+        }
+        updateProfileCompany(request);
 
     };
 }

@@ -21,22 +21,22 @@ class SignupContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            companyName: null,
+            name: null,
             email: null,
             password: null
         };
     }
 
-onEmailChange = e => {
-    this.setState({ email: e.target.value });
-};
+    onEmailChange = e => {
+        this.setState({ email: e.target.value });
+    };
 
-onPasswordChange = e => {
-    this.setState({ password: e.target.value });
-};
-onCompanyNameChange = e => {
-    this.setState({ companyName: e.target.value });
-};
+    onPasswordChange = e => {
+        this.setState({ password: e.target.value });
+    };
+    onNameChange = e => {
+        this.setState({ name: e.target.value });
+    };
 
 
     render() {
@@ -51,7 +51,7 @@ onCompanyNameChange = e => {
                 <form onSubmit={this.onClickLogin}>
                     <div className="center">
                         <div className="login-form-div">
-                            <CompanyNameInput onChange={this.CompanyNameChange} />
+                            <CompanyNameInput onChange={this.onNameChange} />
                         </div>
                         <div className="login-form-div">
                             <EmailInput onChange={this.onEmailChange} />
@@ -78,9 +78,9 @@ onCompanyNameChange = e => {
     onClickLogin = e => {
         e.preventDefault();
         const { signupCompany } = this.props;
-        const { companyName, email, password } = this.state;
+        const { name, email, password } = this.state;
         let body = {
-            companyName: companyName,
+            name: name,
             email: email,
             password: password
         };

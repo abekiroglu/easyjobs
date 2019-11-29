@@ -9,11 +9,11 @@ import { action } from '../actions';
 export function* loginCompany({ body }) {
     try {
         const response = yield call(api.loginCompany, body);
-        if(response.user){
+        if (response.user) {
             localStorage.setItem(LOCAL_STORAGE, response.user.ma);
             yield put(actions.loginCompany.success(response));
             yield call(history.push, '/main')
-        }else{
+        } else {
             throw response;
         }
     } catch (e) {
@@ -30,8 +30,10 @@ export function* getMe() {
     }
 }
 
-export function* signupCompany({ body }){
-    try{
+export function* signupCompany({ body }) {
+    try {
+
+        debugger;
         const response = yield call(api.signupCompany, body);
         yield put(actions.signupCompany.success(response));
         yield call(history.push, '/')
@@ -41,16 +43,16 @@ export function* signupCompany({ body }){
 }
 
 export function* updateProfileCompany({ body }) {
-    try{
+    try {
         const response = yield call(api.updateProfileCompany, body);
         yield put(actions.updateProfileCompany.success(response));
-        yield call(history.push,'/main')
-    } catch(e) {
+        yield call(history.push, '/main')
+    } catch (e) {
         yield put(actions.updateProfileCompany.failure(e));
     }
 }
 
-export function*  watchGetMe() {
+export function* watchGetMe() {
     yield takeLatest(GET_ME.REQUEST, getMe)
 }
 
@@ -58,10 +60,10 @@ export function* watchLoginCompany() {
     yield takeLatest(LOGIN_COMPANY.REQUEST, loginCompany);
 }
 
-export function* watchSignupCompany(){
+export function* watchSignupCompany() {
     yield takeLatest(SIGNUP_COMPANY.REQUEST, signupCompany);
 }
 
-export function* watchUpdateCompanyProfile(){
+export function* watchUpdateCompanyProfile() {
     yield takeLatest(UPDATE_PROFILE_COMPANY.REQUEST, updateProfileCompany);
 }

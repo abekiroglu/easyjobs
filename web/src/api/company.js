@@ -26,26 +26,23 @@ export function getMe() {
 
 
 export function signupCompany(body) {
-  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
   return axios.request({
     method: 'post',
-    headers: {
-      auth: TOKEN
-    },
     data: body,
     url: `${COMPANY}/signup`
   })
 }
 
-export function updateProfileCompany(body) {
+export function updateProfileCompany(request) {
+  debugger;
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
   return axios.request({
-  method: 'patch',
-  headers: {
-    auth: TOKEN
-  },
-  data: body,
-  url: `${COMPANY}/23`
-})
+    method: 'patch',
+    headers: {
+      auth: TOKEN
+    },
+    data: request.body,
+    url: `${COMPANY}/${request.id}`
+  })
 
 }
