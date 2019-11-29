@@ -17,7 +17,7 @@ import '../styles/navlink.css';
 
 import { loginCompany, getMe, signupCompany } from '../actions/company';
 
-class signupContainer extends Component {
+class SignupContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -104,4 +104,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(signupContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SignupContainer);

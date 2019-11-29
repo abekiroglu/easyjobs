@@ -29,7 +29,7 @@ render() {
     return (
         <div>
             <div className="App__Form">
-             <NavLink exact to="/form-profile" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Profile</NavLink> 
+             <NavLink exact to="/update-profile" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Profile</NavLink> 
             </div>
 
             <div>

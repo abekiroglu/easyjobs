@@ -10,4 +10,4 @@ export const GET_ME = createRequestTypes("GET_ME");
 
 export const SIGNUP_COMPANY = createRequestTypes("SIGNUP_COMPANY");
 
-export const FORM_PROFILE_COMPANY = createRequestTypes("FORM_PROFILE_COMPANY");
+export const UPDATE_PROFILE_COMPANY = createRequestTypes("UPDATE_PROFILE_COMPANY");

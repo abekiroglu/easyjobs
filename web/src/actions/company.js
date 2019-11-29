@@ -3,7 +3,7 @@ import {
     LOGIN_COMPANY,
     GET_ME,
     SIGNUP_COMPANY,
-    FORM_PROFILE_COMPANY
+    UPDATE_PROFILE_COMPANY
 } from '../constants/actionTypes';
 
 export const loginCompany = {
@@ -24,8 +24,8 @@ export const signupCompany = {
     failure: error => action(SIGNUP_COMPANY.FAILURE, { error })
 }
 
-export const formProfileCompany = {
-    request: body => action (FORM_PROFILE_COMPANY.REQUEST, { body }),
-    success: response => action(FORM_PROFILE_COMPANY.SUCCESS, { response }),
-    failure: error => action(FORM_PROFILE_COMPANY.FAILURE, { error })
+export const updateProfileCompany = {
+    request: body => action (UPDATE_PROFILE_COMPANY.REQUEST, { body }),
+    success: response => action(UPDATE_PROFILE_COMPANY.SUCCESS, { response }),
+    failure: error => action(UPDATE_PROFILE_COMPANY.FAILURE, { error })
 }

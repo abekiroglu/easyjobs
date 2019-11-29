@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { LOGIN_COMPANY, GET_ME, SIGNUP_COMPANY, FORM_PROFILE_COMPANY } from '../constants/actionTypes';
+import { LOGIN_COMPANY, GET_ME, SIGNUP_COMPANY, UPDATE_PROFILE_COMPANY } from '../constants/actionTypes';
 import { LOCAL_STORAGE } from '../constants/misc'
 import * as actions from '../actions/company';
 import history from '../history';
@@ -40,13 +40,13 @@ export function* signupCompany({ body }){
     }
 }
 
-export function* formProfileCompany({ body }){
+export function* updateProfileCompany({ body }) {
     try{
-        const response = yield call(api.formProfileCompany, body);
-        yield put(actions.formProfileCompany.success(response));
+        const response = yield call(api.updateProfileCompany, body);
+        yield put(actions.updateProfileCompany.success(response));
         yield call(history.push,'/main')
     } catch(e) {
-        yield put(actions.formProfileCompany.failure(e));
+        yield put(actions.updateProfileCompany.failure(e));
     }
 }
 
@@ -62,6 +62,6 @@ export function* watchSignupCompany(){
     yield takeLatest(SIGNUP_COMPANY.REQUEST, signupCompany);
 }
 
-export function* watchformCompanyProfile(){
-    yield takeLatest(FORM_PROFILE_COMPANY.REQUEST, formProfileCompany);
+export function* watchUpdateCompanyProfile(){
+    yield takeLatest(UPDATE_PROFILE_COMPANY.REQUEST, updateProfileCompany);
 }

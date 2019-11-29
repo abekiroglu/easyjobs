@@ -37,14 +37,15 @@ export function signupCompany(body) {
   })
 }
 
-export function formProfileCompany(body) {
+export function updateProfileCompany(body) {
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
   return axios.request({
-    method: 'patch',
-    headers: {
-      auth: TOKEN
-    },
-    data: body,
-    url: `${COMPANY}/`
-  })
+  method: 'patch',
+  headers: {
+    auth: TOKEN
+  },
+  data: body,
+  url: `${COMPANY}/23`
+})
+
 }
