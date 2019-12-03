@@ -21,6 +21,7 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var logOutButton: DesignableButton!
     
     var userHelper = UserHelper()
+    var advertisementDataSource = AdvertisementDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,7 @@ class MenuViewController: UIViewController {
         logOutButton.alpha = 0
         
         userHelper.loadUser()
+        advertisementDataSource.loadAdvertisementList()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,7 +45,11 @@ class MenuViewController: UIViewController {
         }) { (true) in
             self.showLabel()
         }
+        if userHelper.bigUser{
+            welcomeLabel.text = "Welcome \(userHelper.bigLoadedUser.name)"
+        }else{
         welcomeLabel.text = "Welcome \(userHelper.loadedUser.name)"
+        }
     }
   
     @IBAction func logOutButtonTapped(_ sender: Any) {

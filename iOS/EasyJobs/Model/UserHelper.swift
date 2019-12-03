@@ -26,8 +26,8 @@ class UserHelper{
     var loadedUser: LoadedUser
     var profession = Profession(title: "")
     var userUpdateRequest: UserUpdateRequest
-    var bigLoadedUser: BigLoadedUser
-    var user: User
+    var bigLoadedUser: LoadUserUser
+    var bigUser: Bool
     
 
     
@@ -38,9 +38,10 @@ class UserHelper{
         /*user = User(email: "", isValidated: false, comments: [], applications: [], lastActionTime: 0, birthDate: Date(), name: "", surname:"", profession: profession, skills: [], experiences: [], picture: "")*/
         loadedUser = LoadedUser()
         userUpdateRequest = UserUpdateRequest()
-        bigLoadedUser = BigLoadedUser()
-        self.user = User(email: "", isValidated: false, comments: [], applications: [], lastActionTime: 0, birthDate: Date(), name: "", surname: "", profession: Profession(title: ""), skills: [], experiences: [], picture: "")
+        bigLoadedUser = LoadUserUser()
+        bigUser = false
     }
+
     
     func signUp(password: String, email: String, username: String, name: String, surname: String){
         self.userSignUpRequest = UserSignUpRequest(password: password, email: email, username: username, name: name, surname: surname)
@@ -79,11 +80,12 @@ class UserHelper{
              request.addValue("application/json", forHTTPHeaderField: "Content-Type")
              request.addValue(idToken!, forHTTPHeaderField: "auth" )
              let dataTask = session.dataTask(with: request) {(data, response, error) in
-             print("HERE: \(String.init(data: data!, encoding: .utf8))")
+             //print("HERE: \(String.init(data: data!, encoding: .utf8))")
              let decoder = JSONDecoder()
-                print(data!.count)
+                //print(data!.count)
                 if data!.count > 500 {
-                    //self.user = try! decoder.decode(User.self, from: data!)
+                    self.bigLoadedUser = try! decoder.decode(LoadUserUser.self, from: data!)
+                    self.bigUser = true
                 } else {
              self.loadedUser = try! decoder.decode(LoadedUser.self, from: data!)
                 }
@@ -95,9 +97,9 @@ class UserHelper{
         }
     
     
-    func updateProfile(name: String, surname: String, profession: Int){
+    func updateProfile(name: String, surname: String, profession: Int, newSkills: [Skill], deletedSkills: [Skill]){
         
-        userUpdateRequest = UserUpdateRequest(birthDate: Date(), name: name, surname: surname, profession: profession, newExperiences: [], deletedExperiences: [], newSkills: [], deletedSkills: [])
+        userUpdateRequest = UserUpdateRequest(birthDate: nil, name: name, surname: surname, profession: profession, newExperiences: [], deletedExperiences: [], newSkills: newSkills, deletedSkills: deletedSkills)
         let session = URLSession.shared
         
         var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/")!)
@@ -109,12 +111,13 @@ class UserHelper{
             // Handle error
             return;
           }
-            print(self.userUpdateRequest)
+            //print(self.userUpdateRequest)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue(idToken!, forHTTPHeaderField: "auth" )
             guard let uploadData = try? JSONEncoder().encode(self.userUpdateRequest) else{
                 return
             }
+            //print("HERE: \(String.init(data: uploadData, encoding: .utf8))")
             let uploadTask = session.uploadTask(with: request, from: uploadData) { (data, response, error) in
                 if error == nil{
                     print("Profile created")

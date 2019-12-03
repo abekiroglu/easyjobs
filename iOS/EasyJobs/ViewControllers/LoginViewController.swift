@@ -15,15 +15,14 @@ class LoginViewController: UIViewController{
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
-
-    let utilities = Utilities()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         errorLabel.alpha = 0
+        
+        
     }
         
     @IBAction func dismiss(_ sender: Any) {

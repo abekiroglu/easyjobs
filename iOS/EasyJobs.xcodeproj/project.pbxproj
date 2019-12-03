@@ -24,6 +24,10 @@
 		963270942385FA87008532F2 /* LoginViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963270932385FA87008532F2 /* LoginViewControllerExtension.swift */; };
 		9632709623860CE9008532F2 /* MenuViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9632709523860CE9008532F2 /* MenuViewControllerExtension.swift */; };
 		963F5C92238486BD00BBFC7B /* DesignableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 963F5C91238486BD00BBFC7B /* DesignableButton.swift */; };
+		9644404C238CCBE8009D15EC /* SimpleObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73EBD2387268A007AEC7E /* SimpleObjects.swift */; };
+		9644404D238CCBE8009D15EC /* SimpleObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73EBD2387268A007AEC7E /* SimpleObjects.swift */; };
+		965615D42393743100612128 /* AdvertisementsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965615D32393743100612128 /* AdvertisementsTableViewCell.swift */; };
+		966911AE2395967400F3A307 /* AdvertisementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966911AD2395967400F3A307 /* AdvertisementDetailViewController.swift */; };
 		967767A7236FC33E001F3F12 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967767A6236FC33E001F3F12 /* ProfileViewController.swift */; };
 		967767A8236FC33E001F3F12 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967767A6236FC33E001F3F12 /* ProfileViewController.swift */; };
 		967767A9236FC33E001F3F12 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967767A6236FC33E001F3F12 /* ProfileViewController.swift */; };
@@ -32,9 +36,6 @@
 		969E67BC236FA1B60070D497 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 969E67BB236FA1B60070D497 /* GoogleService-Info.plist */; };
 		969E67BD236FA1B60070D497 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 969E67BB236FA1B60070D497 /* GoogleService-Info.plist */; };
 		969E67BE236FA1B60070D497 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 969E67BB236FA1B60070D497 /* GoogleService-Info.plist */; };
-		969E67C2236FABB90070D497 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969E67C1236FABB90070D497 /* Utilities.swift */; };
-		969E67C3236FABB90070D497 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969E67C1236FABB90070D497 /* Utilities.swift */; };
-		969E67C4236FABB90070D497 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969E67C1236FABB90070D497 /* Utilities.swift */; };
 		96A74B95237CAE8E0017CD43 /* ProfessionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A74B94237CAE8E0017CD43 /* ProfessionDataSource.swift */; };
 		96A74B96237CAE8E0017CD43 /* ProfessionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A74B94237CAE8E0017CD43 /* ProfessionDataSource.swift */; };
 		96A74B97237CAE8E0017CD43 /* ProfessionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96A74B94237CAE8E0017CD43 /* ProfessionDataSource.swift */; };
@@ -86,11 +87,12 @@
 		963270932385FA87008532F2 /* LoginViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewControllerExtension.swift; sourceTree = "<group>"; };
 		9632709523860CE9008532F2 /* MenuViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewControllerExtension.swift; sourceTree = "<group>"; };
 		963F5C91238486BD00BBFC7B /* DesignableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableButton.swift; sourceTree = "<group>"; };
+		965615D32393743100612128 /* AdvertisementsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementsTableViewCell.swift; sourceTree = "<group>"; };
+		966911AD2395967400F3A307 /* AdvertisementDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementDetailViewController.swift; sourceTree = "<group>"; };
 		967767A6236FC33E001F3F12 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		968A8A732384CCAE0049B792 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		968A8A7B2384E3C50049B792 /* BounceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceButton.swift; sourceTree = "<group>"; };
 		969E67BB236FA1B60070D497 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		969E67C1236FABB90070D497 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		96A74B94237CAE8E0017CD43 /* ProfessionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessionDataSource.swift; sourceTree = "<group>"; };
 		96B74EB72385EC7C001163B5 /* SignUpViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewControllerExtension.swift; sourceTree = "<group>"; };
 		96B74EB92385EF68001163B5 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 				967767A6236FC33E001F3F12 /* ProfileViewController.swift */,
 				96B74EB92385EF68001163B5 /* WelcomeViewController.swift */,
 				9619099623865FFE0098F9DE /* AdvertisementViewController.swift */,
+				966911AD2395967400F3A307 /* AdvertisementDetailViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -202,6 +205,24 @@
 			path = IBDesignables;
 			sourceTree = "<group>";
 		};
+		9644404B238CCBDD009D15EC /* Codables */ = {
+			isa = PBXGroup;
+			children = (
+				9610F2C72378971800531E69 /* Objects.swift */,
+				96F73EBD2387268A007AEC7E /* SimpleObjects.swift */,
+				96F73EBF23873C53007AEC7E /* EObjects.swift */,
+			);
+			path = Codables;
+			sourceTree = "<group>";
+		};
+		965615D2239373E300612128 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				965615D32393743100612128 /* AdvertisementsTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		968A8A7A2384E3A00049B792 /* CustomControls */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,23 +231,13 @@
 			path = CustomControls;
 			sourceTree = "<group>";
 		};
-		969E67C0236FABA40070D497 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				969E67C1236FABB90070D497 /* Utilities.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		96A74B93237CA88B0017CD43 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9644404B238CCBDD009D15EC /* Codables */,
 				9610F2CB2379E5F800531E69 /* AdvertisementDataSource.swift */,
-				9610F2C72378971800531E69 /* Objects.swift */,
 				96A74B94237CAE8E0017CD43 /* ProfessionDataSource.swift */,
 				96177900238331CE001E44E7 /* UserHelper.swift */,
-				96F73EBD2387268A007AEC7E /* SimpleObjects.swift */,
-				96F73EBF23873C53007AEC7E /* EObjects.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -256,11 +267,11 @@
 		96D561BC236A12080063AEBB /* EasyJobs */ = {
 			isa = PBXGroup;
 			children = (
+				965615D2239373E300612128 /* Cells */,
 				96022BDE2385606A00CBF399 /* Extensions */,
 				968A8A7A2384E3A00049B792 /* CustomControls */,
 				963F5C90238485E500BBFC7B /* IBDesignables */,
 				96A74B93237CA88B0017CD43 /* Model */,
-				969E67C0236FABA40070D497 /* Helpers */,
 				96080BC5236F8B3A00E9854F /* ViewControllers */,
 				96D561BD236A12080063AEBB /* AppDelegate.swift */,
 				96D561BF236A12080063AEBB /* SceneDelegate.swift */,
@@ -605,15 +616,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				969E67C2236FABB90070D497 /* Utilities.swift in Sources */,
 				96177901238331CE001E44E7 /* UserHelper.swift in Sources */,
 				96D561C2236A12080063AEBB /* LoginViewController.swift in Sources */,
 				96D2FB5F2388A26D0085A118 /* DesignableTextField.swift in Sources */,
 				9610F2C82378971800531E69 /* Objects.swift in Sources */,
 				96B74EBA2385EF68001163B5 /* WelcomeViewController.swift in Sources */,
 				96080BC4236F8B2800E9854F /* MenuViewController.swift in Sources */,
+				965615D42393743100612128 /* AdvertisementsTableViewCell.swift in Sources */,
 				96D561BE236A12080063AEBB /* AppDelegate.swift in Sources */,
 				968A8A742384CCAE0049B792 /* DesignableView.swift in Sources */,
+				966911AE2395967400F3A307 /* AdvertisementDetailViewController.swift in Sources */,
 				967767A7236FC33E001F3F12 /* ProfileViewController.swift in Sources */,
 				963F5C92238486BD00BBFC7B /* DesignableButton.swift in Sources */,
 				96080BC2236F8AAF00E9854F /* SignUpViewController.swift in Sources */,
@@ -636,7 +648,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				967767A8236FC33E001F3F12 /* ProfileViewController.swift in Sources */,
-				969E67C3236FABB90070D497 /* Utilities.swift in Sources */,
+				9644404C238CCBE8009D15EC /* SimpleObjects.swift in Sources */,
 				96A74B96237CAE8E0017CD43 /* ProfessionDataSource.swift in Sources */,
 				9610F2CD2379E5F800531E69 /* AdvertisementDataSource.swift in Sources */,
 				9610F2C92378971800531E69 /* Objects.swift in Sources */,
@@ -649,7 +661,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				967767A9236FC33E001F3F12 /* ProfileViewController.swift in Sources */,
-				969E67C4236FABB90070D497 /* Utilities.swift in Sources */,
+				9644404D238CCBE8009D15EC /* SimpleObjects.swift in Sources */,
 				96A74B97237CAE8E0017CD43 /* ProfessionDataSource.swift in Sources */,
 				9610F2CE2379E5F800531E69 /* AdvertisementDataSource.swift in Sources */,
 				9610F2CA2378971800531E69 /* Objects.swift in Sources */,

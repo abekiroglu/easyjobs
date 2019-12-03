@@ -11,7 +11,6 @@ import UIKit
 extension ProfileViewController{
 
     @objc func viewTapped(gestureRecognizer: UITapGestureRecognizer){
-    
         view.endEditing(true)
     }
     
@@ -80,31 +79,15 @@ extension ProfileViewController{
     func arrangeSkills(professionName: String){
         professionTextField.text = professionName
         if professionTextField.text != "Please choose a profession"{
-            let skillList : [Skill] = professionDataSource.getSkills(profession: professionDataSource.getMatchingProfession(title: professionName, professionList: professionDataSource.professionList))
-            print(skillList[0].description)
-            print(skillList[1].description)
-            print(skillList[2].description)
-            skillNames.append(skillList[0].description)
-            skillNames.append(skillList[1].description)
-            skillNames.append(skillList[2].description)
+            possibleSkills = professionDataSource.getSkills(profession: professionDataSource.getMatchingProfession(title: professionName, professionList: professionDataSource.professionList))
+            
             
             UIView.animate(withDuration: 0.5) {
             self.cardView.center = self.view.center
             self.cardView.alpha = 1
-            self.cardLabel.text = self.skillNames[self.skillNum]
+                self.cardLabel.text = self.possibleSkills[self.skillNum].description
             }
-        } else{
-            UIView.animate(withDuration: 0.5) {
-               /* self.s1Selecter.isEnabled = false
-                self.s2Selecter.isEnabled = false
-                self.s3Selecter.isEnabled = false
-                self.skillLabel1.text = "Skill1"
-                self.skillLabel2.text = "Skill2"
-                self.skillLabel3.text = "Skill3"*/
-            }
-            
-            
-            
         }
     }
+    
 }
