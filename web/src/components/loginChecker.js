@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { redirect } from '../actions/navigation';
-import { loginCompany } from '../actions/company';
+import { loginCompany, getMe, formProfileCompany } from '../actions/company';
 
 class LoginChecker extends Component {
     // If no token in local storage, redirect to login
@@ -17,11 +17,6 @@ class LoginChecker extends Component {
         };
     }
 
-    componentDidMount() {
-        const { loginCompany } = this.props;
-        loginCompany({ email: 'abekiroglu14@ku.edu.tr', password: 'ezjobs' })
-        this.redirectToMenu();
-    }
 
 
     redirectToMenu = e => {
@@ -33,20 +28,30 @@ class LoginChecker extends Component {
     };
 
     render() {
-        return null;
+        return <div>
+            { this.props.isLoading ?  <div>Ata</div> : null }
+            { this.props.hasError ? <div>Ali</div> : null}
+        </div>
     }
 
 
 }
 
+const mapStateToProps = state => {
+    return {
+        company: state.company.company,
+        isLoading: state.company.isLoading,
+        hasError: state.company.hasError
+    };
+  };
+
 const mapDispatchToProps = dispatch => {
     return {
         redirect: bindActionCreators(redirect.request, dispatch),
-        loginCompany: bindActionCreators(loginCompany.request, dispatch)
+        loginCompany: bindActionCreators(loginCompany.request, dispatch),
+        getMe: bindActionCreators(getMe.request, dispatch),
+        formProfileCompany: bindActionCreators(getMe.request, dispatch)
     };
 };
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(LoginChecker);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginChecker);
