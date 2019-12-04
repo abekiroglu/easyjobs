@@ -14,3 +14,6 @@ export const UPDATE_PROFILE_COMPANY = createRequestTypes("UPDATE_PROFILE_COMPANY
 
 export const ADD_ADVR = createRequestTypes("ADD_ADVR");
 
+export const GET_PROFESSION = createRequestTypes("GET_PROFESSION");
+
+

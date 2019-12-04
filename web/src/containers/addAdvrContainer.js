@@ -11,9 +11,8 @@ import { TextBoxInput} from '../components/textBoxInput';
 import { DateInput } from '../components/dateInput';
 import '../styles/navlink.css';
 
+import { getProfession } from '../actions/profession';
 
-import { getMe } from '../actions/company';
-import { addAdvr } from '../sagas/advertisement';
 
 class AddAdvrContainer extends Component {
 constructor(props) {
@@ -46,6 +45,11 @@ onPublishDateChange = e => {
     this.setState({ publishDate: e.target.value });
 };
 
+takeProfessions = e => {
+    e.preventDefault();
+  
+};
+}
 
 render() {
     return (
@@ -69,7 +73,7 @@ render() {
                 {/* <div className="login-form-div">
                     <TextBoxInput onChange={this.onDescriptionChange} />
                     </div> */}
-                
+            
 
             </Col>
         </Row>
