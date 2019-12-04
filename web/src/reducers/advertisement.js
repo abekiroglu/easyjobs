@@ -12,7 +12,7 @@ export default function advertisementReducer(state = initialState, action) {
         case ADD_ADVR.SUCCESS:
             return {
                 ...state,
-                user: action.response.user
+                user: action.response
             };
         case ADD_ADVR.FAILURE:
             return {
