@@ -8,7 +8,6 @@ import { Link, NavLink } from 'react-router-dom';
 import { redirect } from '../actions/navigation';
 import { PasswordInput } from '../components/passwordInput';
 import { CompanyNameInput } from '../components/companyNameInput';
-import { CheckBox } from '../components/checkBox';
 import { ErrorField } from '../components/errorField';
 import { EmailInput } from '../components/emailInput';
 

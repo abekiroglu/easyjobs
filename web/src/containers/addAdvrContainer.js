@@ -3,12 +3,11 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { Col, Row } from 'reactstrap';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { redirect } from '../actions/navigation';
 import { ErrorField } from '../components/errorField';
 import { TextBoxInput} from '../components/textBoxInput';
-import { CheckBox } from '../components/checkBox';
 import { DateInput } from '../components/dateInput';
 import '../styles/navlink.css';
 
@@ -67,9 +66,11 @@ render() {
                 </div>
             </Col>
             <Col lg="5" className="text-center text-md-right">
-                <div className="login-form-div">
+                {/* <div className="login-form-div">
                     <TextBoxInput onChange={this.onDescriptionChange} />
-                </div>
+                    </div> */}
+                
+
             </Col>
         </Row>
         <Row>
