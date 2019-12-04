@@ -7,17 +7,22 @@ export default function professionReducer(state = initialState, action) {
 
         case GET_PROFESSION.REQUEST:
             return {
-                ...state
+                ...state,
+                isLoading: true
             };
         case GET_PROFESSION.SUCCESS:
             return {
                 ...state,
-                professions: action.response.data
+                professions: action.response.data,
+                isLoading: false,
+                hasError: false
             };
         case GET_PROFESSION.FAILURE:
             return {
                 ...state,
-                error: action.error.response.data.message
+                error: action.error.response.data.message,
+                isLoading: false,
+                hasError: true
             };
 
         default:
