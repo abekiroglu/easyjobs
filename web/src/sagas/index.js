@@ -10,7 +10,13 @@ import {
     watchHire,
     watchUploadImage
 } from './company'
-import { watchAddAdvr } from './advertisement';
+import {
+    watchAddAdvr,
+    watchDeleteAdvr,
+    watchGetAdvr,
+    watchGetRecommendedUsers,
+    watchUpdateAdvr
+} from './advertisement';
 import { watchGetProfession } from './profession';
 
 export default function* root() {
@@ -24,4 +30,8 @@ export default function* root() {
     yield fork(watchDeleteCompany);
     yield fork(watchHire);
     yield fork(watchUploadImage);
+    yield fork(watchDeleteAdvr);
+    yield fork(watchGetAdvr);
+    yield fork(watchGetRecommendedUsers);
+    yield fork(watchUpdateAdvr);
 }

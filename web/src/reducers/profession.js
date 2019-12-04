@@ -12,12 +12,12 @@ export default function professionReducer(state = initialState, action) {
         case GET_PROFESSION.SUCCESS:
             return {
                 ...state,
-                user: action.response
+                professions: action.response.data
             };
         case GET_PROFESSION.FAILURE:
             return {
                 ...state,
-                error: action.error.message
+                error: action.error.response.data.message
             };
 
         default:
