@@ -1,7 +1,15 @@
 import { fork } from 'redux-saga/effects';
 import { watchRedirect } from './navigation'
 
-import { watchLoginCompany, watchGetMe, watchSignupCompany, watchUpdateCompanyProfile} from './company'
+import {
+    watchLoginCompany,
+    watchGetMe,
+    watchSignupCompany,
+    watchUpdateCompanyProfile,
+    watchDeleteCompany,
+    watchHire,
+    watchUploadImage
+} from './company'
 import { watchAddAdvr } from './advertisement';
 import { watchGetProfession } from './profession';
 
@@ -13,4 +21,7 @@ export default function* root() {
     yield fork(watchUpdateCompanyProfile);
     yield fork(watchAddAdvr);
     yield fork(watchGetProfession);
+    yield fork(watchDeleteCompany);
+    yield fork(watchHire);
+    yield fork(watchUploadImage);
 }

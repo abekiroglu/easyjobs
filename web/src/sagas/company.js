@@ -1,9 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { LOGIN_COMPANY, GET_ME, SIGNUP_COMPANY, UPDATE_PROFILE_COMPANY } from '../constants/actionTypes';
+import { LOGIN_COMPANY, GET_ME, SIGNUP_COMPANY, UPDATE_PROFILE_COMPANY, DELETE_COMPANY, HIRE, UPLOAD_IMAGE } from '../constants/actionTypes';
 import { LOCAL_STORAGE } from '../constants/misc'
 import * as actions from '../actions/company';
 import history from '../history';
 import * as api from '../api/company';
+import { deleteCompany } from '../actions/company';
 
 export function* loginCompany({ body }) {
     try {
@@ -45,12 +46,49 @@ export function* updateProfileCompany({ body }) {
     try {
         const response = yield call(api.updateProfileCompany, body);
         yield put(actions.updateProfileCompany.success(response));
-        yield call(history.push, '/main')
     } catch (e) {
         yield put(actions.updateProfileCompany.failure(e));
     }
 }
 
+export function* deleteCompany() {
+    try {
+        const response = yield call(api.deleteCompany);
+        yield put(actions.deleteCompany.success(response));
+    } catch (e) {
+        yield put(actions.deleteCompany.failure(e));
+    }
+}
+
+export function* hire({ body }) {
+    try {
+        const response = yield call(api.hire, body);
+        yield put(actions.hire.success(response));
+    } catch (e) {
+        yield put(actions.hire.failure(e));
+    }
+}
+
+export function* uploadImage({ body }) {
+    try {
+        const response = yield call(api.uploadImage, body);
+        yield put(actions.uploadImage.success(response));
+    } catch (e) {
+        yield put(actions.uploadImage.failure(e));
+    }
+}
+
+export function* watchDeleteCompany() {
+    yield takeLatest(DELETE_COMPANY.REQUEST, deleteCompany)
+}
+
+export function* watchHire() {
+    yield takeLatest(HIRE.REQUEST, hire)
+}
+
+export function* watchUploadImage() {
+    yield takeLatest(UPLOAD_IMAGE.REQUEST, uploadImage)
+}
 
 export function* watchGetMe() {
     yield takeLatest(GET_ME.REQUEST, getMe)

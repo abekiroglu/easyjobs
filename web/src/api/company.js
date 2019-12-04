@@ -34,7 +34,6 @@ export function signupCompany(body) {
 }
 
 export function updateProfileCompany(request) {
-  //debugger;
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
   return axios.request({
     method: 'patch',
@@ -46,5 +45,40 @@ export function updateProfileCompany(request) {
   })
 }
 
+export function hire(request) {
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  return axios.request({
+    method: 'get',
+    headers: {
+      auth: TOKEN
+    },
+    data: request.body,
+    url: `${COMPANY}/hire`,
+    params: { advertisementId: request.advertisementId, userId: request.userId }
+  })
+}
 
+export function deleteCompany() {
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  return axios.request({
+    method: 'delete',
+    headers: {
+      auth: TOKEN
+    },
+    data: body,
+    url: `${COMPANY}/`
+  })
+}
+
+export function uploadImage(body) {
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  return axios.request({
+    method: 'post',
+    headers: {
+      auth: TOKEN
+    },
+    data: body,
+    url: `${COMPANY}/upload`
+  })
+}
 

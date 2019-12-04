@@ -1,4 +1,4 @@
-import { LOGIN_COMPANY, GET_ME, SIGNUP_COMPANY, UPDATE_PROFILE_COMPANY } from '../constants/actionTypes';
+import { LOGIN_COMPANY, GET_ME, SIGNUP_COMPANY, UPDATE_PROFILE_COMPANY, HIRE, DELETE_COMPANY, UPLOAD_IMAGE } from '../constants/actionTypes';
 
 const initialState = {};
 
@@ -58,7 +58,7 @@ export default function companyReducer(state = initialState, action) {
                 isLoading: false,
                 hasError: true
             };
-            
+
         case UPDATE_PROFILE_COMPANY.REQUEST:
             return {
                 ...state,
@@ -72,6 +72,62 @@ export default function companyReducer(state = initialState, action) {
                 isLoading: false
             };
         case UPDATE_PROFILE_COMPANY.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                isLoading: false,
+                hasError: true
+            };
+        case HIRE.REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                hasError: false,
+            };
+        case HIRE.SUCCESS:
+            return {
+                ...state,
+                application: action.response.data,
+                isLoading: false
+            };
+        case HIRE.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                isLoading: false,
+                hasError: true
+            };
+        case DELETE_COMPANY.REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                hasError: false,
+            };
+        case DELETE_COMPANY.SUCCESS:
+            return {
+                ...state,
+                isLoading: false
+            };
+        case DELETE_COMPANY.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                isLoading: false,
+                hasError: true
+            };
+        case UPLOAD_IMAGE.REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+                hasError: false,
+            };
+        case UPLOAD_IMAGE.SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                imageUrl: action.response.data
+            };
+        case UPLOAD_IMAGE.FAILURE:
             return {
                 ...state,
                 error: action.error.response.data.message,

@@ -10,7 +10,6 @@ export function* addAdvr({ body }) {
         debugger;
         const response = yield call(api.addAdvr, body);
         yield put(actions.addAdvr.success(response));
-        yield call(history.push, '/main')
     } catch (e) {
         yield put(actions.addAdvr.failure(e));
     }
