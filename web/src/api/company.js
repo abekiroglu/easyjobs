@@ -34,7 +34,7 @@ export function signupCompany(body) {
 }
 
 export function updateProfileCompany(request) {
-  debugger;
+  //debugger;
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
   return axios.request({
     method: 'patch',
@@ -44,5 +44,7 @@ export function updateProfileCompany(request) {
     data: request.body,
     url: `${COMPANY}/${request.id}`
   })
-
 }
+
+
+

@@ -49,16 +49,17 @@ class UpdateProfileContainer extends Component {
 
     render() {
         return (
-
             <div>
-                <div className="App__Form">
-                    <NavLink exact to="/main" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Home Page</NavLink>
-                </div>
-                <div>
                     {this.props.isLoading ? 'Loading...' : null}
                     {this.props.hasError ? <ErrorField error={this.props.error.message} /> : null}
-                    {this.props.company ? <div> Welcome {this.props.company.email} </div> : null}
+                    {this.props.company ? 
+                <div>
+                    <div className="App__Form">
+                    <NavLink exact to="/main" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Home Page</NavLink>
+                    <NavLink exact to="/add-advr" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Add Advertisements</NavLink>
+
                 </div>
+                <h5 style = {{paddingLeft: 1400}}>{this.props.company.email}</h5>
                 <span className="login-page-title"> Design Profile </span>
                 <form onSubmit={this.onClickSubmit}>
                     <div className="center">
@@ -104,6 +105,7 @@ class UpdateProfileContainer extends Component {
                         <ErrorField error={this.props.error} />
                     </div>
                 </form>
+                 </div>: null}
             </div>
         );
     }

@@ -4,7 +4,6 @@ import { LOCAL_STORAGE } from '../constants/misc'
 import * as actions from '../actions/company';
 import history from '../history';
 import * as api from '../api/company';
-import { action } from '../actions';
 
 export function* loginCompany({ body }) {
     try {
@@ -52,6 +51,7 @@ export function* updateProfileCompany({ body }) {
     }
 }
 
+
 export function* watchGetMe() {
     yield takeLatest(GET_ME.REQUEST, getMe)
 }
@@ -67,3 +67,4 @@ export function* watchSignupCompany() {
 export function* watchUpdateCompanyProfile() {
     yield takeLatest(UPDATE_PROFILE_COMPANY.REQUEST, updateProfileCompany);
 }
+
