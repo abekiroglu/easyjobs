@@ -4,7 +4,6 @@ import { LOCAL_STORAGE } from '../constants/misc'
 import * as actions from '../actions/company';
 import history from '../history';
 import * as api from '../api/company';
-import { deleteCompany } from '../actions/company';
 
 export function* loginCompany({ body }) {
     try {

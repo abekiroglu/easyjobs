@@ -65,7 +65,6 @@ export function deleteCompany() {
     headers: {
       auth: TOKEN
     },
-    data: body,
     url: `${COMPANY}/`
   })
 }
