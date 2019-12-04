@@ -1,0 +1,30 @@
+config:
+  target: 'http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com'
+  phases:
+    - duration: 10
+      arrivalRate: 1
+      name: "Warm Up"
+    - duration: 30
+      arrivalRate: 1
+      rampTo: 20
+      name: "Ramp Up"
+    - duration: 20
+      arrivalRate: 20
+      name: "Max Load"
+  defaults:
+    headers:
+      auth: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjA0NjUxMTM5ZDg4NzUyYjY0OTM0MjUzNGE2YjRhMDUxMjVkNzhmYmIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiVGVzdCBDb21wYW55IiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2Vhc3lqb2JzLWZjMTM2IiwiYXVkIjoiZWFzeWpvYnMtZmMxMzYiLCJhdXRoX3RpbWUiOjE1NzU0ODU3NjUsInVzZXJfaWQiOiJnMEYyNEM1alR6T1haQjVVQTRCRm5GWUlkbmkxIiwic3ViIjoiZzBGMjRDNWpUek9YWkI1VUE0QkZuRllJZG5pMSIsImlhdCI6MTU3NTQ4NTc2NSwiZXhwIjoxNTc1NDg5MzY1LCJlbWFpbCI6InRlc3Rjb21wYW55QGNvbXBhbnkuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdGNvbXBhbnlAY29tcGFueS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.CmM6bp5zhBa3BI4MjjxQG7-StjnzTPFuq82-ZU8wfrhPq0HuWubfbmJO3DN4wxTsm-zGSabeZGQ6kv994yA5sTTqutVv5FChgHO9FdVXqtHU7os_TK-TV2r-u2xM0cRoOBN5O0nfhDigPgLCTE8-heWu4UtgdapOELGTPxmli408Y0FeSPjLAN6BTuJrtCu7LzA5egigSWQZ95l_mh4dYjxpLGUSZdQSagqb7drWtaF_egAH9Gg8M_4_wIaU5SbC-9BIDvoQpqN5KOJLTPziUDLAkugojES2J2QRsGVNuZ6VbBzupI3wyxAoI6KgR14DlR-s-UEG_PzQ1qDYZE9GPQ'
+scenarios:
+    - name: "Get Company (Self)"
+      flow:
+        - get:
+            url: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/companies/"
+    - name: "Get Professions (All)"
+      flow:
+        - get:
+            url: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/professions/"
+
+    - name: "Get Advertisement (Index)"
+      flow:
+        - get:
+            url: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/advertisements/29"

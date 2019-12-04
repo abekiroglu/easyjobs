@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class WelcomeViewController: UIViewController {
     
@@ -16,7 +17,15 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bgImage.alpha = 0.7
-  
+        
+        let user = Auth.auth().currentUser
+        if(user != nil){
+            let menuViewController = storyboard?.instantiateViewController(identifier: "MenuVC") as! MenuViewController
+            if let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController{
+                navigationController.setViewControllers([menuViewController], animated: true)
+                self.dismiss(animated: true)
+            }
+        }
     }
  
 }

@@ -40,9 +40,10 @@ extension LoginViewController{
         let menuViewController = storyboard?.instantiateViewController(identifier: "MenuVC") as! MenuViewController
       //  view.window?.rootViewController = menuViewController
         //view.window?.makeKeyAndVisible()
-        let nav = self.presentingViewController as! UINavigationController
-        nav.setViewControllers([menuViewController], animated: true)
-        self.dismiss(animated: true) {
+        //let nav = self.presentingViewController as! UINavigationController
+        if let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController{
+            navigationController.setViewControllers([menuViewController], animated: true)
+            self.dismiss(animated: true)
         }
     }
     

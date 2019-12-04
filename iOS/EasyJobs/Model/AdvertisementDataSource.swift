@@ -7,37 +7,133 @@
 //
 
 import Foundation
-
+import Firebase
 
 protocol AdvertisementDataSourceDelegate{
-    func advertisementListLoaded(advertisementList: [Advertisement])
+    func advertisementListLoaded(advertisementList: [SimpleAdvertisement])
+    func advertisementDetailLoaded(advertisement: SimpleAdvertisement)
+    func jobApplied()
+}
+
+extension AdvertisementDataSourceDelegate{
+    func advertisementListLoaded(advertisementList: [SimpleAdvertisement]) {}
+    func advertisementDetailLoaded(advertisement: SimpleAdvertisement) {}
+    func jobApplied(){}
 }
 
 class AdvertisementDataSource{
     
     var delegate: AdvertisementDataSourceDelegate?
+
     
-    var advertisementList :[SimpleAdvertisement] = []
+    init(){}
     
+    
+    func applyForJob(advertisementID: Int){
+        
+        let session = URLSession.shared
+         var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/advertisements/\(advertisementID)/apply")!)
+         request.httpMethod = "GET"
+         
+         let currentUser = Auth.auth().currentUser
+         currentUser?.getIDToken() { idToken, error in
+           if let error = error {
+             // Handle error
+             return;
+           }
+             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+             request.addValue(idToken!, forHTTPHeaderField: "auth" )
+             let dataTask = session.dataTask(with: request) {(data, response, error) in
+                
+                 print("Applied for job!")
+                
+                 DispatchQueue.main.async {
+                     self.delegate?.jobApplied()
+                 }
+                     }
+           dataTask.resume()
+           // Send token to your backend via HTTPS
+           // ...
+         }
+    }
     
     func loadAdvertisementList(){
-      /*  let session = URLSession.shared
         
-        var request = URLRequest(url: URL(string: "http://localhost:8080/v1/advertisements/:advertisement_id")!)
-        request.httpMethod = "GET"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let session = URLSession.shared
         
-        let dataTask = session.dataTask(with: request) {(data, response, error) in
-            let decoder = JSONDecoder()
-            let advertisementList = try! decoder.decode([Advertisement].self, from: data!)
-            self.delegate?.advertisementListLoaded(advertisementList: advertisementList)
+       /* var items = [URLQueryItem]()
+        var myURL = URLComponents(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/advertisements/search?id&companyId")
+        let param = ["id": nil, "companyId": nil] as [String : Any?]
+        for (key, value) in param{
+            items.append(URLQueryItem(name: key, value: nil))
         }
-        dataTask.resume()*/
+        myURL?.queryItems = items
+        let query  = myURL?.url!.query
+        request.httpBody = Data(query!.utf8)*/
         
-      /*  for n in 1...10{
-            let advertisement = SimpleAdvertisement(description: "XM is looking for ambitious software Developers ")
-            advertisementList.append(advertisement)
-        }*/
+        var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/advertisements/search?id&companyId")!)
+        request.httpMethod = "GET"
         
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDToken() { idToken, error in
+          if let error = error {
+            // Handle error
+            return;
+          }
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue(idToken!, forHTTPHeaderField: "auth" )
+            let dataTask = session.dataTask(with: request) {(data, response, error) in
+                print("HERE: \(String.init(data: data!, encoding: .utf8))")
+                let decoder = JSONDecoder()
+                var advertisementList = try! decoder.decode([SimpleAdvertisement].self, from: data!)
+                print("AdvertisementsLoaded")
+                DispatchQueue.main.async {
+                    self.delegate?.advertisementListLoaded(advertisementList: advertisementList)
+                }
+                    }
+          dataTask.resume()
+          // Send token to your backend via HTTPS
+          // ...
+        }
+    }
+    
+    func loadAdvertisementDetail(advertisementID: Int){
+        
+        let session = URLSession.shared
+        
+       /* var items = [URLQueryItem]()
+        var myURL = URLComponents(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/advertisements/search?id&companyId")
+        let param = ["id": nil, "companyId": nil] as [String : Any?]
+        for (key, value) in param{
+            items.append(URLQueryItem(name: key, value: nil))
+        }
+        myURL?.queryItems = items
+        let query  = myURL?.url!.query
+        request.httpBody = Data(query!.utf8)*/
+        
+        var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/advertisements/\(advertisementID)/details")!)
+        request.httpMethod = "GET"
+        
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDToken() { idToken, error in
+          if let error = error {
+            // Handle error
+            return;
+          }
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue(idToken!, forHTTPHeaderField: "auth" )
+            let dataTask = session.dataTask(with: request) {(data, response, error) in
+                print("HERE: \(String.init(data: data!, encoding: .utf8))")
+                let decoder = JSONDecoder()
+                var advertisement = try! decoder.decode(SimpleAdvertisement.self, from: data!)
+                print("AdvertisementDetailLoaded")
+                DispatchQueue.main.async {
+                    self.delegate?.advertisementDetailLoaded(advertisement: advertisement)
+                }
+                    }
+          dataTask.resume()
+          // Send token to your backend via HTTPS
+          // ...
+        }
     }
 }

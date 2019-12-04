@@ -51,11 +51,14 @@ extension MenuViewController{
     }
     
     func logOut(){
-      /*  let welcomeViewController = storyboard?.instantiateViewController(identifier: "WelcomeVC") as! WelcomeViewController
-        //  view.window?.rootViewController = menuViewController
-          //view.window?.makeKeyAndVisible()
-        let nav = self.view.window?.rootViewController?.navigationController as! UINavigationController
-          nav.setViewControllers([welcomeViewController], animated: true)
-          self.dismiss(animated: true)*/
-          }
+        let welcomeViewController = storyboard?.instantiateViewController(identifier: "WelcomeVC") as! WelcomeViewController
+        if let navigationController = UIApplication.shared.keyWindow?.rootViewController as? UINavigationController{
+                navigationController.setViewControllers([welcomeViewController], animated: true)
+                self.dismiss(animated: true)
+            }
+        let user = Auth.auth().currentUser
+        if user != nil{
+            try! Auth.auth().signOut()
+        }
+    }
 }
