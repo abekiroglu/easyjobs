@@ -52,8 +52,9 @@ class ProfileViewController: UIViewController {
     private var datePicker: UIDatePicker?
     private var professionPicker: UIPickerView?
     var skillNum : Int = 0
-    var skills : [Bool] = [false,false,false]
-    var skillNames : [String] = []
+    var possibleSkills : [Skill] = []
+    var selectedSkills : [Skill] = []
+    var oldSkills: [Skill] = []
     
     let professionDataSource = ProfessionDataSource()
     let userHelper = UserHelper()
@@ -87,9 +88,16 @@ class ProfileViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
         
-        nameTextField.text = userHelper.loadedUser.name
-        surnameTextField.text = userHelper.loadedUser.surname
-        professionTextField.text = userHelper.loadedUser.profession.title
+        if userHelper.bigUser == true{
+            nameTextField.text = userHelper.bigLoadedUser.name
+            surnameTextField.text = userHelper.bigLoadedUser.surname
+            professionTextField.text = userHelper.bigLoadedUser.profession.title
+            oldSkills = userHelper.bigLoadedUser.skills
+        }else{
+            nameTextField.text = userHelper.loadedUser.name
+            surnameTextField.text = userHelper.loadedUser.surname
+            professionTextField.text = userHelper.loadedUser.profession.title
+        }
     }
     
     
@@ -115,7 +123,8 @@ class ProfileViewController: UIViewController {
             
             if card.center.x > self.view.center.x * 2{
                 // Move card to the right side
-                 self.skills[self.skillNum] = true
+                self.selectedSkills.append(possibleSkills[skillNum])
+                print("Skill \(selectedSkills.last?.description) added to selectedSkills")
                 if(skillNum == 2){
                     UIView.animate(withDuration: 0.4) {
                         card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
@@ -134,13 +143,13 @@ class ProfileViewController: UIViewController {
                         UIView.animate(withDuration: 1) {
                             self.cardView.center = self.view.center
                             self.cardView.alpha = 1
-                            self.cardLabel.text = self.skillNames[self.skillNum]
+                            self.cardLabel.text = self.possibleSkills[self.skillNum].description
                         }
                         
                     }
                 }
             } else if card.center.x < 0 {
-                self.skills[skillNum] =  false
+                //self.skills[skillNum] =  false
                 if (skillNum == 2){
                 // Move card to the left side
                     UIView.animate(withDuration: 0.4) {
@@ -159,7 +168,7 @@ class ProfileViewController: UIViewController {
                         UIView.animate(withDuration: 1) {
                             self.cardView.center = self.view.center
                             self.cardView.alpha = 1
-                            self.cardLabel.text = self.skillNames[self.skillNum]
+                            self.cardLabel.text = self.possibleSkills[self.skillNum].description
                         }
                         
                     }
@@ -201,38 +210,53 @@ class ProfileViewController: UIViewController {
                 professionInt = 2
             }
             
-      /*      let simpleProfessionObject : SimpleProfession = professionDataSource.getMatchingProfession(title: profession, professionList: professionDataSource.professionList)
-            let professionObject = Profession(title: simpleProfessionObject.title)
-            let simpleSkillList : [Skill] = professionDataSource.getSkills(profession: simpleProfessionObject)
-            var skillList : [Skill] = []
-            if s1Selecter.isOn {
-                skillList.append(Skill(description: simpleSkillList[0].description))
+            var newSkills: [Skill] = []
+            var deletedSkills: [Skill] = []
+            
+            
+            if userHelper.bigUser && oldSkills.count > 0 {
+                newSkills = professionDataSource.getNewSkills(oldSkills: oldSkills, selectedSkills: selectedSkills)
+                deletedSkills = professionDataSource.getDeletedSkills(oldSkills: oldSkills, selectedSkills: selectedSkills)
+            }else{
+                newSkills = selectedSkills
             }
-            if s2Selecter.isOn{
-                skillList.append(Skill(description: simpleSkillList[1].description))
+            
+            
+            if oldSkills.count > 0{
+                for i in 0...oldSkills.count-1{
+                    print("\(i)th old skill: \(oldSkills[i].description)")
+                }
+            }else{
+                print("There is no old skill")
             }
-            if s3Selecter.isOn{
-                skillList.append(Skill(description: simpleSkillList[2].description))
-            }*/
+            
+ 
+            if selectedSkills.count > 0{
+                for i in 0...selectedSkills.count-1{
+                    print("\(i)th selected skill: \(selectedSkills[i].description)")
+                }
+            }else{
+                print("There is no selected skill")
+            }
+            
+            if newSkills.count > 0{
+                for i in 0...newSkills.count-1{
+                    print("\(i)th new skill: \(newSkills[i].description)")
+                }
+            }
+            if deletedSkills.count > 0{
+                for i in 0...deletedSkills.count-1{
+                    print("\(i)th deleted skill: \(deletedSkills[i].description)")
+                }
+            }else{
+                print("There is no deleted skill")
+            }
             
             
-            userHelper.updateProfile(name: name, surname: surname, profession: professionInt)
-            
-            
-            
-           /* var professionObject = Profession(title: "x", description: "x", skills: [], advertisements: [], isDeleted: false)
-            
-            let professions : [Profession] = professionObject.getProfessions()
-            professionObject = professions[0]
-            let skills : [Skill] = professionObject.skills
-            var professionObject = Profession(title: "Software Developer")
-            let skills = professionObject.skills
-            
-            var user = User(email: email!, isValidated: false, comments: [], applications: [], isDeleted: false, birthDate: Date.init(), name: name, surname: surname, profession: professionObject, skills: skills, experiences: [])
-            
-            user.createProfile(email: email!, birthDate: Date.init(), name: name, surname: surname, profession: professionObject, skills: skills, experiences: [])*/
-            
-            
+            userHelper.updateProfile(name: name, surname: surname, profession: professionInt, newSkills: newSkills, deletedSkills: deletedSkills)
+            oldSkills =  selectedSkills
+            selectedSkills = []
+            possibleSkills = []
         }
     }
         

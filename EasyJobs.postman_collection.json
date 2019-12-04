@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "5f58b719-1d4e-4e17-9952-6ad1cc2cbbb0",
-		"name": "EasyJobs",
+		"_postman_id": "8b725724-2c71-4dd0-a383-c90442f7e170",
+		"name": "EasyJobs copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -119,7 +119,7 @@
 				"header": [
 					{
 						"key": "auth",
-						"value": "eyMhbGciOiJSUzI1NiIsImtpZCI6IjhhMzY5M2YxMzczZjgwYTI1M2NmYmUyMTVkMDJlZTMwNjhmZWJjMzYiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiQXRhaGFuIEJla2lyb2dsdSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9lYXN5am9icy1mYzEzNiIsImF1ZCI6ImVhc3lqb2JzLWZjMTM2IiwiYXV0aF90aW1lIjoxNTc0MzQzMjI1LCJ1c2VyX2lkIjoieTAwd1loeTVuaGF6dmdGVXRRQlZVOXVBdDQ2MyIsInN1YiI6InkwMHdZaHk1bmhhenZnRlV0UUJWVTl1QXQ0NjMiLCJpYXQiOjE1NzQzNDMyMjUsImV4cCI6MTU3NDM0NjgyNSwiZW1haWwiOiJhYmVraXJvZ2x1MTRAa3UuZWR1LnRyIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWJla2lyb2dsdTE0QGt1LmVkdS50ciJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.Q6gg9FDKO5mS2q23oT-sPIutsyE_L6m-EAT7UpTb1_BaJ1cOXYCO6mZz9tDT7f93pWsuIXzRbKvAA9yPp4NaT3bSScv3V23-NFmwc9s7gtOuqBPN9laS-OeJct-hY5h_0R7IlEVHsQUc2RW9keKzZU7cbXjdKcdOBnOp675iFj0sagG0n5lwOcWH18oqSB5fe1y2ngFL6OC6hloZt-dndsBqHX2RcmJu0tBejFsWKs5Dwocy5s-iTTcDbtU4WLD0w3VUwlp0mClszi_9I7K1ksWhmAtMQnYdZWGvuIYmN0Kaxv48ejfp6qDeWfx7GIFpS659LDrqBqPuY75viUvCPQ",
+						"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjhhMzY5M2YxMzczZjgwYTI1M2NmYmUyMTVkMDJlZTMwNjhmZWJjMzYiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiQXRhaGFuIEJla2lyb2dsdSIsImlzcyI6Imh0dHBzOi8vc2VjdXJldG9rZW4uZ29vZ2xlLmNvbS9lYXN5am9icy1mYzEzNiIsImF1ZCI6ImVhc3lqb2JzLWZjMTM2IiwiYXV0aF90aW1lIjoxNTc0MzQzMjI1LCJ1c2VyX2lkIjoieTAwd1loeTVuaGF6dmdGVXRRQlZVOXVBdDQ2MyIsInN1YiI6InkwMHdZaHk1bmhhenZnRlV0UUJWVTl1QXQ0NjMiLCJpYXQiOjE1NzQzNDMyMjUsImV4cCI6MTU3NDM0NjgyNSwiZW1haWwiOiJhYmVraXJvZ2x1MTRAa3UuZWR1LnRyIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsiYWJla2lyb2dsdTE0QGt1LmVkdS50ciJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.Q6gg9FDKO5mS2q23oT-sPIutsyE_L6m-EAT7UpTb1_BaJ1cOXYCO6mZz9tDT7f93pWsuIXzRbKvAA9yPp4NaT3bSScv3V23-NFmwc9s7gtOuqBPN9laS-OeJct-hY5h_0R7IlEVHsQUc2RW9keKzZU7cbXjdKcdOBnOp675iFj0sagG0n5lwOcWH18oqSB5fe1y2ngFL6OC6hloZt-dndsBqHX2RcmJu0tBejFsWKs5Dwocy5s-iTTcDbtU4WLD0w3VUwlp0mClszi_9I7K1ksWhmAtMQnYdZWGvuIYmN0Kaxv48ejfp6qDeWfx7GIFpS659LDrqBqPuY75viUvCPQ",
 						"type": "text"
 					}
 				],
@@ -323,15 +323,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\":\"testcompany@company.com\",\n\t\"password\":\"ezjobs\",\n\t\"name\":\"Test Company\"\n}"
+					"raw": "{\n\t\"email\":\"asd@company.com\",\n\t\"password\":\"ezjobs\",\n\t\"name\":\"Test Company\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/v1/companies/signup",
-					"protocol": "http",
+					"raw": "ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/companies/signup",
 					"host": [
-						"localhost"
+						"ec2-18-197-78-52",
+						"eu-central-1",
+						"compute",
+						"amazonaws",
+						"com"
 					],
-					"port": "8080",
 					"path": [
 						"v1",
 						"companies",
@@ -381,7 +383,7 @@
 				"header": [
 					{
 						"key": "auth",
-						"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjhhMzY5M2YxMzczZjgwYTI1M2NmYmUyMTVkMDJlZTMwNjhmZWJjMzYiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiVGVzdCBDb21wYW55IiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2Vhc3lqb2JzLWZjMTM2IiwiYXVkIjoiZWFzeWpvYnMtZmMxMzYiLCJhdXRoX3RpbWUiOjE1NzQyNDYwOTQsInVzZXJfaWQiOiJnMEYyNEM1alR6T1haQjVVQTRCRm5GWUlkbmkxIiwic3ViIjoiZzBGMjRDNWpUek9YWkI1VUE0QkZuRllJZG5pMSIsImlhdCI6MTU3NDI0NjA5NCwiZXhwIjoxNTc0MjQ5Njk0LCJlbWFpbCI6InRlc3Rjb21wYW55QGNvbXBhbnkuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdGNvbXBhbnlAY29tcGFueS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ZtCDTD6QiM6IJ5DxK6U_4SdPCMPrqUqIVQFgFWy2K5U3ACe07k8jixh_B8Xg53RzqrZqELNZx_1KhT6p67gTQxpRn1X1BZsbdezEybvBPiIbmq0BCze31eWFEr9zknaMmHx6myVA0cir9N1hc-BOGjfIs_0zAoot3454Sg3xVsUtUVTejrckoZcFqB73VkO28Sm0HhcZ-cjQ5Wszoh7NvgMelNDaLYIEJdsGJKYw6Bl1PHsxIXRiGJ4E8vSOkveNg-DrnVg3EbyLtuZVuNHbcxYCHxiMagEYSFE2qL27BLscqnEZRAudX_8WKju6GEO3cXIORFs9curPxrTV7lM9kw",
+						"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjA0NjUxMTM5ZDg4NzUyYjY0OTM0MjUzNGE2YjRhMDUxMjVkNzhmYmIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiVGVzdCBDb21wYW55IiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2Vhc3lqb2JzLWZjMTM2IiwiYXVkIjoiZWFzeWpvYnMtZmMxMzYiLCJhdXRoX3RpbWUiOjE1NzU0NzQxODEsInVzZXJfaWQiOiJnMEYyNEM1alR6T1haQjVVQTRCRm5GWUlkbmkxIiwic3ViIjoiZzBGMjRDNWpUek9YWkI1VUE0QkZuRllJZG5pMSIsImlhdCI6MTU3NTQ3NDE4MSwiZXhwIjoxNTc1NDc3NzgxLCJlbWFpbCI6InRlc3Rjb21wYW55QGNvbXBhbnkuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdGNvbXBhbnlAY29tcGFueS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.lY5JX3HjOi2HELJVIN0HHVC2xLCyUYbJbm1zyT5q7v7b34fxVyLSglvqIznoOQzrtJauiwT5QFKEiqPXe2fs6tL0kQ4xoX_JHtAcnx-NUbd2XKPifsNtOKwLQnuFINDLfIw79CmczHGazEop9BIchQr-kv12eKAPk8_Bagsl02zunRwHytefjnv2GtlVF3bChPXjmDHrQaVjlsgoufJVgb8z6b2sOkyuMALl1hUubmOCOb3k8FPbxtBjn_w8aC_kjbbLpiCKtROavI1Z5ScFG2Fk-Y5mAPmGIb8CLM-0qH7e1vQTYWLvMyb6ZLJh8TIF3UBsCxuT9vFWg87ehV_uuA",
 						"type": "text"
 					}
 				],
@@ -498,7 +500,7 @@
 					"raw": "{\n\t\"professionId\":2,\n\t\"validUntil\":\"01-01-2020\",\n\t\"description\":\"Software Developer Advertisement\",\n\t\"requirements\":[\n\t\t{\"weight\": 1.0, \"skillId\": 0 },\n\t\t{\"weight\": 1.0, \"skillId\": 1 },\n\t\t{\"weight\": 1.0, \"skillId\": 2 }\n\t\t],\n\t\"publishDate\":\"20-11-2019\"\n}"
 				},
 				"url": {
-					"raw": "ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/signup",
+					"raw": "ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/advertisements",
 					"host": [
 						"ec2-18-197-78-52",
 						"eu-central-1",
@@ -508,8 +510,7 @@
 					],
 					"path": [
 						"v1",
-						"users",
-						"signup"
+						"advertisements"
 					]
 				}
 			},
@@ -522,7 +523,7 @@
 				"header": [
 					{
 						"key": "auth",
-						"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjhhMzY5M2YxMzczZjgwYTI1M2NmYmUyMTVkMDJlZTMwNjhmZWJjMzYiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiVGVzdCBDb21wYW55IiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2Vhc3lqb2JzLWZjMTM2IiwiYXVkIjoiZWFzeWpvYnMtZmMxMzYiLCJhdXRoX3RpbWUiOjE1NzQyNTM4NzAsInVzZXJfaWQiOiJnMEYyNEM1alR6T1haQjVVQTRCRm5GWUlkbmkxIiwic3ViIjoiZzBGMjRDNWpUek9YWkI1VUE0QkZuRllJZG5pMSIsImlhdCI6MTU3NDI1Mzg3MCwiZXhwIjoxNTc0MjU3NDcwLCJlbWFpbCI6InRlc3Rjb21wYW55QGNvbXBhbnkuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdGNvbXBhbnlAY29tcGFueS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.hdFojNN1igtWwN8bjl9uY1BjmeRhIXY4jsUQ0A2XsDqcfGpz9JP98ILfwGe5t2LC_6UTIyU9yPOgGtuSugbGinT_43WMtTJAZ-I9PaNGHlzy1ACdexrGd6XeEL4uFKjj6ifojyIdDuf54V8NUQ9-9IWTvDW8_cA4iZ1HKTyNoXy0zbdD3vTh3Eh2udGbjFvb6i9EbtehLh_dtdLyWb1f83T5CLj_n20bfpUl52D33dUz173Bizdbd65ylvAXBHEJWfj-1m4UpHJnCydtBrtOjO30QG0NKxxVSAV_x8JR5-lqQBVrTgYaAYq-FcdLSuJwrc0d6ILeE_qH9FjR_9QhPQ",
+						"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjA0NjUxMTM5ZDg4NzUyYjY0OTM0MjUzNGE2YjRhMDUxMjVkNzhmYmIiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiVGVzdCBDb21wYW55IiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2Vhc3lqb2JzLWZjMTM2IiwiYXVkIjoiZWFzeWpvYnMtZmMxMzYiLCJhdXRoX3RpbWUiOjE1NzU0NzYyMjksInVzZXJfaWQiOiJnMEYyNEM1alR6T1haQjVVQTRCRm5GWUlkbmkxIiwic3ViIjoiZzBGMjRDNWpUek9YWkI1VUE0QkZuRllJZG5pMSIsImlhdCI6MTU3NTQ3NjIyOSwiZXhwIjoxNTc1NDc5ODI5LCJlbWFpbCI6InRlc3Rjb21wYW55QGNvbXBhbnkuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsidGVzdGNvbXBhbnlAY29tcGFueS5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.tSbKqOJHIhWWkKjByUf3pRF0YRjoTZnu6W7nHkA3hUHiIRwxTsd-dHIz1ssK9TnZSwDomvv1oqmEpy7tJ8-4zde-TbyNB4Er6v9kYA3D8AJUaok8Of-79dlNjEHqiBr3Pa4VfHZCG-UqyGn2MH71cIM9ix4uVRUUCLVwEpXdIHvFKQ2TencgrctSDQ2U0JelMUptu8i0CLa5iPx5LMeB75Yt7Ihejz4uYAW1pwctxjJ328HSpY0RBVYx-rLwkpamPm-bPyQoAAdGbnTj4vLPCQf5PIYFjilVc4ETPiAOT83ARa0eTa_21axdabxSWsKzqEcg5FZyrIwcfMNkexnMhQ",
 						"type": "text"
 					}
 				],
@@ -720,7 +721,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"abekiroglu14@ku.edu.tr\",\n\t\"password\": \"ezjobs\",\n\t\"returnSecureToken\": \"true\"\n}"
+					"raw": "{\n\t\"email\": \"testcompany@company.com\",\n\t\"password\": \"ezjobs\",\n\t\"returnSecureToken\": \"true\"\n}"
 				},
 				"url": {
 					"raw": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=\nAIzaSyC872wZNSFlc_iBSbZsHZ1OSOi2MG8Adn4",

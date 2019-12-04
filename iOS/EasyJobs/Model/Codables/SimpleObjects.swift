@@ -8,60 +8,6 @@
 
 import Foundation
 
-struct SimpleAdvertisement: Codable{
-    var id : Int
-    var publishDate: Date
-    var validUntil: Date
-    var description: String
-    var company: Company
-    var matchRate: Double
-}
-struct SimpleCompany: Codable{
-    var id: Int
-    var email: String
-    var foundedDate: Date
-    var name: String
-    var description: String
-    var picture: String
-}
-
-struct SimpleProfession: Codable{
-    var id: Int
-    var title: String
-    var description: String
-    var skills: [SkillGroup]
-    
-    init(title: String){
-        self.title = title
-        description = title
-        skills = []
-        id = 0
-       }
-}
-
-struct SimpleUser: Codable{
-    var id: Int
-    var email: String
-    var birthDate: Date
-    var name: String
-    var surname: String
-    var profession: Profession
-    var skills: [Skill]
-    var experiences: [Experience]
-    var picture: String
-    init(){
-        id = 0
-        email = ""
-        birthDate = Date()
-        name = ""
-        surname = ""
-        profession = Profession(title: "")
-        skills = []
-        experiences = []
-        picture = ""
-    }
-}
-
 struct UserSignUpRequest: Codable{
     var username: String
     var password: String
@@ -79,7 +25,7 @@ struct UserSignUpRequest: Codable{
 }
 
 struct UserUpdateRequest: Codable{
-    var birthDate: Date?
+    var birthDate: String?
     var name: String
     var surname: String
     var profession: Int
@@ -87,7 +33,7 @@ struct UserUpdateRequest: Codable{
     var deletedExperiences: [ExperienceWrapper]
     var newSkills: [Skill]
     var deletedSkills: [Skill]
-    init(birthDate: Date?, name: String, surname: String, profession: Int, newExperiences: [ExperienceWrapper], deletedExperiences: [ExperienceWrapper], newSkills: [Skill], deletedSkills: [Skill]){
+    init(birthDate: String?, name: String, surname: String, profession: Int, newExperiences: [ExperienceWrapper], deletedExperiences: [ExperienceWrapper], newSkills: [Skill], deletedSkills: [Skill]){
         self.birthDate = birthDate
         self.name = name
         self.surname = surname
@@ -98,7 +44,7 @@ struct UserUpdateRequest: Codable{
         self.deletedSkills = deletedSkills
     }
     init(){
-        birthDate = Date()
+        birthDate = ""
         name = ""
         surname = ""
         profession = 1
@@ -116,6 +62,16 @@ struct ExperienceWrapper: Codable{
     var companyId: Int
     var professionId: Int
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
