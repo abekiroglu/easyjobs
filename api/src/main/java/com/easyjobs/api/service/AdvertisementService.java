@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -178,18 +179,27 @@ public class AdvertisementService {
             return new Response<>(new ErrorResponse("401", "Authenticated user should not be a company"), HttpStatus.UNAUTHORIZED);
         }
         try {
+            User user =  userRepository.findOneByEmail(authentication.getName());
             if (companyId != null && id != null) {
                 return new Response<>(new ErrorResponse("409", "Too many parameters"), HttpStatus.CONFLICT);
             } else if (id != null) {
-                return new Response<>(advertisementRepository.findOneById(id), HttpStatus.OK);
+                Advertisement dbAdvertisement = advertisementRepository.findOneById(id);
+                if(dbAdvertisement.getValidUntil().toInstant().isAfter(Instant.now()) && !dbAdvertisement.getDeleted()){
+                    return new Response<>(new SimpleAdvertisement(dbAdvertisement, user.getSkills()), HttpStatus.OK);
+                }else{
+                    return new Response<>(null, HttpStatus.OK);
+                }
             } else if (companyId != null) {
-                return new Response<>(companyRepository.findOneById(companyId).getAdvertisements(), HttpStatus.OK);
+                return new Response<>(companyRepository.findOneById(companyId).getAdvertisements().stream()
+                        .filter(advertisement -> !advertisement.getDeleted() && advertisement.getValidUntil().toInstant().isAfter(Instant.now()))
+                        .map(advertisement -> new SimpleAdvertisement(advertisement, user.getSkills())).collect(Collectors.toList()), HttpStatus.OK);
             } else {
                 //TODO match users skills with the ad requirements
-                User user =  userRepository.findOneByEmail(authentication.getName());
                 List<Advertisement> advertisements = user.getProfession().getAdvertisements();
 
-                List<SimpleAdvertisement> response = advertisements.stream().map(advertisement -> new SimpleAdvertisement(advertisement, user.getSkills())).collect(Collectors.toList());
+                List<SimpleAdvertisement> response = advertisements.stream()
+                        .filter(advertisement -> !advertisement.getDeleted() && advertisement.getValidUntil().toInstant().isAfter(Instant.now()))
+                        .map(advertisement -> new SimpleAdvertisement(advertisement, user.getSkills())).collect(Collectors.toList());
                 response.removeIf(ad -> ad.getMatchRate() <= 0.5 || ad.getMatchRate().isNaN());
                 return new Response<>(response, HttpStatus.OK);
             }
@@ -224,6 +234,7 @@ public class AdvertisementService {
             jobApplication.setAppliedTo(advertisement.getCompany());
             jobApplication.setPostDate(new Date());
             jobApplication.setResolved(false);
+            jobApplication.setAdvertisementId(advertisement.getId());
             //TODO Enumerate
             jobApplication.setIssuedBy("User");
 

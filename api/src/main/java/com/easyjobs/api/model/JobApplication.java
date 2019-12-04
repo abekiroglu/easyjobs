@@ -24,6 +24,7 @@ public class JobApplication extends BaseModel{
     @JsonBackReference(value="company_applications")
     private Company appliedTo;
     private String issuedBy;
+    private int advertisementId;
 
     @Override
     public int getId() {
@@ -74,5 +75,13 @@ public class JobApplication extends BaseModel{
 
     public void setIssuedBy(String issuedBy) {
         this.issuedBy = issuedBy;
+    }
+
+    public int getAdvertisementId() {
+        return advertisementId;
+    }
+
+    public void setAdvertisementId(int advertisementId) {
+        this.advertisementId = advertisementId;
     }
 }

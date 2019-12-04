@@ -183,6 +183,7 @@ public class CompanyService {
             jobApplication.setPostDate(new Date());
             jobApplication.setAppliedTo(dbAdvertisement.getCompany());
             jobApplication.setApplicant(dbUser);
+            jobApplication.setAdvertisementId(dbAdvertisement.getId());
             //TODO Enumerate
             jobApplication.setIssuedBy("Company");
 
