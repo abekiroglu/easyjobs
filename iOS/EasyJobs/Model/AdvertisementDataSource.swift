@@ -12,11 +12,13 @@ import Firebase
 protocol AdvertisementDataSourceDelegate{
     func advertisementListLoaded(advertisementList: [SimpleAdvertisement])
     func advertisementDetailLoaded(advertisement: SimpleAdvertisement)
+    func jobApplied()
 }
 
 extension AdvertisementDataSourceDelegate{
     func advertisementListLoaded(advertisementList: [SimpleAdvertisement]) {}
     func advertisementDetailLoaded(advertisement: SimpleAdvertisement) {}
+    func jobApplied(){}
 }
 
 class AdvertisementDataSource{
@@ -27,6 +29,33 @@ class AdvertisementDataSource{
     init(){}
     
     
+    func applyForJob(advertisementID: Int){
+        
+        let session = URLSession.shared
+         var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/advertisements/\(advertisementID)/apply")!)
+         request.httpMethod = "GET"
+         
+         let currentUser = Auth.auth().currentUser
+         currentUser?.getIDToken() { idToken, error in
+           if let error = error {
+             // Handle error
+             return;
+           }
+             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+             request.addValue(idToken!, forHTTPHeaderField: "auth" )
+             let dataTask = session.dataTask(with: request) {(data, response, error) in
+                
+                 print("Applied for job!")
+                
+                 DispatchQueue.main.async {
+                     self.delegate?.jobApplied()
+                 }
+                     }
+           dataTask.resume()
+           // Send token to your backend via HTTPS
+           // ...
+         }
+    }
     
     func loadAdvertisementList(){
         

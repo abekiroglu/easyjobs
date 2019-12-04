@@ -56,21 +56,29 @@ class ProfessionDataSource{
         var newSkills: [Skill] = []
         if selectedSkills.isEmpty{}
         else{
-            var addElement: Bool = true
+            //print("Getting New Skills")
+            var addElement: Bool
             for i in 0...selectedSkills.count-1{
+                addElement =  true
                 for j in 0...oldSkills.count-1{
                     if selectedSkills[i].description == oldSkills[j].description{
                         addElement = false
+                        //print("SelectedSkill: \(selectedSkills[i].description) is not new")
                     }
                 }
-                if addElement {newSkills.append(selectedSkills[i])}
+                //print("Skill: \(selectedSkills[i].description), addElement: \(addElement)")
+                if addElement {
+                    newSkills.append(selectedSkills[i])
+                    //print("New Skill: \(selectedSkills[i])")
+                }
+                
             }
         }
         return newSkills
     }
     
     func getDeletedSkills(oldSkills: [Skill], selectedSkills: [Skill]) -> [Skill]{
-        print("Inside get deleted skills")
+        //print("Inside get deleted skills")
         var deletedSkills: [Skill] = []
         if selectedSkills.count < 1{
             deletedSkills = oldSkills

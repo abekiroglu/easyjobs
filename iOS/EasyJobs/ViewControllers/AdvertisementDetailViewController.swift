@@ -12,6 +12,9 @@ extension AdvertisementDetailViewController: AdvertisementDataSourceDelegate{
     func advertisementDetailLoaded(advertisement: SimpleAdvertisement){
         
     }
+    func jobApplied(){
+        applyButton.setTitle("Cancel Application", for: .normal)
+    }
 }
 
 class AdvertisementDetailViewController: UIViewController {
@@ -62,5 +65,12 @@ class AdvertisementDetailViewController: UIViewController {
         }
     }
     
-
+    @IBAction func applyButtonTapped(_ sender: Any) {
+        if applyButton.title(for: .normal) == "Apply!"{
+            if let selectedAdvertisement = advertisement{
+                advertisementDataSource.applyForJob(advertisementID: selectedAdvertisement.id)
+            }
+        }
+    }
+    
 }

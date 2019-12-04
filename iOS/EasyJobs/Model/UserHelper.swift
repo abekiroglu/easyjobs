@@ -41,7 +41,6 @@ class UserHelper{
         bigLoadedUser = LoadUserUser()
         bigUser = false
     }
-
     
     func signUp(password: String, email: String, username: String, name: String, surname: String){
         self.userSignUpRequest = UserSignUpRequest(password: password, email: email, username: username, name: name, surname: surname)
