@@ -6,7 +6,7 @@ import { Col, Row } from 'reactstrap';
 import { Link, NavLink } from 'react-router-dom';
 
 import { redirect } from '../actions/navigation';
-import { PasswordInput } from '../components/passwordInput';
+import { ErrorField } from '../components/errorField';
 import { TextBoxInput} from '../components/textBoxInput';
 import { CheckBox } from '../components/checkBox';
 import { DateInput } from '../components/dateInput';
@@ -110,7 +110,10 @@ render() {
                 </div>
             </Col>
         </Row>
-        
+        <div className="login-form-div" />
+            <button type="submit" className="btn btn-success"> Add Advertisement </button>
+             <ErrorField error={this.props.error} />
+
         </div>
         </form>
            </div>        
