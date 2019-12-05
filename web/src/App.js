@@ -7,8 +7,8 @@ import SignupContainer from './containers/signupContainer';
 import AboutContainer from './containers/aboutContainer';
 import UpdateProfileContainer from './containers/updateProfileContainer';
 import NewAdvertisementContainer from './containers/_newAdvertisementContainer';
-
-
+import NavigationBarContainer from './containers/navigationBarContainer';
+import RedirectToLanding from './components/redirectToLanding'
 
 
 class App extends Component {
@@ -16,10 +16,14 @@ class App extends Component {
     return (
       <Router history={history}>
         <div className="wrap">
-          <Route exact path="/" component={LoginContainer} />
-          <Route exact path="/main" component={MainContainer} />
+          <Route exact path="/" component={RedirectToLanding} />
+          <Route exact path="/login" component={LoginContainer} />
           <Route exact path="/sign-up" component={SignupContainer} />
           <Route exact path="/about" component={AboutContainer} />
+
+          <Route path="/main" component={NavigationBarContainer} />
+
+          <Route exact path="/main" component={MainContainer} />
           <Route exact path="/update-profile" component={UpdateProfileContainer} />
           <Route exact path="/add-advr" component={NewAdvertisementContainer} />
 
