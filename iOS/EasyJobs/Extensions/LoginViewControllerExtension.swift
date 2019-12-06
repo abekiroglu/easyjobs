@@ -12,15 +12,35 @@ import FirebaseAuth
 
 extension LoginViewController{
     
+    func showLoadingScreent(){
+        loadingView.bounds.size.width = view.bounds.width
+        loadingView.bounds.size.height = view.bounds.height
+        loadingView.center = contentView.center
+        
+        contentView.addSubview(loadingView)
+    
+    }
+    
+    func closeLoadingScreen(){
+        loadingView.removeFromSuperview()
+    }
+    
     func login(){
+        
+        showLoadingScreent()
+        
         let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
+        
+        print("Logging in now")
         Auth.auth().signIn(withEmail: email, password: password) { (loginResult, loginError) in
             if loginError != nil{
+                print(loginError)
                 self.errorLabel.text = "Wrong email or password"
                 self.errorLabel.alpha = 1
             } else{
+                print("Logged in")
                 let currentUser = Auth.auth().currentUser
                 currentUser?.getIDToken{ idToken, error in
                   if let error = error {
@@ -31,6 +51,7 @@ extension LoginViewController{
                     print(idToken)
                     self.goToMenu()
                     }
+                    self.closeLoadingScreen()
                 }
             }
         }

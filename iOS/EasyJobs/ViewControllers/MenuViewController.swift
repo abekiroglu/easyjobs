@@ -56,4 +56,24 @@ class MenuViewController: UIViewController {
         logOut()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        let button =  sender as! DesignableButton
+        if button.title(for: .normal) == "Dream Job" ||
+                button.title(for: .normal) == "Applications"{
+            var appIDs: [Int] = []
+            if userHelper.bigUser && userHelper.bigLoadedUser.applications.count>0 {
+                for application in userHelper.bigLoadedUser.applications{
+                    appIDs.append(application.advertisementId)
+                }
+            }
+            let destination =  segue.destination as! AdvertisementViewController
+            destination.advertisementIDs = appIDs
+            print("Number of applications:  \(appIDs.count)")
+            
+            if button.titleLabel?.text == "Applications"{
+                destination.isApplications = true
+            }
+        }
+    }
+    
 }

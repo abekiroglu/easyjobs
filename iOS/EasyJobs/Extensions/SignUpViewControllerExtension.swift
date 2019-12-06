@@ -46,6 +46,8 @@ extension SignUpViewController{
                let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                
                userHelper.signUp(password: password, email: email, username: username, name: name, surname: surname)
+            
+            
            }
            
        }

@@ -50,8 +50,9 @@ extension ProfileViewController{
     }
     
     func showError(_ message: String){
-            errorLabel.text = message
-            errorLabel.alpha = 1
+        errorLabel.textColor = UIColor.red
+        errorLabel.text = message
+        errorLabel.alpha = 1
         }
     
         func goToMenu(){
@@ -85,6 +86,8 @@ extension ProfileViewController{
             UIView.animate(withDuration: 0.5) {
             self.cardView.center = self.view.center
             self.cardView.alpha = 1
+                print("Possible skill count: \(self.possibleSkills.count)")
+                print("Skill Num: \(self.skillNum)")
                 self.cardLabel.text = self.possibleSkills[self.skillNum].description
             }
         }

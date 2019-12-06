@@ -107,12 +107,37 @@
                         <blurEffect style="regular"/>
                     </visualEffectView>
                     <connections>
+                        <outlet property="contentView" destination="CbD-Xc-xB4" id="Qqc-O0-HHA"/>
                         <outlet property="emailTextField" destination="5ak-LR-LKZ" id="Epc-ht-zxb"/>
                         <outlet property="errorLabel" destination="bhU-sJ-i2N" id="iKx-zf-L1S"/>
+                        <outlet property="loadingView" destination="Xoa-hb-GjM" id="jIt-Hp-ZP9"/>
                         <outlet property="passwordTextField" destination="wtb-Sx-oKQ" id="npv-ke-tsE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rfv-6U-dBv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="Xoa-hb-GjM">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="EasyJobsMinalandin" translatesAutoresizingMaskIntoConstraints="NO" id="VzJ-iF-Gsr">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logging In..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YaE-lw-aF2">
+                            <rect key="frame" x="0.0" y="418" width="414" height="60"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="YaE-lw-aF2" firstAttribute="centerY" secondItem="Xoa-hb-GjM" secondAttribute="centerY" id="8db-a8-MNv"/>
+                        <constraint firstItem="YaE-lw-aF2" firstAttribute="trailing" secondItem="MQW-G1-5Qc" secondAttribute="trailing" id="Jz6-18-u8C"/>
+                        <constraint firstItem="YaE-lw-aF2" firstAttribute="leading" secondItem="MQW-G1-5Qc" secondAttribute="leading" id="Qjn-19-I46"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="MQW-G1-5Qc"/>
+                </view>
             </objects>
             <point key="canvasLocation" x="-1271.0144927536232" y="-381.02678571428572"/>
         </scene>
@@ -219,13 +244,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EasyJobs0" translatesAutoresizingMaskIntoConstraints="NO" id="qSJ-pU-YLr" userLabel="BackgroundImage">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EasyJobsBlurred" translatesAutoresizingMaskIntoConstraints="NO" id="qSJ-pU-YLr" userLabel="BackgroundImage">
                                 <rect key="frame" x="0.0" y="-100" width="414" height="897"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="qSJ-pU-YLr" secondAttribute="height" multiplier="6:13" id="zZa-jg-zHO"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dreamJob-1" translatesAutoresizingMaskIntoConstraints="NO" id="NlR-RZ-HdX">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NlR-RZ-HdX">
                                 <rect key="frame" x="167" y="40" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="NlR-RZ-HdX" secondAttribute="height" multiplier="1:1" id="C9i-VP-vY4"/>
@@ -413,7 +438,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EasyJobs0" translatesAutoresizingMaskIntoConstraints="NO" id="0ZM-wm-BiZ">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" tag="1" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EasyJobsMinalandin" translatesAutoresizingMaskIntoConstraints="NO" id="0ZM-wm-BiZ">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="0ZM-wm-BiZ" secondAttribute="height" multiplier="207:448" id="9rj-W9-7Pi"/>
@@ -516,10 +541,10 @@
                             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Xm-qJ-YPB">
+                                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Xm-qJ-YPB">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="euK-b7-z8v" userLabel="ContentView">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="euK-b7-z8v" userLabel="ContentView">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HWQ-E2-cox">
@@ -631,8 +656,10 @@
                                     <constraints>
                                         <constraint firstItem="HWQ-E2-cox" firstAttribute="height" secondItem="3Xm-qJ-YPB" secondAttribute="height" id="5yU-Nd-dsP"/>
                                         <constraint firstAttribute="bottom" secondItem="euK-b7-z8v" secondAttribute="bottom" constant="50" id="AwL-hR-oYy"/>
+                                        <constraint firstItem="euK-b7-z8v" firstAttribute="centerX" secondItem="3Xm-qJ-YPB" secondAttribute="centerX" id="JE9-LJ-FQO"/>
                                         <constraint firstItem="HWQ-E2-cox" firstAttribute="width" secondItem="3Xm-qJ-YPB" secondAttribute="width" id="LjL-3t-ufG"/>
                                         <constraint firstItem="euK-b7-z8v" firstAttribute="top" secondItem="3Xm-qJ-YPB" secondAttribute="top" id="YqI-Tw-k2q"/>
+                                        <constraint firstAttribute="trailing" secondItem="euK-b7-z8v" secondAttribute="trailing" id="bqX-B5-YNh"/>
                                     </constraints>
                                     <viewLayoutGuide key="contentLayoutGuide" id="Scf-eP-hzb"/>
                                     <viewLayoutGuide key="frameLayoutGuide" id="VHz-Aj-ufA"/>
@@ -651,8 +678,10 @@
                         <blurEffect style="regular"/>
                     </visualEffectView>
                     <connections>
+                        <outlet property="contentView" destination="j0K-4t-ZoT" id="xQu-BU-J96"/>
                         <outlet property="emailTextField" destination="TKa-L7-3Bp" id="rJK-l3-VQP"/>
                         <outlet property="errorLabel" destination="3fH-90-jdX" id="ZOp-zB-w4v"/>
+                        <outlet property="loadingView" destination="NId-fa-ux9" id="TqD-cv-3eA"/>
                         <outlet property="nameTextField" destination="eKI-d7-kQe" id="iqm-5w-xXQ"/>
                         <outlet property="passwordTextField" destination="TAZ-0c-v21" id="PoO-MQ-4CL"/>
                         <outlet property="signUpButton" destination="hKK-Em-geG" id="ir0-b6-lGY"/>
@@ -661,8 +690,37 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vNd-rN-PVC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="NId-fa-ux9">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EasyJobsMinalandin" translatesAutoresizingMaskIntoConstraints="NO" id="uil-wa-Oyz">
+                            <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="896" id="juI-al-nBU"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Signing Up..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ssg-es-WSb">
+                            <rect key="frame" x="0.0" y="418" width="414" height="60"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="mql-q2-4QT" firstAttribute="top" secondItem="uil-wa-Oyz" secondAttribute="top" id="API-UH-SwN"/>
+                        <constraint firstItem="Ssg-es-WSb" firstAttribute="leading" secondItem="mql-q2-4QT" secondAttribute="leading" id="Xfo-9d-g12"/>
+                        <constraint firstItem="uil-wa-Oyz" firstAttribute="leading" secondItem="mql-q2-4QT" secondAttribute="leading" id="Z8e-uk-Oai"/>
+                        <constraint firstItem="Ssg-es-WSb" firstAttribute="centerY" secondItem="NId-fa-ux9" secondAttribute="centerY" id="cbq-iH-41j"/>
+                        <constraint firstItem="Ssg-es-WSb" firstAttribute="trailing" secondItem="mql-q2-4QT" secondAttribute="trailing" id="lKz-jz-h0t"/>
+                        <constraint firstItem="uil-wa-Oyz" firstAttribute="trailing" secondItem="mql-q2-4QT" secondAttribute="trailing" id="sv8-0k-Iem"/>
+                        <constraint firstItem="uil-wa-Oyz" firstAttribute="bottom" secondItem="mql-q2-4QT" secondAttribute="bottom" id="xZe-dC-g0y"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="mql-q2-4QT"/>
+                </view>
             </objects>
-            <point key="canvasLocation" x="-1259.4202898550725" y="999.77678571428567"/>
+            <point key="canvasLocation" x="-2025" y="1647"/>
         </scene>
         <!--Profile-->
         <scene sceneID="hTO-qm-hNF">
@@ -678,7 +736,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pB5-1Y-uy2" userLabel="Content View">
                                         <rect key="frame" x="8" y="8" width="398" height="762"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EasyJobs0" translatesAutoresizingMaskIntoConstraints="NO" id="P0g-63-RmC">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EasyJobsBlurred" translatesAutoresizingMaskIntoConstraints="NO" id="P0g-63-RmC">
                                                 <rect key="frame" x="-8" y="-58" width="414" height="897"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="P0g-63-RmC" secondAttribute="height" multiplier="6:13" id="ega-pz-SMX"/>
@@ -907,8 +965,8 @@
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AnimationTest" translatesAutoresizingMaskIntoConstraints="NO" id="KIR-Tw-hem">
-                                                        <rect key="frame" x="17" y="-57.333333333333314" width="291" height="720"/>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CompLang" translatesAutoresizingMaskIntoConstraints="NO" id="KIR-Tw-hem">
+                                                        <rect key="frame" x="17" y="-2.6666666666666288" width="291" height="611"/>
                                                     </imageView>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="tick" translatesAutoresizingMaskIntoConstraints="NO" id="vnf-ix-h0D">
                                                         <rect key="frame" x="59.999999999999986" y="158" width="203.33333333333331" height="249.33333333333337"/>
@@ -989,21 +1047,68 @@
                         <outlet property="editInformationLabel" destination="Faf-br-Uyl" id="iOi-cU-zuy"/>
                         <outlet property="errorLabel" destination="pMn-CY-6PB" id="Uve-4J-Twp"/>
                         <outlet property="experienceTextField" destination="vjr-Lt-vYI" id="N2R-En-apb"/>
+                        <outlet property="loadingView" destination="g6g-KS-RGe" id="MBC-oK-Xz8"/>
                         <outlet property="nameTextField" destination="XHQ-6s-DfK" id="AcY-3R-K4U"/>
                         <outlet property="professionTextField" destination="KQi-8u-uPp" id="GOO-cx-84m"/>
                         <outlet property="saveButton" destination="b5e-ge-4SO" id="eef-8T-upy"/>
+                        <outlet property="shineView" destination="b4t-lJ-WSv" id="H7E-FQ-kvi"/>
                         <outlet property="surnameTextField" destination="4T6-p8-1dk" id="c8l-qt-4sQ"/>
                         <outlet property="tickImageView" destination="vnf-ix-h0D" id="KYe-Rl-Hz3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S37-KR-bQ1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="g6g-KS-RGe">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="EasyJobsMinalandin" translatesAutoresizingMaskIntoConstraints="NO" id="XWc-p5-pkh" customClass="DesignableImageView" customModule="EasyJobs" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </imageView>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b4t-lJ-WSv" customClass="GradientView" customModule="EasyJobs" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="669" width="414" height="173"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
+                                    <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="thirdColor">
+                                    <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="secondColor">
+                                    <color key="value" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Updating..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5q-aO-mT4">
+                            <rect key="frame" x="0.0" y="391" width="414" height="60"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="E5q-aO-mT4" firstAttribute="trailing" secondItem="V9q-nq-Thg" secondAttribute="trailing" id="5UV-rJ-YbN"/>
+                        <constraint firstItem="E5q-aO-mT4" firstAttribute="centerY" secondItem="g6g-KS-RGe" secondAttribute="centerY" id="hKt-f0-VdI"/>
+                        <constraint firstItem="E5q-aO-mT4" firstAttribute="leading" secondItem="V9q-nq-Thg" secondAttribute="leading" id="rla-m7-9VH"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="V9q-nq-Thg"/>
+                </view>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="4oY-Wy-DCU">
                     <connections>
                         <action selector="panCard:" destination="I9N-io-Xn2" id="MHU-qu-KnF"/>
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-388" y="1009"/>
+            <point key="canvasLocation" x="790" y="1027"/>
         </scene>
         <!--Menu-->
         <scene sceneID="1Ww-Vm-1qJ">
@@ -1013,7 +1118,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EasyJobs0" translatesAutoresizingMaskIntoConstraints="NO" id="FB5-b1-N1c" userLabel="bgImage">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="EasyJobsBlurred" translatesAutoresizingMaskIntoConstraints="NO" id="FB5-b1-N1c" userLabel="bgImage">
                                 <rect key="frame" x="0.0" y="-56" width="414" height="896"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="FB5-b1-N1c" secondAttribute="height" multiplier="207:448" id="erR-ep-RcT"/>
@@ -1025,7 +1130,7 @@
                                     <constraint firstAttribute="height" constant="61" id="vcl-E1-Np4"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="0.8023217429577465" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="Xp6-fY-3Wg">
@@ -1071,6 +1176,9 @@
                                                 <real key="value" value="25"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <segue destination="ZXt-DD-gij" kind="show" id="MDP-YO-qt7"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6dx-GM-4pB" customClass="DesignableButton" customModule="EasyJobs" customModuleProvider="target">
                                         <rect key="frame" x="8" y="266.33333333333331" width="318" height="98"/>
@@ -1163,10 +1271,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AnimationTest" width="415" height="720"/>
-        <image name="EasyJobs0" width="465" height="897"/>
-        <image name="dreamJob-1" width="275" height="183"/>
+        <image name="CompLang" width="387" height="611"/>
+        <image name="EasyJobsBlurred" width="465" height="897"/>
+        <image name="EasyJobsMinalandin" width="465" height="897"/>
         <image name="key" width="480" height="484"/>
         <image name="tick" width="480" height="481"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="MDP-YO-qt7"/>
+    </inferredMetricsTieBreakers>
 </document>
