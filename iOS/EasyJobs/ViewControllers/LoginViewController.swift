@@ -14,7 +14,9 @@ class LoginViewController: UIViewController{
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var contentView: UIView!
     
+    @IBOutlet var loadingView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()

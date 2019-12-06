@@ -43,9 +43,21 @@ extension AdvertisementViewController: AdvertisementDataSourceDelegate{
     
     func advertisementListLoaded(advertisementList: [SimpleAdvertisement]) {
         self.advertisementList = advertisementList
+        if let isApp = isApplications{
+            if let adIDs = advertisementIDs{
+                var applicationList: [SimpleAdvertisement] = []
+                for advertisement in advertisementList{
+                    for adID in adIDs{
+                        if advertisement.id == adID {
+                            applicationList.append(advertisement)
+                        }
+                    }
+                }
+                self.advertisementList = applicationList
+            }
+        }
         self.advertisementsTableView.reloadData()
     }
-    
 }
 
 
@@ -55,6 +67,8 @@ class AdvertisementViewController: UIViewController {
     
     let advertisementDataSource = AdvertisementDataSource()
     var advertisementList : [SimpleAdvertisement] = []
+    var isApplications : Bool?
+    var advertisementIDs : [Int]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +97,20 @@ class AdvertisementViewController: UIViewController {
             let advertisement = advertisementList[indexPath.row]
             
             let destination = segue.destination as! AdvertisementDetailViewController
+            
+            if let adIDs = advertisementIDs{
+                if adIDs.count>0{
+                    for id in adIDs {
+                        if advertisement.id == id{
+                            destination.isAlreadyApplied = true
+                        }
+                    }
+                }
+            }
+            
+            if let isApp = isApplications{
+                destination.isAlreadyApplied = true
+            }
             
             destination.advertisement = advertisement
         }

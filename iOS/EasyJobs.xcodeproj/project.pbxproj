@@ -52,6 +52,8 @@
 		96D561E0236A120B0063AEBB /* EasyJobsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D561DF236A120B0063AEBB /* EasyJobsUITests.swift */; };
 		96F73EBE2387268A007AEC7E /* SimpleObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73EBD2387268A007AEC7E /* SimpleObjects.swift */; };
 		96F73EC023873C53007AEC7E /* EObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73EBF23873C53007AEC7E /* EObjects.swift */; };
+		96FEDDF8239889E1009A94E1 /* DesignableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEDDF7239889E0009A94E1 /* DesignableImageView.swift */; };
+		96FEDDFC23988ECB009A94E1 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEDDFB23988ECB009A94E1 /* GradientView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +115,8 @@
 		96D561E1236A120B0063AEBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96F73EBD2387268A007AEC7E /* SimpleObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleObjects.swift; sourceTree = "<group>"; };
 		96F73EBF23873C53007AEC7E /* EObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EObjects.swift; sourceTree = "<group>"; };
+		96FEDDF7239889E0009A94E1 /* DesignableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableImageView.swift; sourceTree = "<group>"; };
+		96FEDDFB23988ECB009A94E1 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		AE8983FFC0BFEAE6403FFBF5 /* Pods-EasyJobsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyJobsUITests.debug.xcconfig"; path = "Target Support Files/Pods-EasyJobsUITests/Pods-EasyJobsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		DA4262A22F9BE7C14017FA5D /* Pods-EasyJobs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyJobs.release.xcconfig"; path = "Target Support Files/Pods-EasyJobs/Pods-EasyJobs.release.xcconfig"; sourceTree = "<group>"; };
 		ED56119534CA1B9078A1F439 /* Pods-EasyJobsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyJobsUITests.release.xcconfig"; path = "Target Support Files/Pods-EasyJobsUITests/Pods-EasyJobsUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -201,6 +205,8 @@
 				963F5C91238486BD00BBFC7B /* DesignableButton.swift */,
 				968A8A732384CCAE0049B792 /* DesignableView.swift */,
 				96D2FB5E2388A26D0085A118 /* DesignableTextField.swift */,
+				96FEDDF7239889E0009A94E1 /* DesignableImageView.swift */,
+				96FEDDFB23988ECB009A94E1 /* GradientView.swift */,
 			);
 			path = IBDesignables;
 			sourceTree = "<group>";
@@ -626,12 +632,14 @@
 				96D561BE236A12080063AEBB /* AppDelegate.swift in Sources */,
 				968A8A742384CCAE0049B792 /* DesignableView.swift in Sources */,
 				966911AE2395967400F3A307 /* AdvertisementDetailViewController.swift in Sources */,
+				96FEDDFC23988ECB009A94E1 /* GradientView.swift in Sources */,
 				967767A7236FC33E001F3F12 /* ProfileViewController.swift in Sources */,
 				963F5C92238486BD00BBFC7B /* DesignableButton.swift in Sources */,
 				96080BC2236F8AAF00E9854F /* SignUpViewController.swift in Sources */,
 				96D561C0236A12080063AEBB /* SceneDelegate.swift in Sources */,
 				96022BE22385774600CBF399 /* ProfileViewControllerExtension.swift in Sources */,
 				96B74EB82385EC7C001163B5 /* SignUpViewControllerExtension.swift in Sources */,
+				96FEDDF8239889E1009A94E1 /* DesignableImageView.swift in Sources */,
 				96A74B95237CAE8E0017CD43 /* ProfessionDataSource.swift in Sources */,
 				96F73EBE2387268A007AEC7E /* SimpleObjects.swift in Sources */,
 				96F73EC023873C53007AEC7E /* EObjects.swift in Sources */,

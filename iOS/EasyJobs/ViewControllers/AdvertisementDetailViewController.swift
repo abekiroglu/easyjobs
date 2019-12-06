@@ -32,10 +32,14 @@ class AdvertisementDetailViewController: UIViewController {
     var advertisementID: Int?
     var advertisement: SimpleAdvertisement?
     let advertisementDataSource = AdvertisementDataSource()
+    var isAlreadyApplied: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         advertisementDataSource.delegate = self
+        if let isApplied = isAlreadyApplied{
+            applyButton.setTitle("Cancel Application", for: .normal)
+        }
         // Do any additional setup after loading the view.
     }
     
@@ -44,6 +48,7 @@ class AdvertisementDetailViewController: UIViewController {
         if let selectedAdvertisementID = advertisementID{
         //advertisementDataSource.loadAdvertisementDetail(advertisementID: selectedAdvertisementID)
         }*/
+        
         if let selectedAdvertisement =  advertisement{
             //companyImage = advertisement.company.picture
             advertisementIDLabel.text = "\(selectedAdvertisement.id)"
@@ -70,6 +75,8 @@ class AdvertisementDetailViewController: UIViewController {
             if let selectedAdvertisement = advertisement{
                 advertisementDataSource.applyForJob(advertisementID: selectedAdvertisement.id)
             }
+        }else{
+            // Cancel application
         }
     }
     

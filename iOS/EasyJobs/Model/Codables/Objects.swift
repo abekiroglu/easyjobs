@@ -68,11 +68,11 @@ struct Experience: Codable{
 }
 
 struct JobApplication: Codable{
-    var postDate: Date
-    var isResolved: Bool
-    var applicant: User
-    var appliedTo: Company
+    var id: Int
+    var postDate: String
+    var resolved: Bool
     var issuedBy: String
+    var advertisementId: Int
 }
 
 struct Profession: Codable{

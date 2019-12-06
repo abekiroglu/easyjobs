@@ -13,6 +13,17 @@ import Firebase
 protocol UserHelperDelegate{
     func goToMenu()
     func showSignUpError(error: String)
+    func showLoadingScreen()
+    func closeLoadingScreen()
+    func showProfileUpdatedLabel()
+}
+
+extension UserHelperDelegate{
+    func goToMenu(){}
+    func showSignUpError(error: String){}
+    func showLoadingScreen(){}
+    func closeLoadingScreen(){}
+    func showProfileUpdatedLabel(){}
 }
 
 class UserHelper{
@@ -43,6 +54,9 @@ class UserHelper{
     }
     
     func signUp(password: String, email: String, username: String, name: String, surname: String){
+        
+        delegate?.showLoadingScreen()
+        
         self.userSignUpRequest = UserSignUpRequest(password: password, email: email, username: username, name: name, surname: surname)
         let session = URLSession.shared
         var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/signup")!)
@@ -53,19 +67,27 @@ class UserHelper{
         }
         let uploadTask = session.uploadTask(with: request, from: uploadData) { (data, response, error) in
             if error == nil{
-                self.delegate?.goToMenu()
-                self.delegate?.showSignUpError(error: "User signed up")
+                DispatchQueue.main.async {
+                    self.delegate?.showSignUpError(error: "Sign Up Done!")
+                }
                 print("signUpDone")
             } else{
                 print(error)
-                self.delegate?.showSignUpError(error:"Couldn`t sign user up")
+                DispatchQueue.main.async {
+                    self.delegate?.showSignUpError(error:"Couldn`t sign user up")
+                }
+                
                 print("Couldn`t sign user up")
+            }
+            DispatchQueue.main.async {
+                self.delegate?.closeLoadingScreen()
             }
         }
         uploadTask.resume()
     }
     
     func loadUser(){
+        
         let session = URLSession.shared
             var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/")!)
            let currentUser = Auth.auth().currentUser
@@ -78,6 +100,7 @@ class UserHelper{
              request.httpMethod = "GET"
              request.addValue("application/json", forHTTPHeaderField: "Content-Type")
              request.addValue(idToken!, forHTTPHeaderField: "auth" )
+            
              let dataTask = session.dataTask(with: request) {(data, response, error) in
              //print("HERE: \(String.init(data: data!, encoding: .utf8))")
              let decoder = JSONDecoder()
@@ -97,6 +120,8 @@ class UserHelper{
     
     
     func updateProfile(name: String, surname: String, profession: Int, newSkills: [Skill], deletedSkills: [Skill]){
+        
+            self.delegate?.showLoadingScreen()
         
         userUpdateRequest = UserUpdateRequest(birthDate: nil, name: name, surname: surname, profession: profession, newExperiences: [], deletedExperiences: [], newSkills: newSkills, deletedSkills: deletedSkills)
         let session = URLSession.shared
@@ -120,8 +145,14 @@ class UserHelper{
             let uploadTask = session.uploadTask(with: request, from: uploadData) { (data, response, error) in
                 if error == nil{
                     print("Profile created")
+                    DispatchQueue.main.async{
+                        self.delegate?.showProfileUpdatedLabel()
+                    }
                 } else{
                     print(error)
+                }
+                DispatchQueue.main.async {
+                    self.delegate?.closeLoadingScreen()
                 }
             }
             uploadTask.resume()

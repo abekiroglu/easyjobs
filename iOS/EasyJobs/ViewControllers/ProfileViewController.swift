@@ -31,6 +31,32 @@ extension ProfileViewController: UIPickerViewDelegate, UIPickerViewDataSource{
     }
 }
 
+extension ProfileViewController: UserHelperDelegate{
+ 
+    func showLoadingScreen(){
+        
+        loadingView.bounds.size.width = view.bounds.width - 25
+        loadingView.bounds.size.height = view.bounds.height - 40
+        loadingView.center = view.center
+        view.addSubview(loadingView)
+        
+    }
+    
+    func closeLoadingScreen(){
+        loadingView.removeFromSuperview()
+    }
+    
+    func showProfileUpdatedLabel(){
+        errorLabel.text = "Profile Updated"
+        errorLabel.alpha = 1
+        errorLabel.textColor = UIColor.green
+        
+    }
+    
+    
+    
+}
+
 class ProfileViewController: UIViewController {
     
     
@@ -47,6 +73,12 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var tickImageView: UIImageView!
     @IBOutlet weak var saveButton: DesignableButton!
+    
+    
+    @IBOutlet var loadingView: UIView!
+    @IBOutlet weak var shineView: GradientView!
+    
+    
     
     private let dataSource : [String] = ["Please choose a profession","Software Developer"]
     private var datePicker: UIDatePicker?
@@ -82,6 +114,7 @@ class ProfileViewController: UIViewController {
         setUpElements()
         professionDataSource.loadProfessionList()
         userHelper.loadUser()
+        userHelper.delegate = self
         // Do any additional setup after loading the view.
     }
     
