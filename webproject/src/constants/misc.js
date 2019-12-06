@@ -1,0 +1,1 @@
+export const LOCAL_STORAGE = 'USER_AUTH_TOKEN';

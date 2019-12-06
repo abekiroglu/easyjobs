@@ -36,8 +36,8 @@ class MainContainer extends Component {
                     {this.props.company ?
                         <div>
                             <div className="App__Form">
-                                <NavLink exact to="/update-profile" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Profile</NavLink>
-                                <NavLink exact to="/add-advr" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Add Advertisements</NavLink>
+                                <NavLink exact to="/main/update-profile" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Profile</NavLink>
+                                <NavLink exact to="/main/add-advr" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Add Advertisements</NavLink>
 
                             </div>
                             <h5 style={{ paddingLeft: 1400 }}>{this.props.company.email}</h5>

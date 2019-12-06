@@ -2,10 +2,7 @@ package com.easyjobs.api.service;
 
 import com.easyjobs.api.dto.request.AdvertisementCreateRequest;
 import com.easyjobs.api.dto.request.AdvertisementUpdateRequest;
-import com.easyjobs.api.dto.response.ErrorResponse;
-import com.easyjobs.api.dto.response.RecommendedUser;
-import com.easyjobs.api.dto.response.Response;
-import com.easyjobs.api.dto.response.SimpleAdvertisement;
+import com.easyjobs.api.dto.response.*;
 import com.easyjobs.api.model.*;
 import com.easyjobs.api.repository.*;
 import com.easyjobs.api.security.EasyJobsUser;
@@ -86,7 +83,7 @@ public class AdvertisementService {
         }
         try {
             if (email.equalsIgnoreCase(advertisement.getCompany().getEmail())) {
-                return new Response<>(advertisement, HttpStatus.OK);
+                return new Response<>(new AdvertisementResponse(advertisement), HttpStatus.OK);
             } else {
                 return new Response<>(new ErrorResponse("500", "Advertisement does not belong to the authenticated company"), HttpStatus.INTERNAL_SERVER_ERROR);
             }

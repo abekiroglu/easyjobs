@@ -9,7 +9,7 @@ import UpdateProfileContainer from './containers/updateProfileContainer';
 import NewAdvertisementContainer from './containers/_newAdvertisementContainer';
 import NavigationBarContainer from './containers/navigationBarContainer';
 import RedirectToLanding from './components/redirectToLanding'
-
+import MuiContainer from './containers/muiContainer'
 
 class App extends Component {
   render() {
@@ -24,8 +24,8 @@ class App extends Component {
           <Route path="/main" component={NavigationBarContainer} />
 
           <Route exact path="/main" component={MainContainer} />
-          <Route exact path="/update-profile" component={UpdateProfileContainer} />
-          <Route exact path="/add-advr" component={NewAdvertisementContainer} />
+          <Route exact path="/main/update-profile" component={UpdateProfileContainer} />
+          <Route exact path="/main/add-advr" component={NewAdvertisementContainer} />
 
         </div>
       </Router>

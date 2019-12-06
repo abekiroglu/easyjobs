@@ -30,7 +30,7 @@ textarea {
 .login-page-title {
   position: absolute;
   left: 50%;
-  top: 20%;
+  top: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   font-weight: bold;

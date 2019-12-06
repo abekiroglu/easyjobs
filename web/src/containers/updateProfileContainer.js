@@ -50,62 +50,62 @@ class UpdateProfileContainer extends Component {
     render() {
         return (
             <div>
-                    {this.props.isLoading ? 'Loading...' : null}
-                    {this.props.hasError ? <ErrorField error={this.props.error.message} /> : null}
-                    {this.props.company ? 
-                <div>
-                    <div className="App__Form">
-                    <NavLink exact to="/main" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Home Page</NavLink>
-                    <NavLink exact to="/add-advr" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Add Advertisements</NavLink>
+                {this.props.isLoading ? 'Loading...' : null}
+                {this.props.hasError ? <ErrorField error={this.props.error.message} /> : null}
+                {this.props.company ?
+                    <div>
+                        <div className="App__Form">
+                            <NavLink exact to="/main" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Home Page</NavLink>
+                            <NavLink exact to="/main/add-advr" activeClassName="PageSwitcher__Item--Active" className="PageSwitcher__Item">Add Advertisements</NavLink>
 
-                </div>
-                <h5 style = {{paddingLeft: 1400}}>{this.props.company.email}</h5>
-                <span className="login-page-title"> Design Profile </span>
-                <form onSubmit={this.onClickSubmit}>
-                    <div className="center">
-                        <div className="login-form-div" />
-                        <Row>
-                            <Col lg="5" className="text-center text-md-left">
-                                <div className="login-form-div">
-                                    <h5>Company Name:</h5>
-                                </div>
-                            </Col>
-                            <Col lg="5" className="text-center text-md-right">
-                                <div className="login-form-div">
-                                    {this.props.company ? <CompanyNameInput onChange={this.setname} placeholder={this.props.company.name} style={{ width: 300 }} /> : null}
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg="5" className="text-center text-md-left">
-                                <div className="login-form-div">
-                                    <h5>Established Date:</h5>
-                                </div>
-                            </Col>
-                            <Col lg="5" className="text-center text-md-right">
-                                <div className="login-form-div">
-                                    <DateInput onChange={this.setFoundedDate} style={{ width: 300 }} />
-                                </div>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col lg="5" className="text-center text-md-left">
-                                <div className="login-form-div">
-                                    <h5>Description Of Company:</h5>
-                                </div>
-                            </Col>
-                            <Col lg="5" className="text-center text-md-right">
-                                <div className="login-form-div">
-                                    <TextAreaInput onChange={this.setDescription} />
-                                </div>
-                            </Col>
-                        </Row>
-                        <div className="login-form-div" />
-                        <button type="submit" className="btn btn-success"> Update </button>
-                        <ErrorField error={this.props.error} />
-                    </div>
-                </form>
-                 </div>: null}
+                        </div>
+                        <h5 style={{ paddingLeft: 1400 }}>{this.props.company.email}</h5>
+                        <span className="login-page-title"> Design Profile </span>
+                        <form onSubmit={this.onClickSubmit}>
+                            <div className="center">
+                                <div className="login-form-div" />
+                                <Row>
+                                    <Col lg="5" className="text-center text-md-left">
+                                        <div className="login-form-div">
+                                            <h5>Company Name:</h5>
+                                        </div>
+                                    </Col>
+                                    <Col lg="5" className="text-center text-md-right">
+                                        <div className="login-form-div">
+                                            {this.props.company ? <CompanyNameInput onChange={this.setname} placeholder={this.props.company.name} style={{ width: 300 }} /> : null}
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col lg="5" className="text-center text-md-left">
+                                        <div className="login-form-div">
+                                            <h5>Established Date:</h5>
+                                        </div>
+                                    </Col>
+                                    <Col lg="5" className="text-center text-md-right">
+                                        <div className="login-form-div">
+                                            <DateInput onChange={this.setFoundedDate} style={{ width: 300 }} />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col lg="5" className="text-center text-md-left">
+                                        <div className="login-form-div">
+                                            <h5>Description Of Company:</h5>
+                                        </div>
+                                    </Col>
+                                    <Col lg="5" className="text-center text-md-right">
+                                        <div className="login-form-div">
+                                            <TextAreaInput onChange={this.setDescription} />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <div className="login-form-div" />
+                                <button type="submit" className="btn btn-success"> Update </button>
+                                <ErrorField error={this.props.error} />
+                            </div>
+                        </form>
+                    </div> : null}
             </div>
         );
     }
