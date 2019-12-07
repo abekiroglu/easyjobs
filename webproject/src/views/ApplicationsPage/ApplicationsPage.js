@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
+import Table from "components/ExpandableTable/ExpandableTable.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
@@ -20,6 +20,7 @@ import { getProfession } from "redux/actions/profession";
 import { getAdvr } from "redux/actions/advertisement";
 import { select } from '../../../node_modules/redux-saga/effects';
 import RemoveIcon from '@material-ui/icons/Remove';
+import ExpansionPanel from "components/ExpansionPanel/ExpansionPanel.js"
 
 class ApplicationsPage extends Component {
     constructor(props) {
@@ -97,6 +98,7 @@ class ApplicationsPage extends Component {
         const skillRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
         const skillGroupAddAction = [<AddIcon onClick={this.onClickEdit} />];
         const skillGroupRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
+
         return (
             <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
@@ -110,15 +112,16 @@ class ApplicationsPage extends Component {
                         <CardBody>
                             <Table
                                 tableHeaderColor="info"
-                                tableHead={["Id", "Advertisement",
-                                    "Posted At", "Issued By",
-                                    "Resolved?"]}
-                                tableData={this.props.company ? this.getApplicationsAsArray() : []}
+                                tableHead={this.props.company ? Object.keys(this.props.company.applications[0]) : []}
+                                tableData={this.props.company ? this.props.company.applications : []}
                                 actions={actions}
                             />
                         </CardBody>
                     </Card>
                 </GridItem>
+                {/* <GridItem xs={12} sm={12} md={12}> //////this.getApplicationsAsArray()
+                    <ExpansionPanel />
+                </GridItem> */}
             </GridContainer>
         );
     }

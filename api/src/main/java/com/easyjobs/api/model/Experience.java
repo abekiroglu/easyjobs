@@ -38,7 +38,6 @@ public class Experience extends BaseModel{
         super.setId(ID);
     }
 
-
     public Date getStartDate() {
         return startDate;
     }

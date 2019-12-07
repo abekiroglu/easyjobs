@@ -2,6 +2,7 @@ package com.easyjobs.api.service;
 
 import com.easyjobs.api.dto.request.CompanySignupRequest;
 import com.easyjobs.api.dto.request.CompanyUpdateRequest;
+import com.easyjobs.api.dto.response.CompanyResponse;
 import com.easyjobs.api.dto.response.ErrorResponse;
 import com.easyjobs.api.dto.response.Response;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
@@ -78,8 +79,10 @@ public class CompanyService {
     }
 
     public ResponseEntity getCompanyMe(String email) {
+        Company dbCompany = companyRepository.findOneByEmail(email);
+
         try {
-            return new Response<>(companyRepository.findOneByEmail(email), HttpStatus.OK);
+            return new Response<>(new CompanyResponse(dbCompany), HttpStatus.OK);
         } catch (Exception e) {
             return new Response<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
