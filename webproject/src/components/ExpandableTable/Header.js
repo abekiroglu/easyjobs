@@ -4,42 +4,75 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Table from "@material-ui/core/Table";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+
 
 const useStyles = makeStyles(theme => ({
     ...styles,
     root: {
         width: '100%',
+        height: 45
     },
-    content: {
+    row: {
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        paddingLeft: 24,
+        paddingRight: 24,
+        height: '100%'
+
     },
     cell: {
-        width: '20%',
         textTransform: 'capitalize',
         color: 'rgba(31, 193, 213)',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        padding: 0,
+        paddingTop: 13,
+        textAlign: 'left',
+        height: 'inherit',
+        width: '16.6667%'
     },
     disabled: {
-        backgroundColor: 'rgba(198, 198, 198, 0.5) !important'
+        backgroundColor: 'rgba(198, 198, 198, 0.5) !important',
+        height: '100%'
     }
 }));
 
-function space(text) {
-    var str = '';
-    var length = text.length;
-    var lastUpperCase = 0;
-    var i;
-    for (i = 0; i < length; i++) {
-        if (text.charAt(i) === text.charAt(i).toUpperCase()) {
-            str += text.substring(lastUpperCase, i) + ' ';
-            lastUpperCase = i;
-        }
-        if (i == length - 1) {
-            str += text.substring(lastUpperCase, i + 1)
-        }
-    }
-    return str;
+
+function EnhancedTableHead(props) {
+    const { classes, order, orderBy, headCells, onRequestSort } = props;
+
+    const createSortHandler = property => event => {
+        onRequestSort(event, property);
+    };
+    debugger;
+    return (
+        <TableRow classes={{ root: classes.row }}>
+            {headCells.map(headCell => (
+                <TableCell
+                    key={headCell.id}
+                    align={'left'}
+                    padding={'default'}
+                    sortDirection={orderBy === headCell.id ? order : false}
+                    classes={{ root: classes.cell }}
+                >
+                    <TableSortLabel
+                        active={orderBy === headCell.id}
+                        direction={order}
+                        onClick={createSortHandler(headCell.id)}
+                    >
+                        {headCell.label}
+
+                    </TableSortLabel>
+                </TableCell>
+            ))}
+            <div style={{ width: 48 }} />
+        </TableRow>
+    );
 }
 
 export default function Header(props) {
@@ -47,23 +80,11 @@ export default function Header(props) {
 
     return (
         <div className={classes.root}>
+
             <ExpansionPanel
                 disabled={true}
                 classes={{ disabled: classes.disabled }}>
-                <ExpansionPanelSummary
-                    expandIcon={<div style={{ width: 24 }} />}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
-                    classes={{ content: classes.content }}>
-                    {props.data.map(title => {
-                        return (
-                            <div className={classes.cell}>
-                                {space(title)}
-                            </div>
-                        );
-                    })}
-
-                </ExpansionPanelSummary>
+                <EnhancedTableHead {...props} classes={classes} />
             </ExpansionPanel>
         </div>
     );

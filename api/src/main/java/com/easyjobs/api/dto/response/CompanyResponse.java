@@ -1,11 +1,13 @@
 package com.easyjobs.api.dto.response;
 
+import com.easyjobs.api.dto.request.UserUpdateRequest;
 import com.easyjobs.api.model.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class CompanyResponse {
@@ -182,16 +184,110 @@ public class CompanyResponse {
         }
     }
 
+    public static class ProfessionWrapper{
+        private int id;
+        private String title;
+        private String description;
+        public ProfessionWrapper(Profession profession){
+            this.id = profession.getId();
+            this.title = profession.getTitle();
+            this.description = profession.getDescription();
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+    }
+
+    public static class ExperienceWrapper{
+        private int id;
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+        private Date startDate;
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+        private Date endDate;
+        private String company;
+        private String profession;
+
+        public ExperienceWrapper(Experience experience) {
+            this.id = experience.getId();
+            this.startDate = experience.getStartDate();
+            this.endDate = experience.getEndDate();
+            this.company = experience.getCompany().getName();
+            this.profession = experience.getProfession().getTitle();
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public Date getStartDate() {
+            return startDate;
+        }
+
+        public void setStartDate(Date startDate) {
+            this.startDate = startDate;
+        }
+
+        public Date getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(Date endDate) {
+            this.endDate = endDate;
+        }
+
+        public String getCompany() {
+            return company;
+        }
+
+        public void setCompany(String company) {
+            this.company = company;
+        }
+
+        public String getProfession() {
+            return profession;
+        }
+
+        public void setProfession(String profession) {
+            this.profession = profession;
+        }
+    }
+
     public static class UserWrapper{
         private int id;
         private String email;
+        @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
         private Date birthDate;
         private String name;
         private String surname;
-        private Profession profession;
+        private ProfessionWrapper profession;
         private List<Skill> skills;
         @JsonManagedReference(value="user_experience")
-        private List<Experience> experiences;
+        private List<ExperienceWrapper> experiences;
         private String picture;
 
         public UserWrapper(User user) {
@@ -200,9 +296,9 @@ public class CompanyResponse {
             this.birthDate = user.getBirthDate();
             this.name = user.getName();
             this.surname = user.getSurname();
-            this.profession = user.getProfession();
+            this.profession = new ProfessionWrapper(user.getProfession());
             this.skills = user.getSkills();
-            this.experiences = user.getExperiences();
+            this.experiences = user.getExperiences().stream().map(ExperienceWrapper::new).collect(Collectors.toList());
             this.picture = user.getPicture();
         }
 
@@ -246,11 +342,11 @@ public class CompanyResponse {
             this.surname = surname;
         }
 
-        public Profession getProfession() {
+        public ProfessionWrapper getProfession() {
             return profession;
         }
 
-        public void setProfession(Profession profession) {
+        public void setProfession(ProfessionWrapper profession) {
             this.profession = profession;
         }
 
@@ -262,11 +358,11 @@ public class CompanyResponse {
             this.skills = skills;
         }
 
-        public List<Experience> getExperiences() {
+        public List<ExperienceWrapper> getExperiences() {
             return experiences;
         }
 
-        public void setExperiences(List<Experience> experiences) {
+        public void setExperiences(List<ExperienceWrapper> experiences) {
             this.experiences = experiences;
         }
 
