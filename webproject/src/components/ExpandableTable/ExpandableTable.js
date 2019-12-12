@@ -79,7 +79,7 @@ function space(text) {
             str += text.substring(lastUpperCase, i) + ' ';
             lastUpperCase = i;
         }
-        if (i == length - 1) {
+        if (i === length - 1) {
             str += text.substring(lastUpperCase, i + 1)
         }
     }

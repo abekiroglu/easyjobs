@@ -252,7 +252,6 @@ class AdvertisementPage extends Component {
     }
 
     render() {
-        console.log(this.state.selectedAd);
         const { classes, advertisement, professions } = this.props;
         const actions = [<EditIcon onClick={this.onClickEdit} />,
         <DeleteIcon onClick={this.onClickDelete} />];
