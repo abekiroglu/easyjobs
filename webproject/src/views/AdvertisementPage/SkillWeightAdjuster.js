@@ -1,7 +1,7 @@
 import Slider from '@material-ui/core/Slider'
 import Typography from '@material-ui/core/Typography'
 import React from 'react';
-import Select from 'react-select';
+
 
 const marks = [
     {
@@ -31,30 +31,36 @@ function valuetext(value) {
 }
 
 function valueLabelFormat(value) {
-    return marks.findIndex(mark => mark.value === value) + 1;
+    var mark = marks.findIndex(mark => mark.value === value) / 5;
+
+    return mark;
 }
 
-export default function renderProfessionPicker(props) {
+export default function skillWeightAdjuster(props) {
+    const classes = props.classes;
     const { skills } = props;
-
+    debugger;
     return (
 
-        <div>
+        <div className={classes.swaWrapper}>
             {
-                skills.map()
+                skills.map(skill => {
+                    return (<div className={classes.waWrapper}>
+                        <Typography id="discrete-slider-restrict" gutterBottom>
+                            {skill.description}
+                        </Typography>
+                        <Slider
+                            defaultValue={1}
+                            valueLabelFormat={valueLabelFormat}
+                            getAriaValueText={valuetext}
+                            aria-labelledby="discrete-slider-restrict"
+                            step={null}
+                            valueLabelDisplay="auto"
+                            marks={marks}
+                        />
+                        </div>)
+                })
             }
-            <Typography id="discrete-slider-restrict" gutterBottom>
-                Restricted values
-            </Typography>
-            <Slider
-                defaultValue={1}
-                valueLabelFormat={valueLabelFormat}
-                getAriaValueText={valuetext}
-                aria-labelledby="discrete-slider-restrict"
-                step={null}
-                valueLabelDisplay="auto"
-                marks={marks}
-            />
         </div>
     );
 

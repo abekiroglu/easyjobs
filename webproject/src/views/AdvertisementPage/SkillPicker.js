@@ -14,7 +14,6 @@ export default function renderSkillPicker(props) {
     const skillGroupAddAction = [<AddIcon onClick={props.onClickSGAdd} />];
     const skillRemoveAction = [<RemoveIcon onClick={props.onClickSkillRemove} />]
     const skillGroupRemoveAction = [<RemoveIcon onClick={props.onClickSGRemove} />]
-    debugger;
     return (
         <GridContainer>
             <GridItem xs={12} sm={12} md={6}>

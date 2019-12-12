@@ -15,7 +15,7 @@ import { getProfession } from "redux/actions/profession"
 import SkillPicker from './SkillPicker.js'
 import ProfessionPicker from './ProfessionPicker.js'
 import SkillWeightAdjuster from './SkillWeightAdjuster.js'
-import { debug } from 'util';
+import AdvertisementDetails from './AdvertisementDetails.js' 
 
 class NewAdvertisementPage extends Component {
     constructor(props) {
@@ -26,7 +26,9 @@ class NewAdvertisementPage extends Component {
             selectedSGs: [],
             selectedSkills: [],
             availableSGs: [],
-            availableSkills: []
+            availableSkills: [],
+            description: '',
+            validUntil: ''
         };
     }
 
@@ -74,7 +76,6 @@ class NewAdvertisementPage extends Component {
 
     availableSGs() {
         const { availableSGs } = this.state;
-        debugger;
         var sArr = []
         availableSGs.forEach(sg => {
             sArr.push([sg.id, sg.description, sg.skills.length]);
@@ -144,7 +145,6 @@ class NewAdvertisementPage extends Component {
 
     onClickSkillRemove = e => {
         const { availableSkills, selectedSkills } = this.state;
-        debugger;
         var id = parseInt(e.currentTarget.parentElement.parentElement.id);
         var sS = [...selectedSkills];
 
@@ -170,12 +170,11 @@ class NewAdvertisementPage extends Component {
         var idx = selectedSGs.map(sg => { return sg.id }).indexOf(id);
         var aSG = sSG.splice(idx, 1)[0];
 
-        debugger;
         var aS = [...availableSkills];
         var sS = [...selectedSkills];
         aS = aS.filter(skill => !aSG.skills.map(skills => skills.id).includes(skill.id));
         sS = sS.filter(skill => !aSG.skills.map(skills => skills.id).includes(skill.id));
-        debugger;
+
         this.setState({
             selectedSGs: sSG,
             availableSGs: [...availableSGs, aSG],
@@ -183,11 +182,16 @@ class NewAdvertisementPage extends Component {
             selectedSkills: sS
         })
     }
-
-
-    renderForm() {
-        return <div> sas </div>;
+    onDescriptionChange = (e) =>{
+        this.setState({
+            desription: e.currentTarget.value
+        })
     }
+    onValidUntilChange = (e) =>{
+        this.setState({
+            validUntil: e.currentTarget.value
+        })
+    } 
 
     getView() {
         const { page } = this.state;
@@ -211,18 +215,14 @@ class NewAdvertisementPage extends Component {
                     selectedSkills={this.selectedSkills()} />
             case 3:
                 return <SkillWeightAdjuster
-                    skills={this.selectedSkills()} />
-            case 4:
-                return <SkillPicker
                     classes={this.props.classes}
-                    onClickSkillAdd={this.onClickSkillAdd}
-                    onClickSGAdd={this.onClickSGAdd}
-                    onClickSkillRemove={this.onClickSkillRemove}
-                    onClickSGRemove={this.onClickSGRemove}
-                    availableSGs={this.availableSGs()}
-                    selectedSGs={this.selectedSGs()}
-                    availableSkills={this.availableSkills()}
-                    selectedSkills={this.selectedSkills()} />
+                    skills={this.state.selectedSkills} 
+                    />
+            case 4:
+                return <AdvertisementDetails
+                    classes={this.props.classes}
+                    onDescriptionChange={this.onDescriptionChange}
+                    onValidUntilChange={this.onValidUntilChange}/>
             default:
                 return null;
         }
@@ -332,6 +332,13 @@ const styles = {
             fontWeight: "400",
             lineHeight: "1"
         }
+    },
+    swaWrapper:{
+        display: 'grid',
+        justifyContent: 'center'
+    },
+    waWrapper:{
+        width: '600px'
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NewAdvertisementPage));
