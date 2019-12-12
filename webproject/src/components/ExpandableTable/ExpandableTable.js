@@ -87,7 +87,6 @@ function space(text) {
 }
 
 function stableSort(array, cmp) {
-    debugger;
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
         const order = cmp(a[0], b[0]);
@@ -125,7 +124,6 @@ export default function ExpandableTable(props) {
 
     const handleRequestSort = (event, property) => {
         const isDesc = orderBy === property && order === 'desc';
-        debugger;
         setOrder(isDesc ? 'asc' : 'desc');
         setOrderBy(property);
         setExpanded(false);
@@ -133,7 +131,6 @@ export default function ExpandableTable(props) {
     };
 
     const handleChangePage = (event, newPage) => {
-        debugger;
         setPage(newPage);
     };
 

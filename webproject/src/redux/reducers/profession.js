@@ -14,6 +14,7 @@ export default function professionReducer(state = initialState, action) {
             return {
                 ...state,
                 professions: action.response.data,
+                status: action.response.status,
                 isLoading: false,
                 hasError: false
             };
@@ -21,6 +22,7 @@ export default function professionReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };

@@ -35,8 +35,10 @@ export default function companyReducer(state = initialState, action) {
                 hasError: false
             };
         case GET_ME.SUCCESS:
+            debugger;
             return {
                 ...state,
+                status: action.response.status,
                 company: action.response.data,
                 isLoading: false
             };
@@ -58,6 +60,7 @@ export default function companyReducer(state = initialState, action) {
         case SIGNUP_COMPANY.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 company: action.response.data,
                 isLoading: false
             };
@@ -65,6 +68,7 @@ export default function companyReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };
@@ -79,6 +83,7 @@ export default function companyReducer(state = initialState, action) {
         case UPDATE_PROFILE_COMPANY.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 company: action.response.data,
                 isLoading: false
             };
@@ -86,6 +91,7 @@ export default function companyReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };
@@ -99,6 +105,7 @@ export default function companyReducer(state = initialState, action) {
         case HIRE.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 application: action.response.data,
                 isLoading: false
             };
@@ -106,6 +113,7 @@ export default function companyReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };
@@ -119,12 +127,14 @@ export default function companyReducer(state = initialState, action) {
         case DELETE_COMPANY.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 isLoading: false
             };
         case DELETE_COMPANY.FAILURE:
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };
@@ -138,6 +148,7 @@ export default function companyReducer(state = initialState, action) {
         case UPLOAD_IMAGE.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 isLoading: false,
                 company: { ...state.company, picture: action.response.data }
             };
@@ -145,6 +156,7 @@ export default function companyReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };

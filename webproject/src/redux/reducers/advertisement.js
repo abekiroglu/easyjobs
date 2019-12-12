@@ -17,11 +17,13 @@ export default function advertisementReducer(state = initialState, action) {
         case ADD_ADVR.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 advertisement: action.response.data
             };
         case ADD_ADVR.FAILURE:
             return {
                 ...state,
+                status: action.error.response.status,
                 error: action.error.response.data.message
             };
         case GET_ADVR.REQUEST:
@@ -31,11 +33,13 @@ export default function advertisementReducer(state = initialState, action) {
         case GET_ADVR.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 advertisement: action.response.data
             };
         case GET_ADVR.FAILURE:
             return {
                 ...state,
+                status: action.error.response.status,
                 error: action.error.response.data.message
             };
         case UPDATE_ADVR.REQUEST:
@@ -45,11 +49,13 @@ export default function advertisementReducer(state = initialState, action) {
         case UPDATE_ADVR.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 advertisement: action.response.data
             };
         case UPDATE_ADVR.FAILURE:
             return {
                 ...state,
+                status: action.error.response.status,
                 error: action.error.response.data.message
             };
         case DELETE_ADVR.REQUEST:
@@ -58,11 +64,13 @@ export default function advertisementReducer(state = initialState, action) {
             };
         case DELETE_ADVR.SUCCESS:
             return {
-                ...state
+                ...state,
+                status: action.response.status
             };
         case DELETE_ADVR.FAILURE:
             return {
                 ...state,
+                status: action.error.response.status,
                 error: action.error.response.data.message
             };
         case GET_RECOMMENDED_USERS.REQUEST:
@@ -72,11 +80,13 @@ export default function advertisementReducer(state = initialState, action) {
         case GET_RECOMMENDED_USERS.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 recommendedUsers: action.response.data
             };
         case GET_RECOMMENDED_USERS.FAILURE:
             return {
                 ...state,
+                status: action.error.response.status,
                 error: action.error.response.data.message
             };
         default:

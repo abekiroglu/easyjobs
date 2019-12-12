@@ -35,7 +35,6 @@ export function signupCompany(body) {
 
 export function updateProfileCompany(request) {
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
-  debugger;
   return axios.request({
     method: 'patch',
     headers: {

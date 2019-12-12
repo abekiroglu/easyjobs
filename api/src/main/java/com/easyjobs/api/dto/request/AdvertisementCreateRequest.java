@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AdvertisementCreateRequest {
+    private String title;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date publishDate;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
@@ -17,6 +18,14 @@ public class AdvertisementCreateRequest {
     private String description;
     private List<AssessmentWrapper> requirements;
     private Integer professionId;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Date getPublishDate() {
         return publishDate;

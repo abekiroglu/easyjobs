@@ -38,8 +38,7 @@ function valueLabelFormat(value) {
 
 export default function skillWeightAdjuster(props) {
     const classes = props.classes;
-    const { skills } = props;
-    debugger;
+    const { skills, onChange } = props;
     return (
 
         <div className={classes.swaWrapper}>
@@ -50,7 +49,10 @@ export default function skillWeightAdjuster(props) {
                             {skill.description}
                         </Typography>
                         <Slider
-                            defaultValue={1}
+                            id={skill.id}
+                            onChange={onChange}
+                            classes={{ root: classes.sliderRoot }}
+                            defaultValue={100}
                             valueLabelFormat={valueLabelFormat}
                             getAriaValueText={valuetext}
                             aria-labelledby="discrete-slider-restrict"
@@ -58,7 +60,7 @@ export default function skillWeightAdjuster(props) {
                             valueLabelDisplay="auto"
                             marks={marks}
                         />
-                        </div>)
+                    </div>)
                 })
             }
         </div>

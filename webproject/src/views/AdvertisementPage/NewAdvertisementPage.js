@@ -12,10 +12,13 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import SlideView from "components/SlideView/SlideView.js"
 import { getProfession } from "redux/actions/profession"
+import { addAdvr } from "redux/actions/advertisement"
 import SkillPicker from './SkillPicker.js'
 import ProfessionPicker from './ProfessionPicker.js'
 import SkillWeightAdjuster from './SkillWeightAdjuster.js'
-import AdvertisementDetails from './AdvertisementDetails.js' 
+import AdvertisementDetails from './AdvertisementDetails.js'
+import { select } from '../../../node_modules/redux-saga/effects';
+import { isEqual } from 'lodash'
 
 class NewAdvertisementPage extends Component {
     constructor(props) {
@@ -28,13 +31,32 @@ class NewAdvertisementPage extends Component {
             availableSGs: [],
             availableSkills: [],
             description: '',
-            validUntil: ''
+            validUntil: '',
+            title: '',
+            requirements: []
         };
     }
 
     componentDidMount() {
         const { getProfessions } = this.props;
         getProfessions();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (!isEqual(prevProps.advertisement, this.props.advertisement)) {
+            this.setState({
+                page: 1,
+                selectedProfession: null,
+                selectedSGs: [],
+                selectedSkills: [],
+                availableSGs: [],
+                availableSkills: [],
+                description: '',
+                validUntil: '',
+                title: '',
+                requirements: []
+            });
+        }
     }
 
     onSlideViewChange = (e, newVal) => {
@@ -46,6 +68,7 @@ class NewAdvertisementPage extends Component {
     onNavigateBefore = e => {
         const { page } = this.state;
         if (page > 1) {
+            window.scrollTo(0, 0);
             this.setState({
                 page: this.state.page - 1
             })
@@ -55,9 +78,23 @@ class NewAdvertisementPage extends Component {
     onNavigateNext = e => {
         const { page } = this.state;
         if (page < 4) {
-            this.setState({
-                page: this.state.page + 1
-            }, () => this.getView())
+            window.scrollTo(0, 0);
+            if (page === 2) {
+                const { selectedSkills } = this.state;
+
+                var requirements = []
+                selectedSkills.forEach(skill => {
+                    requirements.push({ weight: 1.0, skillId: skill.id })
+                })
+                this.setState({
+                    page: this.state.page + 1,
+                    requirements
+                })
+            } else {
+                this.setState({
+                    page: this.state.page + 1
+                })
+            }
         }
     }
 
@@ -182,16 +219,58 @@ class NewAdvertisementPage extends Component {
             selectedSkills: sS
         })
     }
-    onDescriptionChange = (e) =>{
+    onDescriptionChange = (e) => {
         this.setState({
-            desription: e.currentTarget.value
+            description: e.currentTarget.value
         })
     }
-    onValidUntilChange = (e) =>{
+    onValidUntilChange = (e) => {
         this.setState({
             validUntil: e.currentTarget.value
         })
-    } 
+    }
+    onSkillWeightChange = (e, newVal) => {
+        const { requirements } = this.state
+
+        var rArr = [...requirements];
+        var id = parseInt(e.currentTarget.id);
+        var weight = newVal / 100;
+        var idx = rArr.map(r => { return r.skillId }).indexOf(id);
+        if (idx !== -1) {
+            rArr[idx] = { ...rArr[idx], weight: weight };
+        }
+        this.setState({
+            requirements: rArr
+        })
+    }
+
+    onTitleChange = e => {
+        this.setState({
+            title: e.currentTarget.value
+        })
+    }
+
+    onClickSave = e => {
+        const { addAdvr } = this.props;
+        const { selectedProfession, description, validUntil, requirements, title } = this.state;
+
+        const publishDate = `${new Date().getDate()}-${new Date().getMonth() + 1}-${new Date().getUTCFullYear()}`;
+        var modifiedDate;
+        if (validUntil !== '') {
+            modifiedDate = validUntil.split('-');
+            modifiedDate = `${modifiedDate[2]}-${modifiedDate[1]}-${modifiedDate[0]}`
+        }
+
+        var payload = {
+            title: title,
+            professionId: selectedProfession.value.id,
+            validUntil: modifiedDate,
+            description: description,
+            requirements: requirements,
+            publishDate: publishDate
+        }
+        addAdvr(payload);
+    }
 
     getView() {
         const { page } = this.state;
@@ -216,13 +295,30 @@ class NewAdvertisementPage extends Component {
             case 3:
                 return <SkillWeightAdjuster
                     classes={this.props.classes}
-                    skills={this.state.selectedSkills} 
-                    />
+                    skills={this.state.selectedSkills}
+                    onChange={this.onSkillWeightChange}
+                />
             case 4:
+                const {
+                    selectedProfession,
+                    description,
+                    validUntil,
+                    requirements,
+                    title } = this.state;
+                var color = 'danger';
+                if (selectedProfession && description.length > 20 && validUntil.length > 0 && requirements.length > 0 && title.length > 0) {
+
+                    color = 'success'
+                }
                 return <AdvertisementDetails
                     classes={this.props.classes}
                     onDescriptionChange={this.onDescriptionChange}
-                    onValidUntilChange={this.onValidUntilChange}/>
+                    onValidUntilChange={this.onValidUntilChange}
+                    onTitleChange={this.onTitleChange}
+                    onClickSave={this.onClickSave}
+                    title={title}
+                    description={description}
+                    color={color} />
             default:
                 return null;
         }
@@ -267,13 +363,15 @@ class NewAdvertisementPage extends Component {
 const mapStateToProps = state => {
     return {
         company: state.company.company,
-        professions: state.profession.professions
+        professions: state.profession.professions,
+        advertisement: state.advertisement.advertisement
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getProfessions: bindActionCreators(getProfession.request, dispatch)
+        getProfessions: bindActionCreators(getProfession.request, dispatch),
+        addAdvr: bindActionCreators(addAdvr.request, dispatch)
     };
 };
 
@@ -333,12 +431,15 @@ const styles = {
             lineHeight: "1"
         }
     },
-    swaWrapper:{
+    swaWrapper: {
         display: 'grid',
         justifyContent: 'center'
     },
-    waWrapper:{
+    waWrapper: {
         width: '600px'
+    },
+    sliderRoot: {
+        color: 'rgb(167, 67, 186)'
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NewAdvertisementPage));
