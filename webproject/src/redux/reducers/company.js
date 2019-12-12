@@ -4,7 +4,8 @@ import {
     SIGNUP_COMPANY,
     UPDATE_PROFILE_COMPANY,
     HIRE, DELETE_COMPANY,
-    UPLOAD_IMAGE
+    UPLOAD_IMAGE,
+    PUT_ADVR
 } from '../../constants/actionTypes';
 
 const initialState = {};
@@ -160,7 +161,15 @@ export default function companyReducer(state = initialState, action) {
                 isLoading: false,
                 hasError: true
             };
-
+        case PUT_ADVR.SUCCESS:
+            return {
+                ...state,
+                company: {
+                    ...state.company,
+                    advertisements: [...state.company.advertisements, 
+                        {...action.response, comments: []}]
+                }
+            }
         default:
             return state;
     }

@@ -6,7 +6,8 @@ import {
     UPDATE_PROFILE_COMPANY,
     DELETE_COMPANY,
     UPLOAD_IMAGE,
-    HIRE
+    HIRE,
+    PUT_ADVR
 } from '../../constants/actionTypes';
 
 export const loginCompany = {
@@ -49,4 +50,10 @@ export const hire = {
     request: () => action(HIRE.REQUEST, {}),
     success: response => action(HIRE.SUCCESS, { response }),
     failure: error => action(HIRE.FAILURE, { error })
+}
+
+export const putAdvr = {
+    request: () => action(PUT_ADVR.REQUEST, {}),
+    success: response => action(PUT_ADVR.SUCCESS, { response }),
+    failure: error => action(PUT_ADVR.FAILURE, { error })
 }

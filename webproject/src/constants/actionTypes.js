@@ -18,6 +18,8 @@ export const UPLOAD_IMAGE = createRequestTypes("UPLOAD_IMAGE");
 
 export const HIRE = createRequestTypes("HIRE");
 
+export const PUT_ADVR = createRequestTypes("PUT_ADVR");
+
 //Advertisement
 export const ADD_ADVR = createRequestTypes("ADD_ADVR");
 

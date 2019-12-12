@@ -13,6 +13,7 @@ import CardBody from "components/Card/CardBody.js";
 import SlideView from "components/SlideView/SlideView.js"
 import { getProfession } from "redux/actions/profession"
 import { addAdvr } from "redux/actions/advertisement"
+import { putAdvr } from "redux/actions/company"
 import SkillPicker from './SkillPicker.js'
 import ProfessionPicker from './ProfessionPicker.js'
 import SkillWeightAdjuster from './SkillWeightAdjuster.js'
@@ -44,6 +45,9 @@ class NewAdvertisementPage extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (!isEqual(prevProps.advertisement, this.props.advertisement)) {
+            const { putAdvr } = this.props;
+            putAdvr();
+
             this.setState({
                 page: 1,
                 selectedProfession: null,
@@ -371,7 +375,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getProfessions: bindActionCreators(getProfession.request, dispatch),
-        addAdvr: bindActionCreators(addAdvr.request, dispatch)
+        addAdvr: bindActionCreators(addAdvr.request, dispatch),
+        putAdvr: bindActionCreators(putAdvr.request, dispatch)
     };
 };
 

@@ -68,6 +68,14 @@ class AdvertisementPage extends Component {
         const { selectedAd } = this.state;
         return [[selectedAd.id, selectedAd.publishDate, selectedAd.validUntil, selectedAd.description, selectedAd.requirements.length, selectedAd.comments.length]];
     }
+    onClickView = e => {
+        var adId = e.currentTarget.parentElement.parentElement.children[0].innerHTML;
+        this.setState({
+            selectedAd: null,
+            adId: adId,
+            action: 'view'
+        })
+    }
     onClickEdit = e => {
         var adId = e.currentTarget.parentElement.parentElement.children[0].innerHTML;
         this.setState({
@@ -400,9 +408,7 @@ class AdvertisementPage extends Component {
                         </Card>
                     </GridItem>
                     :
-                    null
-
-                }
+                    null}
             </GridContainer>
         );
     }
