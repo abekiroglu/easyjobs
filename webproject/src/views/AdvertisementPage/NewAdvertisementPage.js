@@ -14,6 +14,7 @@ import SlideView from "components/SlideView/SlideView.js"
 import { getProfession } from "redux/actions/profession"
 import SkillPicker from './SkillPicker.js'
 import ProfessionPicker from './ProfessionPicker.js'
+import SkillWeightAdjuster from './SkillWeightAdjuster.js'
 import { debug } from 'util';
 
 class NewAdvertisementPage extends Component {
@@ -51,7 +52,7 @@ class NewAdvertisementPage extends Component {
 
     onNavigateNext = e => {
         const { page } = this.state;
-        if (page < 3) {
+        if (page < 4) {
             this.setState({
                 page: this.state.page + 1
             }, () => this.getView())
@@ -209,9 +210,21 @@ class NewAdvertisementPage extends Component {
                     availableSkills={this.availableSkills()}
                     selectedSkills={this.selectedSkills()} />
             case 3:
-                return null;
+                return <SkillWeightAdjuster
+                    skills={this.selectedSkills()} />
+            case 4:
+                return <SkillPicker
+                    classes={this.props.classes}
+                    onClickSkillAdd={this.onClickSkillAdd}
+                    onClickSGAdd={this.onClickSGAdd}
+                    onClickSkillRemove={this.onClickSkillRemove}
+                    onClickSGRemove={this.onClickSGRemove}
+                    availableSGs={this.availableSGs()}
+                    selectedSGs={this.selectedSGs()}
+                    availableSkills={this.availableSkills()}
+                    selectedSkills={this.selectedSkills()} />
             default:
-                break;
+                return null;
         }
     }
 
@@ -230,7 +243,8 @@ class NewAdvertisementPage extends Component {
                             <p className={classes.cardCategoryWhite}>
                                 {page === 1 ? 'Choose a profession' : null}
                                 {page === 2 ? 'Choose Skills' : null}
-                                {page === 3 ? 'Fill in the details' : null}
+                                {page === 3 ? 'Assess weights' : null}
+                                {page === 4 ? 'Fill in the details' : null}
                             </p>
                         </CardHeader>
                         <CardBody>

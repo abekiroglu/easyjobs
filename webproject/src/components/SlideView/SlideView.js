@@ -51,6 +51,10 @@ export default function SlideView(props) {
                     classes={{ root: classes.root, wrapper: classes.wrapper, selected: classes.selected }}
                     icon={<FiberManualRecordIcon />}
                     disabled={true} />
+                <BottomNavigationAction
+                    classes={{ root: classes.root, wrapper: classes.wrapper, selected: classes.selected }}
+                    icon={<FiberManualRecordIcon />}
+                    disabled={true} />
                 <IconButton onClick={onNavigateNext}>
                     <NavigateNextIcon />
                 </IconButton>
