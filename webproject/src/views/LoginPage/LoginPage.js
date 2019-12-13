@@ -46,12 +46,9 @@ class LoginPage extends Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
-        const { company, firebaseUser, getMe } = this.props;
-        if (firebaseUser && !company) {
+        const { company, firebaseUser, getMe, aStatus, cStatus, pStatus } = this.props;
+        if (firebaseUser && !company && aStatus !== 401 && cStatus !== 401 && pStatus !== 401) {
             getMe();
-        }
-        if (company) {
-            history.push('/admin')
         }
     }
 
@@ -108,7 +105,10 @@ const mapStateToProps = state => {
     return {
         company: state.company.company,
         error: state.company.error,
-        firebaseUser: state.company.firebaseUser
+        firebaseUser: state.company.firebaseUser,
+        aStatus: state.advertisement.status,
+        cStatus: state.company.status,
+        pStatus: state.profession.status
     };
 };
 

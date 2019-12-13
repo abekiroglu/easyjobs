@@ -43,7 +43,7 @@ const useStyles = makeStyles(styles);
 
 function Admin({ ...rest }) {
   if (rest.aStatus === 401 || rest.cStatus === 401 || rest.pStatus === 401) {
-    history.push('/landing/login')
+    history.push('/landing/login');
   }
   // styles
   const classes = rest.classes;

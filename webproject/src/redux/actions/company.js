@@ -9,7 +9,8 @@ import {
     HIRE,
     PUT_ADVR,
     GET_ADVRS,
-    GET_APPS
+    GET_APPS,
+    LOGOUT
 } from '../../constants/actionTypes';
 
 export const loginCompany = {
@@ -58,6 +59,12 @@ export const putAdvr = {
     request: () => action(PUT_ADVR.REQUEST, {}),
     success: response => action(PUT_ADVR.SUCCESS, { response }),
     failure: error => action(PUT_ADVR.FAILURE, { error })
+}
+
+export const logout = {
+    request: () => action(LOGOUT.REQUEST, {}),
+    success: response => action(LOGOUT.SUCCESS, { response }),
+    failure: error => action(LOGOUT.FAILURE, { error })
 }
 
 export const getAdvrs = {

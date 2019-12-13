@@ -116,7 +116,7 @@ export default function ExpandableTable(props) {
 
 
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(1);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('id');
     const [expanded, setExpanded] = React.useState(false);
@@ -194,9 +194,9 @@ export default function ExpandableTable(props) {
                 })} */}
             </div>
             <TablePagination
-                rowsPerPageOptions={[1, 2, 3]}
+                rowsPerPageOptions={[5, 10, 15]}
                 component="div"
-                count={44}
+                count={tableData.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

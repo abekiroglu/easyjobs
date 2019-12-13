@@ -8,7 +8,8 @@ import {
     HIRE,
     UPLOAD_IMAGE,
     GET_ADVRS,
-    GET_APPS
+    GET_APPS,
+    LOGOUT
 } from '../../constants/actionTypes';
 import { LOCAL_STORAGE } from '../../constants/misc'
 import * as actions from '../actions/company';
@@ -33,6 +34,7 @@ export function* getMe() {
     try {
         const response = yield call(api.getMe);
         yield put(actions.getMe.success(response));
+        yield call(history.push, '/admin')
     } catch (e) {
         yield put(actions.getMe.failure(e));
     }
@@ -99,6 +101,17 @@ export function* getApps() {
     } catch (e) {
         yield put(actions.getApps.failure(e));
     }
+}
+
+export function* logout() {
+    yield put(actions.logout.success());
+    localStorage.removeItem(LOCAL_STORAGE);
+    yield call(history.push, '/landing/login')
+    debugger;
+}
+
+export function* watchLogout() {
+    yield takeLatest(LOGOUT.REQUEST, logout)
 }
 
 export function* watchGetAdvrs() {

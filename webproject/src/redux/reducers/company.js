@@ -7,8 +7,10 @@ import {
     UPLOAD_IMAGE,
     PUT_ADVR,
     GET_ADVRS,
-    GET_APPS
+    GET_APPS,
+    LOGOUT
 } from '../../constants/actionTypes';
+import Logout from 'views/Logout/Logout';
 
 const initialState = {};
 
@@ -17,7 +19,8 @@ export default function companyReducer(state = initialState, action) {
         case LOGIN_COMPANY.REQUEST:
             return {
                 ...state,
-                error: null
+                error: null,
+                status: null
             };
         case LOGIN_COMPANY.SUCCESS:
             return {
@@ -27,7 +30,8 @@ export default function companyReducer(state = initialState, action) {
         case LOGIN_COMPANY.FAILURE:
             return {
                 ...state,
-                error: action.error.message
+                error: action.error.message,
+                status: 401
             };
 
         case GET_ME.REQUEST:
@@ -35,7 +39,8 @@ export default function companyReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 isLoading: true,
-                hasError: false
+                hasError: false,
+                status: null
             };
         case GET_ME.SUCCESS:
             return {
@@ -57,7 +62,8 @@ export default function companyReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 isLoading: true,
-                hasError: false
+                hasError: false,
+                status: null
             };
         case SIGNUP_COMPANY.SUCCESS:
             return {
@@ -81,6 +87,7 @@ export default function companyReducer(state = initialState, action) {
                 error: null,
                 isLoading: true,
                 hasError: false,
+                status: null
             };
         case UPDATE_PROFILE_COMPANY.SUCCESS:
             return {
@@ -103,6 +110,7 @@ export default function companyReducer(state = initialState, action) {
                 error: null,
                 isLoading: true,
                 hasError: false,
+                status: null
             };
         case HIRE.SUCCESS:
             return {
@@ -125,6 +133,7 @@ export default function companyReducer(state = initialState, action) {
                 error: null,
                 isLoading: true,
                 hasError: false,
+                status: null
             };
         case DELETE_COMPANY.SUCCESS:
             return {
@@ -145,7 +154,8 @@ export default function companyReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 isLoading: true,
-                hasError: false
+                hasError: false,
+                status: null
             };
         case UPLOAD_IMAGE.SUCCESS:
             return {
@@ -171,13 +181,15 @@ export default function companyReducer(state = initialState, action) {
                     { ...action.response, comments: [] }]
                 }
             }
-
+        case LOGOUT.SUCCESS:
+            return initialState;
         case GET_ADVRS.REQUEST:
             return {
                 ...state,
                 error: null,
                 isLoading: true,
-                hasError: false
+                hasError: false,
+                status: null
             };
         case GET_ADVRS.SUCCESS:
             return {
@@ -200,7 +212,8 @@ export default function companyReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 isLoading: true,
-                hasError: false
+                hasError: false,
+                status: null
             };
         case GET_APPS.SUCCESS:
             return {

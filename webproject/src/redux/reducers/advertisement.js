@@ -12,7 +12,8 @@ export default function advertisementReducer(state = initialState, action) {
     switch (action.type) {
         case ADD_ADVR.REQUEST:
             return {
-                ...state
+                ...state,
+                status: null
             };
         case ADD_ADVR.SUCCESS:
             return {
@@ -28,7 +29,8 @@ export default function advertisementReducer(state = initialState, action) {
             };
         case GET_ADVR.REQUEST:
             return {
-                ...state
+                ...state,
+                status: null
             };
         case GET_ADVR.SUCCESS:
             return {
@@ -44,7 +46,8 @@ export default function advertisementReducer(state = initialState, action) {
             };
         case UPDATE_ADVR.REQUEST:
             return {
-                ...state
+                ...state,
+                status: null
             };
         case UPDATE_ADVR.SUCCESS:
             return {
@@ -60,7 +63,8 @@ export default function advertisementReducer(state = initialState, action) {
             };
         case DELETE_ADVR.REQUEST:
             return {
-                ...state
+                ...state,
+                status: null
             };
         case DELETE_ADVR.SUCCESS:
             return {
@@ -75,7 +79,8 @@ export default function advertisementReducer(state = initialState, action) {
             };
         case GET_RECOMMENDED_USERS.REQUEST:
             return {
-                ...state
+                ...state,
+                status: null
             };
         case GET_RECOMMENDED_USERS.SUCCESS:
             return {

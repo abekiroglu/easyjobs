@@ -8,7 +8,8 @@ export default function professionReducer(state = initialState, action) {
         case GET_PROFESSION.REQUEST:
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
+                status: null
             };
         case GET_PROFESSION.SUCCESS:
             return {
