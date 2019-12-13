@@ -36,6 +36,16 @@ public class CompanyController {
         return service.getCompanyMe(authentication.getName());
     }
 
+    @GetMapping("/applications")
+    public ResponseEntity getApplications(Authentication authentication){
+        return service.getCompanyApplications(authentication.getName());
+    }
+
+    @GetMapping("/advertisements")
+    public ResponseEntity getAdvertisements(Authentication authentication){
+        return service.getCompanyAdvertisements(authentication.getName());
+    }
+
     @GetMapping("/{companyId}")
     public ResponseEntity getCompanyProfile(@PathVariable String companyId){
         return service.getCompanyProfile(companyId);

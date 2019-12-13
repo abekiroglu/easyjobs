@@ -7,7 +7,9 @@ import {
     DELETE_COMPANY,
     UPLOAD_IMAGE,
     HIRE,
-    PUT_ADVR
+    PUT_ADVR,
+    GET_ADVRS,
+    GET_APPS
 } from '../../constants/actionTypes';
 
 export const loginCompany = {
@@ -56,4 +58,16 @@ export const putAdvr = {
     request: () => action(PUT_ADVR.REQUEST, {}),
     success: response => action(PUT_ADVR.SUCCESS, { response }),
     failure: error => action(PUT_ADVR.FAILURE, { error })
+}
+
+export const getAdvrs = {
+    request: () => action(GET_ADVRS.REQUEST, {}),
+    success: response => action(GET_ADVRS.SUCCESS, { response }),
+    failure: error => action(GET_ADVRS.FAILURE, { error })
+}
+
+export const getApps = {
+    request: () => action(GET_APPS.REQUEST, {}),
+    success: response => action(GET_APPS.SUCCESS, { response }),
+    failure: error => action(GET_APPS.FAILURE, { error })
 }

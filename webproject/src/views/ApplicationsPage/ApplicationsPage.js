@@ -16,8 +16,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CustomInput from "components/CustomInput/CustomInput.js";
 import { TextField } from "@material-ui/core"
 import AddIcon from '@material-ui/icons/Add';
-import { getProfession } from "redux/actions/profession";
 import { getAdvr } from "redux/actions/advertisement";
+import { getApps } from "redux/actions/company";
 import { select } from '../../../node_modules/redux-saga/effects';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ExpansionPanel from "components/ExpansionPanel/ExpansionPanel.js"
@@ -33,7 +33,8 @@ class ApplicationsPage extends Component {
     }
 
     componentDidMount() {
-
+        const { getApplications } = this.props;
+        getApplications();
     }
 
     getApplicationsAsArray = () => {
@@ -92,7 +93,7 @@ class ApplicationsPage extends Component {
 
     render() {
         console.log(this.state.selectedAd);
-        const { classes, advertisement, professions } = this.props;
+        const { classes, applications } = this.props;
         const actions = [<EditIcon onClick={this.onClickEdit} />,
         <DeleteIcon onClick={this.onClickDelete} />];
         const skillAddAction = [<AddIcon onClick={this.onClickEdit} />];
@@ -113,8 +114,8 @@ class ApplicationsPage extends Component {
                         <CardBody>
                             <ExpandableTable
                                 tableHeaderColor="info"
-                                tableHead={this.props.company ? Object.keys(this.props.company.applications[0]) : []}
-                                tableData={this.props.company ? this.props.company.applications : []}
+                                tableHead={applications ? Object.keys(applications[0]) : []}
+                                tableData={applications ? applications : []}
                                 tableBody={ApplicationDetails}
                             />
                         </CardBody>
@@ -134,14 +135,15 @@ const mapStateToProps = state => {
     return {
         company: state.company.company,
         professions: state.profession.professions,
-        advertisement: state.advertisement.advertisement
+        advertisement: state.advertisement.advertisement,
+        applications: state.company.applications
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getProfessions: bindActionCreators(getProfession.request, dispatch),
-        getAdvertisement: bindActionCreators(getAdvr.request, dispatch)
+        getAdvertisement: bindActionCreators(getAdvr.request, dispatch),
+        getApplications: bindActionCreators(getApps.request, dispatch)
     };
 };
 

@@ -5,7 +5,9 @@ import {
     UPDATE_PROFILE_COMPANY,
     HIRE, DELETE_COMPANY,
     UPLOAD_IMAGE,
-    PUT_ADVR
+    PUT_ADVR,
+    GET_ADVRS,
+    GET_APPS
 } from '../../constants/actionTypes';
 
 const initialState = {};
@@ -36,7 +38,6 @@ export default function companyReducer(state = initialState, action) {
                 hasError: false
             };
         case GET_ME.SUCCESS:
-            debugger;
             return {
                 ...state,
                 status: action.response.status,
@@ -166,10 +167,56 @@ export default function companyReducer(state = initialState, action) {
                 ...state,
                 company: {
                     ...state.company,
-                    advertisements: [...state.company.advertisements, 
-                        {...action.response, comments: []}]
+                    advertisements: [...state.company.advertisements,
+                    { ...action.response, comments: [] }]
                 }
             }
+
+        case GET_ADVRS.REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                hasError: false
+            };
+        case GET_ADVRS.SUCCESS:
+            return {
+                ...state,
+                status: action.response.status,
+                isLoading: false,
+                advertisements: action.response.data
+            };
+        case GET_ADVRS.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                status: action.error.response.status,
+                isLoading: false,
+                hasError: true
+            };
+
+        case GET_APPS.REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                hasError: false
+            };
+        case GET_APPS.SUCCESS:
+            return {
+                ...state,
+                status: action.response.status,
+                isLoading: false,
+                applications: action.response.data
+            };
+        case GET_APPS.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                status: action.error.response.status,
+                isLoading: false,
+                hasError: true
+            };
         default:
             return state;
     }

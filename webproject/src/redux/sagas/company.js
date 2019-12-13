@@ -6,7 +6,9 @@ import {
     UPDATE_PROFILE_COMPANY,
     DELETE_COMPANY,
     HIRE,
-    UPLOAD_IMAGE
+    UPLOAD_IMAGE,
+    GET_ADVRS,
+    GET_APPS
 } from '../../constants/actionTypes';
 import { LOCAL_STORAGE } from '../../constants/misc'
 import * as actions from '../actions/company';
@@ -79,6 +81,32 @@ export function* uploadImage({ body }) {
     } catch (e) {
         yield put(actions.uploadImage.failure(e));
     }
+}
+
+export function* getAdvrs() {
+    try {
+        const response = yield call(api.getAdvrs);
+        yield put(actions.getAdvrs.success(response));
+    } catch (e) {
+        yield put(actions.getAdvrs.failure(e));
+    }
+}
+
+export function* getApps() {
+    try {
+        const response = yield call(api.getApps);
+        yield put(actions.getApps.success(response));
+    } catch (e) {
+        yield put(actions.getApps.failure(e));
+    }
+}
+
+export function* watchGetAdvrs() {
+    yield takeLatest(GET_ADVRS.REQUEST, getAdvrs)
+}
+
+export function* watchGetApps() {
+    yield takeLatest(GET_APPS.REQUEST, getApps)
 }
 
 export function* watchDeleteCompany() {

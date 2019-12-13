@@ -20,6 +20,10 @@ export const HIRE = createRequestTypes("HIRE");
 
 export const PUT_ADVR = createRequestTypes("PUT_ADVR");
 
+export const GET_ADVRS = createRequestTypes("GET_ADVRS");
+
+export const GET_APPS = createRequestTypes("GET_APPS");
+
 //Advertisement
 export const ADD_ADVR = createRequestTypes("ADD_ADVR");
 

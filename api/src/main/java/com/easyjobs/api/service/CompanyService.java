@@ -5,6 +5,7 @@ import com.easyjobs.api.dto.request.CompanyUpdateRequest;
 import com.easyjobs.api.dto.response.CompanyResponse;
 import com.easyjobs.api.dto.response.ErrorResponse;
 import com.easyjobs.api.dto.response.Response;
+import com.easyjobs.api.dto.response.SimpleProfession;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
 import com.easyjobs.api.model.*;
@@ -27,6 +28,7 @@ import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -201,4 +203,23 @@ public class CompanyService {
     }
 
 
+    public ResponseEntity getCompanyApplications(String name) {
+        try {
+            Company dbCompany = companyRepository.findOneByEmail(name);
+
+            return new Response<>(dbCompany.getApplications().stream().map(CompanyResponse.JobApplicationWrapper::new).collect(Collectors.toList()), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity getCompanyAdvertisements(String name) {
+        try {
+            Company dbCompany = companyRepository.findOneByEmail(name);
+
+            return new Response<>(dbCompany.getAdvertisements(), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

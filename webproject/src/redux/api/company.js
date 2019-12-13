@@ -86,3 +86,24 @@ export function uploadImage(body) {
   })
 }
 
+export function getAdvrs() {
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  return axios.request({
+    method: 'get',
+    headers: {
+      auth: TOKEN
+    },
+    url: `${COMPANY}/advertisements`
+  })
+}
+
+export function getApps() {
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  return axios.request({
+    method: 'get',
+    headers: {
+      auth: TOKEN
+    },
+    url: `${COMPANY}/applications`
+  })
+}

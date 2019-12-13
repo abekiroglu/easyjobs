@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AdvertisementResponse {
+    private String title;
     private int id;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date publishDate;
@@ -20,6 +21,7 @@ public class AdvertisementResponse {
     private int professionId;
 
     public AdvertisementResponse(Advertisement advertisement){
+        this.title = advertisement.getTitle();
         this.id = advertisement.getId();
         this.publishDate = advertisement.getPublishDate();
         this.validUntil = advertisement.getValidUntil();
@@ -35,6 +37,14 @@ public class AdvertisementResponse {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getPublishDate() {

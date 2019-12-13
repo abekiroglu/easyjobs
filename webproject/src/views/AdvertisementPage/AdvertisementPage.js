@@ -20,6 +20,7 @@ import { getProfession } from "redux/actions/profession";
 import { getAdvr } from "redux/actions/advertisement";
 import { select } from '../../../node_modules/redux-saga/effects';
 import RemoveIcon from '@material-ui/icons/Remove';
+import { getAdvrs } from 'redux/actions/company';
 
 class AdvertisementPage extends Component {
     constructor(props) {
@@ -36,8 +37,9 @@ class AdvertisementPage extends Component {
     }
 
     componentDidMount() {
-        const { getProfessions } = this.props;
+        const { getProfessions, getAdvertisements } = this.props;
         getProfessions();
+        getAdvertisements();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -57,9 +59,9 @@ class AdvertisementPage extends Component {
     }
 
     getAdvertisementsAsArray = () => {
-        const { company } = this.props;
+        const { advertisements } = this.props;
         var adsArr = []
-        company.advertisements.forEach(obj => {
+        advertisements.forEach(obj => {
             adsArr.push([obj.id, obj.publishDate, obj.validUntil, obj.description, obj.requirements.length, obj.comments.length]);
         });
         return adsArr;
@@ -85,9 +87,9 @@ class AdvertisementPage extends Component {
         })
     }
     onClickDelete = e => {
-        const { company } = this.props;
+        const { advertisements } = this.props;
         var adId = e.currentTarget.parentElement.parentElement.children[0].innerHTML;
-        var selectedAd = company.advertisements.filter(ad => ad.id === parseInt(adId))[0];
+        var selectedAd = advertisements.filter(ad => ad.id === parseInt(adId))[0];
         this.setState({
             selectedAd: selectedAd,
             action: 'delete'
@@ -260,7 +262,7 @@ class AdvertisementPage extends Component {
     }
 
     render() {
-        const { classes, advertisement, professions } = this.props;
+        const { classes, advertisement, professions, advertisements } = this.props;
         const actions = [<EditIcon onClick={this.onClickEdit} />,
         <DeleteIcon onClick={this.onClickDelete} />];
         const skillAddAction = [<AddIcon onClick={this.onClickEdit} />];
@@ -283,7 +285,7 @@ class AdvertisementPage extends Component {
                                 tableHead={["Id", "Published At",
                                     "Valid Until", "Description",
                                     "Requirements", "Comments"]}
-                                tableData={this.props.company ? this.getAdvertisementsAsArray() : []}
+                                tableData={advertisements ? this.getAdvertisementsAsArray() : []}
                                 actions={actions}
                             />
                         </CardBody>
@@ -418,16 +420,17 @@ class AdvertisementPage extends Component {
 
 const mapStateToProps = state => {
     return {
-        company: state.company.company,
         professions: state.profession.professions,
-        advertisement: state.advertisement.advertisement
+        advertisement: state.advertisement.advertisement,
+        advertisements: state.company.advertisements
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         getProfessions: bindActionCreators(getProfession.request, dispatch),
-        getAdvertisement: bindActionCreators(getAdvr.request, dispatch)
+        getAdvertisement: bindActionCreators(getAdvr.request, dispatch),
+        getAdvertisements: bindActionCreators(getAdvrs.request, dispatch)
     };
 };
 
