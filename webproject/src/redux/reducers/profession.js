@@ -1,4 +1,4 @@
-import { GET_PROFESSION } from '../../constants/actionTypes';
+import { GET_PROFESSION, CLEAR_PROFESSIONS } from '../../constants/actionTypes';
 
 const initialState = {};
 
@@ -27,6 +27,8 @@ export default function professionReducer(state = initialState, action) {
                 isLoading: false,
                 hasError: true
             };
+        case CLEAR_PROFESSIONS.SUCCESS:
+            return initialState;
 
         default:
             return state;

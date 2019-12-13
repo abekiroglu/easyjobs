@@ -3,7 +3,8 @@ import {
     GET_ADVR,
     UPDATE_ADVR,
     DELETE_ADVR,
-    GET_RECOMMENDED_USERS
+    GET_RECOMMENDED_USERS,
+    CLEAR_ADS
 } from '../../constants/actionTypes';
 
 const initialState = {};
@@ -94,6 +95,8 @@ export default function advertisementReducer(state = initialState, action) {
                 status: action.error.response.status,
                 error: action.error.response.data.message
             };
+        case CLEAR_ADS.SUCCESS:
+            return initialState;
         default:
             return state;
     }

@@ -15,6 +15,8 @@ import { LOCAL_STORAGE } from '../../constants/misc'
 import * as actions from '../actions/company';
 import history from '../../history';
 import * as api from '../api/company';
+import { clearAds } from '../actions/advertisement'
+import { clearProfessions } from '../actions/profession'
 
 export function* loginCompany({ body }) {
     try {
@@ -106,6 +108,8 @@ export function* getApps() {
 export function* logout() {
     yield put(actions.logout.success());
     localStorage.removeItem(LOCAL_STORAGE);
+    yield put(clearAds.success());
+    yield put(clearProfessions.success());
     yield call(history.push, '/landing/login')
     debugger;
 }
