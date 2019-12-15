@@ -15,7 +15,6 @@ const useStyles = makeStyles(styles);
 export default function CustomTable(props) {
   const classes = useStyles();
   const { tableHead, tableData, tableHeaderColor, actions } = props;
-
   return (
     <div className={classes.tableResponsive}>
       <Table className={classes.table}>
@@ -47,7 +46,7 @@ export default function CustomTable(props) {
                 {prop.map((prop, key) => {
                   return (
                     <TableCell className={classes.tableCell} key={key} id={`row-${key}`}>
-                      {prop}
+                      {prop.length > 150 ? prop.substring(0, 150) + '...' : prop}
                     </TableCell>
                   );
                 })}

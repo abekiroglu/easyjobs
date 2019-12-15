@@ -17,7 +17,7 @@ class LoginChecker extends Component {
         if (!token) {
             history.push('/landing/login')
         }
-        if (!company) {
+        if (!company && !window.location.href.includes('/landing')) {
             getMe();
         }
         if (error) {
@@ -25,19 +25,20 @@ class LoginChecker extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        var token = localStorage.getItem(LOCAL_STORAGE);
-        const { company, error, getMe } = this.props;
-        if (!token) {
-            history.push('/landing/login')
-        }
-        if (!company) {
-            getMe();
-        }
-        if (error) {
-            history.push('/landing/login');
-        }
-    }
+    // componentDidUpdate(prevProps, prevState) {
+    //     debugger;
+    //     var token = localStorage.getItem(LOCAL_STORAGE);
+    //     const { company, error, getMe } = this.props;
+    //     if (!token) {
+    //         history.push('/landing/login')
+    //     }
+    //     if (!company && !window.location.href.includes('/landing/login')) {
+    //         getMe();
+    //     }
+    //     if (error) {
+    //         history.push('/landing/login');
+    //     }
+    // }
 
     render() {
         return null;

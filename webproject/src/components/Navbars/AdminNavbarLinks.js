@@ -88,7 +88,6 @@ export default function AdminNavbarLinks(props) {
     }
   };
   const handleCloseNotification = (e) => {
-    debugger;
     setOpenNotification(null);
   };
   const handleClickProfile = event => {

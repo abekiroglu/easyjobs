@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "advertisement")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Advertisement extends BaseModel{
+    private String title;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date publishDate;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
@@ -38,6 +39,13 @@ public class Advertisement extends BaseModel{
         super.setId(ID);
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Date getPublishDate() {
         return publishDate;

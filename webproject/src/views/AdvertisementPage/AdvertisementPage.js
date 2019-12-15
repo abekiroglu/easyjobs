@@ -26,13 +26,34 @@ class AdvertisementPage extends Component {
         super(props);
         this.state = {
             selectedAd: null,
-            action: null
+            action: null,
+            selectedSGs: [],
+            availableSGs: [],
+            selectedSkills: [],
+            availableSkills: [],
+            adId: null
         };
     }
 
     componentDidMount() {
         const { getProfessions } = this.props;
         getProfessions();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.adId !== this.state.adId) {
+            const { getAdvertisement } = this.props;
+            let payload = {
+                advertisementId: parseInt(this.state.adId)
+            }
+            getAdvertisement(payload);
+        }
+        if (this.props.advertisement !== prevProps.advertisement) {
+            this.setState({
+                selectedAd: this.props.advertisement
+            })
+        }
+
     }
 
     getAdvertisementsAsArray = () => {
@@ -48,17 +69,10 @@ class AdvertisementPage extends Component {
         return [[selectedAd.id, selectedAd.publishDate, selectedAd.validUntil, selectedAd.description, selectedAd.requirements.length, selectedAd.comments.length]];
     }
     onClickEdit = e => {
-        const { company, getAdvertisement } = this.props;
-
         var adId = e.currentTarget.parentElement.parentElement.children[0].innerHTML;
-        let payload = {
-            advertisementId: parseInt(adId)
-        }
-        getAdvertisement(payload);
-
-        var selectedAd = company.advertisements.filter(ad => ad.id === parseInt(adId))[0];
         this.setState({
-            selectedAd: selectedAd,
+            selectedAd: null,
+            adId: adId,
             action: 'edit'
         })
     }
@@ -135,7 +149,6 @@ class AdvertisementPage extends Component {
                 professionSkills.push(obj);
             }
         }
-
         selectedSGs = professionSkills.filter(ps => adSkills.includes(ps.sid)).map(sg => sg.sgid);
         selectedSGs = selectedSGs.filter((id, idx) => selectedSGs.indexOf(id) === idx);
         selectedSGs = professionSkillGroups.filter(sg => !selectedSGs.includes(sg.id));
@@ -199,6 +212,10 @@ class AdvertisementPage extends Component {
             }
         }
 
+        var selectedSGs = professionSkills.filter(ps => adSkills.includes(ps.id)).map(sg => sg.sgid);
+        selectedSGs = selectedSGs.filter((id, idx) => selectedSGs.indexOf(id) === idx);
+        selectedSGs = professionSkillGroups.filter(sg => selectedSGs.includes(sg.id));
+
         availableSkills = professionSkills.filter(ps => !adSkills.includes(ps.id));
         var sArr = []
         availableSkills.forEach(obj => {
@@ -235,7 +252,6 @@ class AdvertisementPage extends Component {
     }
 
     render() {
-        console.log(this.state.selectedAd);
         const { classes, advertisement, professions } = this.props;
         const actions = [<EditIcon onClick={this.onClickEdit} />,
         <DeleteIcon onClick={this.onClickDelete} />];

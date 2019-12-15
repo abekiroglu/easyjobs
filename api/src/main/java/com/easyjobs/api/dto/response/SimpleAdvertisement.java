@@ -10,6 +10,7 @@ import java.util.*;
 
 public class SimpleAdvertisement {
     private int id;
+    private String title;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date publishDate;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
@@ -19,6 +20,7 @@ public class SimpleAdvertisement {
     private Double matchRate;
 
     public SimpleAdvertisement(Advertisement advertisement, List<Skill> skills){
+        this.title = advertisement.getTitle();
         this.id = advertisement.getId();
         this.publishDate = advertisement.getPublishDate();
         this.validUntil = advertisement.getValidUntil();
@@ -57,6 +59,14 @@ public class SimpleAdvertisement {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getPublishDate() {
