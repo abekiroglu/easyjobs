@@ -52,14 +52,48 @@ extension ProfileViewController: UserHelperDelegate{
         errorLabel.textColor = UIColor.green
         
     }
+    func fillUI(){
+        if userHelper.bigUser == true{
+            nameTextField.text = userHelper.bigLoadedUser.name
+            surnameTextField.text = userHelper.bigLoadedUser.surname
+            professionTextField.text = userHelper.bigLoadedUser.profession.title
+            oldSkills = userHelper.bigLoadedUser.skills
+        }else{
+            nameTextField.text = userHelper.loadedUser.name
+            surnameTextField.text = userHelper.loadedUser.surname
+            professionTextField.text = userHelper.loadedUser.profession.title
+        }
+    }
+}
+
+extension ProfileViewController: UIImagePickerControllerDelegate{
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        
+        profileImage.image = image
+        
+        userHelper.UploadImageWithAlamofire(image: profileImage.image!)
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
     
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+}
+
+
+
+extension ProfileViewController: UINavigationControllerDelegate{
     
 }
+
 
 class ProfileViewController: UIViewController {
     
     
+    @IBOutlet weak var skillImage: UIImageView!
     @IBOutlet weak var bgImage: UIImageView!
     @IBOutlet weak var cardLabel: UILabel!
     @IBOutlet weak var editInformationLabel: UILabel!
@@ -73,6 +107,9 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var tickImageView: UIImageView!
     @IBOutlet weak var saveButton: DesignableButton!
+    
+    @IBOutlet weak var profileImage: DesignableImageView!
+    
     
     
     @IBOutlet var loadingView: UIView!
@@ -120,17 +157,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-        
-        if userHelper.bigUser == true{
-            nameTextField.text = userHelper.bigLoadedUser.name
-            surnameTextField.text = userHelper.bigLoadedUser.surname
-            professionTextField.text = userHelper.bigLoadedUser.profession.title
-            oldSkills = userHelper.bigLoadedUser.skills
-        }else{
-            nameTextField.text = userHelper.loadedUser.name
-            surnameTextField.text = userHelper.loadedUser.surname
-            professionTextField.text = userHelper.loadedUser.profession.title
-        }
     }
     
     
@@ -152,13 +178,11 @@ class ProfileViewController: UIViewController {
         
         if sender.state == UIGestureRecognizer.State.ended{
             
-            
-            
             if card.center.x > self.view.center.x * 2{
                 // Move card to the right side
                 self.selectedSkills.append(possibleSkills[skillNum])
                 print("Skill \(selectedSkills.last?.description) added to selectedSkills")
-                if(skillNum == 2){
+                if(skillNum == possibleSkills.count-1){
                     UIView.animate(withDuration: 0.4) {
                         card.center = CGPoint(x: card.center.x + 200, y: card.center.y + 75)
                         card.alpha = 0
@@ -183,7 +207,7 @@ class ProfileViewController: UIViewController {
                 }
             } else if card.center.x < 0 {
                 //self.skills[skillNum] =  false
-                if (skillNum == 2){
+                if (skillNum == possibleSkills.count-1){
                 // Move card to the left side
                     UIView.animate(withDuration: 0.4) {
                         card.center = CGPoint(x: card.center.x - 200, y: card.center.y + 75)
@@ -235,6 +259,7 @@ class ProfileViewController: UIViewController {
             var profession = professionTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let experience = experienceTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
+            
             let email = Auth.auth().currentUser?.email
             
             var professionInt: Int = 1
@@ -246,14 +271,13 @@ class ProfileViewController: UIViewController {
             var newSkills: [Skill] = []
             var deletedSkills: [Skill] = []
             
-            
-            if userHelper.bigUser && oldSkills.count > 0 {
-                newSkills = professionDataSource.getNewSkills(oldSkills: oldSkills, selectedSkills: selectedSkills)
-                deletedSkills = professionDataSource.getDeletedSkills(oldSkills: oldSkills, selectedSkills: selectedSkills)
+            if selectedSkills.count > 0{
+                for i in 0...selectedSkills.count-1{
+                    print("\(i)th selected skill: \(selectedSkills[i].description)")
+                }
             }else{
-                newSkills = selectedSkills
+                print("There is no selected skill")
             }
-            
             
             if oldSkills.count > 0{
                 for i in 0...oldSkills.count-1{
@@ -263,19 +287,21 @@ class ProfileViewController: UIViewController {
                 print("There is no old skill")
             }
             
- 
-            if selectedSkills.count > 0{
-                for i in 0...selectedSkills.count-1{
-                    print("\(i)th selected skill: \(selectedSkills[i].description)")
-                }
+            if userHelper.bigUser && oldSkills.count > 0 {
+                newSkills = professionDataSource.getNewSkills(oldSkills: oldSkills, selectedSkills: selectedSkills)
+                deletedSkills = professionDataSource.getDeletedSkills(oldSkills: oldSkills, selectedSkills: selectedSkills)
             }else{
-                print("There is no selected skill")
+                newSkills = selectedSkills
             }
+            
             
             if newSkills.count > 0{
                 for i in 0...newSkills.count-1{
                     print("\(i)th new skill: \(newSkills[i].description)")
                 }
+            }
+            else{
+                print("There is no new skill")
             }
             if deletedSkills.count > 0{
                 for i in 0...deletedSkills.count-1{
@@ -292,6 +318,31 @@ class ProfileViewController: UIViewController {
             possibleSkills = []
         }
     }
+    
+    @IBAction func chooseImage(_ sender: Any) {
+        
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        
+        let actionSheet = UIAlertController(title: "Photo Source", message: "Choose a source", preferredStyle: .actionSheet)
+            
+        actionSheet.addAction(UIAlertAction(title: "PhotoLibrary", style: .default, handler: { (action: UIAlertAction) in
+            imagePickerController.sourceType = .photoLibrary
+            self.present(imagePickerController, animated: true, completion: nil)
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionSheet, animated: true, completion: nil)
+        
+    }
+    @IBAction func uploadImage(_ sender: Any) {
+        
+        let imageData = profileImage.image?.jpegData(compressionQuality: 0.7)
+        print("ProfileImageData: \(imageData)")
+        
+        userHelper.UploadImageWithAlamofire(image: profileImage.image!)
+    }
+    
         
     
 }

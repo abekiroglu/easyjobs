@@ -37,6 +37,7 @@ extension LoginViewController{
         Auth.auth().signIn(withEmail: email, password: password) { (loginResult, loginError) in
             if loginError != nil{
                 print(loginError)
+                self.loadingView.removeFromSuperview()
                 self.errorLabel.text = "Wrong email or password"
                 self.errorLabel.alpha = 1
             } else{
@@ -48,7 +49,7 @@ extension LoginViewController{
                     // Handle error
                     return;
                   }else{
-                    print(idToken)
+                    //print(idToken)
                     self.goToMenu()
                     }
                     self.closeLoadingScreen()

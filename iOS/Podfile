@@ -10,7 +10,8 @@ target 'EasyJobs' do
     pod 'FirebaseUI/Auth'
     pod 'Firebase/Analytics'	
     pod 'Firebase/Firestore'
-    pod 'LBTATools'		
+    pod 'Alamofire', '~> 5.0.0-rc.3'
+    pod 'SwiftyJSON', '~> 4.0'		
 	
   target 'EasyJobsTests' do
     inherit! :search_paths
@@ -19,7 +20,8 @@ target 'EasyJobs' do
       pod 'FirebaseUI/Auth'
       pod 'Firebase/Analytics'
       pod 'Firebase/Firestore'
-      pod 'LBTATools'		
+      pod 'Alamofire', '~> 5.0.0-rc.3'	
+      pod 'SwiftyJSON', '~> 4.0'
   end
 
   target 'EasyJobsUITests' do
@@ -29,7 +31,8 @@ target 'EasyJobs' do
       pod 'FirebaseUI/Auth'	
       pod 'Firebase/Analytics'
       pod 'Firebase/Firestore'
-      pod 'LBTATools'
+      pod 'Alamofire', '~> 5.0.0-rc.3'
+      pod 'SwiftyJSON', '~> 4.0'
   end
 
 end

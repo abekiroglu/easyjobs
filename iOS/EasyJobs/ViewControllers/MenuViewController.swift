@@ -9,6 +9,17 @@
 import UIKit
 import Firebase
 
+extension MenuViewController: UserHelperDelegate{
+    func fillUI(){
+        print("Username is: \(userHelper.bigLoadedUser.name)")
+        print("Filling Username")
+        if self.userHelper.bigUser{
+            self.welcomeLabel.text = "\(self.userHelper.bigLoadedUser.name)"
+        }else{
+            self.welcomeLabel.text = "\(self.userHelper.loadedUser.name)"
+        }
+    }
+}
 
 class MenuViewController: UIViewController {
     
@@ -21,59 +32,39 @@ class MenuViewController: UIViewController {
     @IBOutlet weak var logOutButton: DesignableButton!
     
     var userHelper = UserHelper()
-    var advertisementDataSource = AdvertisementDataSource()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        bgImage.alpha = 0
-        welcomeLabel.alpha = 0
-        advertisementsButton.alpha = 0
-        applicationsButton.alpha = 0
-        profileButton.alpha = 0
-        logOutButton.alpha = 0
-        
         userHelper.loadUser()
-        advertisementDataSource.loadAdvertisementList()
+        userHelper.delegate = self
+        
+        if view.bounds.height<600{
+            print("It is shorter")
+            profileButton.bounds.size.height = 90
+            profileButton.bounds.size.width = 90
+            print("Height: \(profileButton.bounds.size.height)")
+            print("Width: \(profileButton.bounds.size.width)")
+            profileButton.cornerRadius = profileButton.bounds.size.width / 2
+        }
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        UIView.animate(withDuration: 0.5, animations: {
+        /*UIView.animate(withDuration: 0.2, animations: {
             self.bgImage.alpha = 0.4
         }) { (true) in
-            self.showLabel()
-        }
-        if userHelper.bigUser{
-            welcomeLabel.text = "Welcome \(userHelper.bigLoadedUser.name)"
-        }else{
-        welcomeLabel.text = "Welcome \(userHelper.loadedUser.name)"
-        }
+            self.showProfile()
+        }*/
+        
     }
   
     @IBAction func logOutButtonTapped(_ sender: Any) {
         logOut()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
-        let button =  sender as! DesignableButton
-        if button.title(for: .normal) == "Dream Job" ||
-                button.title(for: .normal) == "Applications"{
-            var appIDs: [Int] = []
-            if userHelper.bigUser && userHelper.bigLoadedUser.applications.count>0 {
-                for application in userHelper.bigLoadedUser.applications{
-                    appIDs.append(application.advertisementId)
-                }
-            }
-            let destination =  segue.destination as! AdvertisementViewController
-            destination.advertisementIDs = appIDs
-            print("Number of applications:  \(appIDs.count)")
-            
-            if button.titleLabel?.text == "Applications"{
-                destination.isApplications = true
-            }
-        }
-    }
     
 }

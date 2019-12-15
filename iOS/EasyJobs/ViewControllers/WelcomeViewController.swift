@@ -16,7 +16,7 @@ class WelcomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        bgImage.alpha = 0.7
+        //bgImage.alpha = 0.8
         
         let user = Auth.auth().currentUser
         if(user != nil){

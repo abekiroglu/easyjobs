@@ -8,6 +8,9 @@
 
 import UIKit
 
+
+
+
 extension AdvertisementDetailViewController: AdvertisementDataSourceDelegate{
     func advertisementDetailLoaded(advertisement: SimpleAdvertisement){
         
@@ -29,25 +32,22 @@ class AdvertisementDetailViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var applyButton: DesignableButton!
     
-    var advertisementID: Int?
     var advertisement: SimpleAdvertisement?
     let advertisementDataSource = AdvertisementDataSource()
+    let userHelper = UserHelper()
     var isAlreadyApplied: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         advertisementDataSource.delegate = self
-        if let isApplied = isAlreadyApplied{
+        userHelper.loadUser()
+      /*  if let isApplied = isAlreadyApplied{
             applyButton.setTitle("Cancel Application", for: .normal)
-        }
-        // Do any additional setup after loading the view.
+        }*/
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        /*
-        if let selectedAdvertisementID = advertisementID{
-        //advertisementDataSource.loadAdvertisementDetail(advertisementID: selectedAdvertisementID)
-        }*/
         
         if let selectedAdvertisement =  advertisement{
             //companyImage = advertisement.company.picture
@@ -58,15 +58,32 @@ class AdvertisementDetailViewController: UIViewController {
             validUntilLabel.text = selectedAdvertisement.validUntil
             companyEmailLabel.text = selectedAdvertisement.company.email
             descriptionTextView.text = "Description: \(selectedAdvertisement.description)"
+            if let url = URL(string: selectedAdvertisement.company.picture){
+                companyImage.load(url: url)
+            }
             
-            if selectedAdvertisement.matchRate < 0.41{
-                matchRateLabel.textColor = UIColor.red
-            }else if selectedAdvertisement.matchRate < 0.71 {
-                matchRateLabel.textColor = UIColor.yellow
+            
+            if selectedAdvertisement.matchRate < 0.61{
+                matchRateLabel.textColor = UIColor.orange
+            }else if selectedAdvertisement.matchRate < 0.81 {
+                matchRateLabel.textColor = UIColor.green
             }else{
-                matchRateLabel.textColor = UIColor.blue
+                matchRateLabel.textColor = UIColor.yellow
             }
             matchRateLabel.alpha = 0.6
+        }
+        if let isAlreadyApplied = isAlreadyApplied{
+            applyButton.setTitle("Cancel Application", for: .normal)
+        }else{
+            if userHelper.bigUser{
+                if userHelper.bigLoadedUser.applications.count>0{
+                    for application in userHelper.bigLoadedUser.applications{
+                        if application.advertisementId == self.advertisement?.id{
+                            applyButton.title(for: .normal) == "Cancel Application"
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -78,6 +95,10 @@ class AdvertisementDetailViewController: UIViewController {
         }else{
             // Cancel application
         }
+    }
+    
+    func setCompanyImage(image: UIImage){
+        companyImage.image = image
     }
     
 }

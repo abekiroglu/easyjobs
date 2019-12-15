@@ -13,7 +13,8 @@ import Firebase
 extension MenuViewController{
     
     func showLabel(){
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
+            
             self.welcomeLabel.alpha = 1
         }) { (true) in
             self.showAdvertisements()
@@ -21,7 +22,7 @@ extension MenuViewController{
     }
     
     func showAdvertisements(){
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
             self.advertisementsButton.alpha = 1
         }) { (true) in
             self.showApplications()
@@ -29,23 +30,23 @@ extension MenuViewController{
     }
     
     func showApplications(){
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.2, animations: {
             self.applicationsButton.alpha = 1
-        }) { (true) in
-            self.showProfile()
-        }
-    }
-    
-    func showProfile(){
-        UIView.animate(withDuration: 0.5, animations: {
-            self.profileButton.alpha = 1
         }) { (true) in
             self.showLogOut()
         }
     }
     
+    func showProfile(){
+        UIView.animate(withDuration: 0.2, animations: {
+            self.profileButton.alpha = 1
+        }) { (true) in
+            self.showLabel()
+        }
+    }
+    
     func showLogOut(){
-        UIView.animate(withDuration: 0.5) {
+        UIView.animate(withDuration: 0.2) {
             self.logOutButton.alpha = 1
         }
     }

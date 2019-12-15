@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class DesignableImageView: UIImageView {
+@IBDesignable class DesignableImageView: UIImageView{
 
     @IBInspectable var borderWidth: CGFloat = 0.0 {
         didSet{

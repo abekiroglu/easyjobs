@@ -13,12 +13,14 @@ protocol AdvertisementDataSourceDelegate{
     func advertisementListLoaded(advertisementList: [SimpleAdvertisement])
     func advertisementDetailLoaded(advertisement: SimpleAdvertisement)
     func jobApplied()
+    func applicationListLoaded(applications: [SimpleAdvertisement])
 }
 
 extension AdvertisementDataSourceDelegate{
     func advertisementListLoaded(advertisementList: [SimpleAdvertisement]) {}
     func advertisementDetailLoaded(advertisement: SimpleAdvertisement) {}
     func jobApplied(){}
+    func applicationListLoaded(applications: [SimpleAdvertisement]){}
 }
 
 class AdvertisementDataSource{
@@ -57,6 +59,7 @@ class AdvertisementDataSource{
          }
     }
     
+    
     func loadAdvertisementList(){
         
         let session = URLSession.shared
@@ -83,7 +86,7 @@ class AdvertisementDataSource{
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue(idToken!, forHTTPHeaderField: "auth" )
             let dataTask = session.dataTask(with: request) {(data, response, error) in
-                print("HERE: \(String.init(data: data!, encoding: .utf8))")
+                //print("HERE: \(String.init(data: data!, encoding: .utf8))")
                 let decoder = JSONDecoder()
                 var advertisementList = try! decoder.decode([SimpleAdvertisement].self, from: data!)
                 print("AdvertisementsLoaded")
@@ -123,7 +126,7 @@ class AdvertisementDataSource{
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue(idToken!, forHTTPHeaderField: "auth" )
             let dataTask = session.dataTask(with: request) {(data, response, error) in
-                print("HERE: \(String.init(data: data!, encoding: .utf8))")
+                //print("HERE: \(String.init(data: data!, encoding: .utf8))")
                 let decoder = JSONDecoder()
                 var advertisement = try! decoder.decode(SimpleAdvertisement.self, from: data!)
                 print("AdvertisementDetailLoaded")

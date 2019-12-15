@@ -31,7 +31,7 @@ extension ProfileViewController{
         s3Selecter.isEnabled = false*/
         tickImageView.alpha = 0
         cardView.alpha = 0
-        bgImage.alpha = 0.4
+        bgImage.alpha = 0.1
         
     }
     
@@ -42,7 +42,8 @@ extension ProfileViewController{
             surnameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             birthDateTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             professionTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
-            experienceTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""
+            experienceTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
+                birthDateTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""
             {
             return "Please fill in all fields"
         }

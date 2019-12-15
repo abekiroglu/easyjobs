@@ -6,7 +6,7 @@
 //  Copyright © 2019 Diablito. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct LoadedUser: Codable{
     //for loadUser() who havent created profile
@@ -121,6 +121,7 @@ struct LoadUserUser: Codable{
             matchRate = 0.66
         }
         
+        
     }
     
     struct SimpleCompany: Codable{
@@ -141,5 +142,23 @@ struct LoadUserUser: Codable{
             picture = ""
         }
     }
+
+struct Media: Codable{
+    let key: String
+    let filename: String
+    let data: Data
+    let mimeType: String
+    
+    init?(image: UIImage, key: String){
+        self.key = key
+        self.mimeType = "image/jpeg"
+        self.filename = "image\(arc4random()).jpeg"
+        print("Creating media")
+        guard let data = image.jpegData(compressionQuality: 0.7) else {
+            print("Couldn`t get data image")
+            return nil}
+        self.data = data
+    }
+}
 
 
