@@ -9,6 +9,7 @@ import {
     UPLOAD_IMAGE,
     GET_ADVRS,
     GET_APPS,
+    UPDATE_APP,
     LOGOUT
 } from '../../constants/actionTypes';
 import { LOCAL_STORAGE } from '../../constants/misc'
@@ -24,6 +25,7 @@ export function* loginCompany({ body }) {
         if (response.user) {
             localStorage.setItem(LOCAL_STORAGE, response.user.ma);
             yield put(actions.loginCompany.success(response));
+            yield call(history.push, '/admin');
         } else {
             throw response;
         }
@@ -36,7 +38,7 @@ export function* getMe() {
     try {
         const response = yield call(api.getMe);
         yield put(actions.getMe.success(response));
-        yield call(history.push, '/admin')
+        //yield call(history.push, '/admin');
     } catch (e) {
         yield put(actions.getMe.failure(e));
     }
@@ -111,35 +113,47 @@ export function* logout() {
     yield put(clearAds.success());
     yield put(clearProfessions.success());
     yield call(history.push, '/landing/login')
-    debugger;
+}
+
+export function* updateApplication({ body }) {
+    try {
+        const response = yield call(api.updateApp, body);
+        yield put(actions.updateApp.success(response));
+    } catch (e) {
+        yield put(actions.updateApp.failure(e));
+    }
+}
+
+export function* watchUpdateApplication() {
+    yield takeLatest(UPDATE_APP.REQUEST, updateApplication);
 }
 
 export function* watchLogout() {
-    yield takeLatest(LOGOUT.REQUEST, logout)
+    yield takeLatest(LOGOUT.REQUEST, logout);
 }
 
 export function* watchGetAdvrs() {
-    yield takeLatest(GET_ADVRS.REQUEST, getAdvrs)
+    yield takeLatest(GET_ADVRS.REQUEST, getAdvrs);
 }
 
 export function* watchGetApps() {
-    yield takeLatest(GET_APPS.REQUEST, getApps)
+    yield takeLatest(GET_APPS.REQUEST, getApps);
 }
 
 export function* watchDeleteCompany() {
-    yield takeLatest(DELETE_COMPANY.REQUEST, deleteCompany)
+    yield takeLatest(DELETE_COMPANY.REQUEST, deleteCompany);
 }
 
 export function* watchHire() {
-    yield takeLatest(HIRE.REQUEST, hire)
+    yield takeLatest(HIRE.REQUEST, hire);
 }
 
 export function* watchUploadImage() {
-    yield takeLatest(UPLOAD_IMAGE.REQUEST, uploadImage)
+    yield takeLatest(UPLOAD_IMAGE.REQUEST, uploadImage);
 }
 
 export function* watchGetMe() {
-    yield takeLatest(GET_ME.REQUEST, getMe)
+    yield takeLatest(GET_ME.REQUEST, getMe);
 }
 
 export function* watchLoginCompany() {

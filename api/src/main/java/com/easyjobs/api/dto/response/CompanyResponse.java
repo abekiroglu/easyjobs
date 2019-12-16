@@ -121,11 +121,12 @@ public class CompanyResponse {
         @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
         private Date postDate;
         private boolean isResolved;
+        private boolean isAccepted;
         private UserWrapper applicant;
         private String issuedBy;
         private int advertisementId;
         private Double matchRate;
-
+        private String feedback;
 
         public JobApplicationWrapper(JobApplication jobApplication) {
             this.id = jobApplication.getId();
@@ -135,6 +136,8 @@ public class CompanyResponse {
             this.issuedBy = jobApplication.getIssuedBy();
             this.advertisementId = jobApplication.getAdvertisementId();
             this.matchRate = jobApplication.getMatchRate();
+            this.feedback = jobApplication.getFeedback();
+            this.isAccepted = jobApplication.isAccepted();
         }
 
         public int getId() {
@@ -191,6 +194,22 @@ public class CompanyResponse {
 
         public void setMatchRate(Double matchRate) {
             this.matchRate = matchRate;
+        }
+
+        public String getFeedback() {
+            return feedback;
+        }
+
+        public void setFeedback(String feedback) {
+            this.feedback = feedback;
+        }
+
+        public boolean isAccepted() {
+            return isAccepted;
+        }
+
+        public void setAccepted(boolean accepted) {
+            isAccepted = accepted;
         }
     }
 

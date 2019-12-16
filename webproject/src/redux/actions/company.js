@@ -10,6 +10,7 @@ import {
     PUT_ADVR,
     GET_ADVRS,
     GET_APPS,
+    UPDATE_APP,
     LOGOUT
 } from '../../constants/actionTypes';
 
@@ -77,4 +78,10 @@ export const getApps = {
     request: () => action(GET_APPS.REQUEST, {}),
     success: response => action(GET_APPS.SUCCESS, { response }),
     failure: error => action(GET_APPS.FAILURE, { error })
+}
+
+export const updateApp = {
+    request: body => action(UPDATE_APP.REQUEST, { body }),
+    success: response => action(UPDATE_APP.SUCCESS, { response }),
+    failure: error => action(UPDATE_APP.FAILURE, { error })
 }

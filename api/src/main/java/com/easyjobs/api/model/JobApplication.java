@@ -15,6 +15,7 @@ public class JobApplication extends BaseModel{
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date postDate;
     private boolean isResolved;
+    private boolean isAccepted;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id", referencedColumnName = "id")
     @JsonBackReference(value="user_applications")
@@ -26,6 +27,7 @@ public class JobApplication extends BaseModel{
     private String issuedBy;
     private int advertisementId;
     private Double matchRate;
+    private String feedback = "";
 
     @Override
     public int getId() {
@@ -48,6 +50,14 @@ public class JobApplication extends BaseModel{
 
     public boolean isResolved() {
         return isResolved;
+    }
+
+    public boolean isAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        isAccepted = accepted;
     }
 
     public void setResolved(boolean resolved) {
@@ -92,5 +102,13 @@ public class JobApplication extends BaseModel{
 
     public void setMatchRate(Double matchRate) {
         this.matchRate = matchRate;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 }

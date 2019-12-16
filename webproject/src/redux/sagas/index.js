@@ -11,7 +11,8 @@ import {
     watchUploadImage,
     watchGetAdvrs,
     watchGetApps,
-    watchLogout
+    watchLogout,
+    watchUpdateApplication
 } from './company'
 import {
     watchAddAdvr,
@@ -23,6 +24,7 @@ import {
 import { watchGetProfession } from './profession';
 
 export default function* root() {
+    yield fork(watchUpdateApplication);
     yield fork(watchRedirect);
     yield fork(watchLoginCompany);
     yield fork(watchGetMe);

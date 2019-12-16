@@ -24,6 +24,8 @@ export const GET_ADVRS = createRequestTypes("GET_ADVRS");
 
 export const GET_APPS = createRequestTypes("GET_APPS");
 
+export const UPDATE_APP = createRequestTypes("UPDATE_APP");
+
 export const LOGOUT = createRequestTypes("LOGOUT");
 //Advertisement
 export const ADD_ADVR = createRequestTypes("ADD_ADVR");

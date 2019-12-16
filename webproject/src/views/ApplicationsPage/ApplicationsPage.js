@@ -101,14 +101,18 @@ class ApplicationsPage extends Component {
         const skillRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
         const skillGroupAddAction = [<AddIcon onClick={this.onClickEdit} />];
         const skillGroupRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
+        var tableHead;
         if (applications && advertisements) {
             var details = [...applications];
-            details = details.map(app => {
+            details = details.map(detail => {
+                var app = { ...detail };
                 const advertisement = advertisements.filter(ad => ad.id === app.advertisementId)[0];
-                return { header: app, body: advertisement }
+                var feedback = app.feedback;
+                delete app.feedback;
+                return { header: app, body: advertisement, feedback: feedback }
             })
+            tableHead = Object.keys(applications[0]).filter(key => key !== "feedback");
         }
-
         return (
             <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
@@ -123,7 +127,7 @@ class ApplicationsPage extends Component {
                             {applications && advertisements ?
                                 <ExpandableTable
                                     tableHeaderColor="info"
-                                    tableHead={Object.keys(applications[0])}
+                                    tableHead={tableHead}
                                     tableData={details}
                                     tableBody={ApplicationDetails}
                                 /> : null}

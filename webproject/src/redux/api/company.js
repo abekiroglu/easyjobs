@@ -107,3 +107,16 @@ export function getApps() {
     url: `${COMPANY}/applications`
   })
 }
+
+export function updateApp(request) {
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  debugger;
+  return axios.request({
+    method: 'patch',
+    headers: {
+      auth: TOKEN
+    },
+    data: request.body,
+    url: `${COMPANY}/applications/${request.applicationId}`
+  })
+}

@@ -1,5 +1,6 @@
 package com.easyjobs.api.controller;
 
+import com.easyjobs.api.dto.request.ApplicationUpdateRequest;
 import com.easyjobs.api.dto.request.CompanySignupRequest;
 import com.easyjobs.api.dto.request.CompanyUpdateRequest;
 import com.easyjobs.api.dto.response.Response;
@@ -70,4 +71,10 @@ public class CompanyController {
     public ResponseEntity hireAUser(@RequestParam Integer advertisementId, @RequestParam Integer userId, Authentication authentication){
         return service.hireAUser(advertisementId, userId, authentication);
     }
+
+    @PatchMapping("/applications/{applicationId}")
+    public ResponseEntity updateApplication(@PathVariable Integer applicationId, @RequestBody ApplicationUpdateRequest request, Authentication authentication){
+        return service.updateApplication(applicationId, request, authentication.getName());
+    }
+
 }

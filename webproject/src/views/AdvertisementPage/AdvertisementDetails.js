@@ -5,7 +5,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import IconButton from "@material-ui/core/IconButton";
 import SaveIcon from '@material-ui/icons/Save';
 import Button from "components/CustomButtons/Button.js"
-import { Typography } from '../../../node_modules/@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 export default function advertisementDetails(props) {
     const { classes, onDescriptionChange, onValidUntilChange, onTitleChange, onClickSave, color, description, title } = props;
@@ -55,7 +55,7 @@ export default function advertisementDetails(props) {
                     <SaveIcon />
                     <Typography>
                         Publish
-                </Typography>
+                    </Typography>
                 </Button>
             </div>
         </div>

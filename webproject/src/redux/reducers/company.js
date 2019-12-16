@@ -8,6 +8,7 @@ import {
     PUT_ADVR,
     GET_ADVRS,
     GET_APPS,
+    UPDATE_APP,
     LOGOUT
 } from '../../constants/actionTypes';
 import Logout from 'views/Logout/Logout';
@@ -184,6 +185,7 @@ export default function companyReducer(state = initialState, action) {
         case LOGOUT.SUCCESS:
             return initialState;
         case GET_ADVRS.REQUEST:
+            delete state.advertisements;
             return {
                 ...state,
                 error: null,
@@ -208,6 +210,7 @@ export default function companyReducer(state = initialState, action) {
             };
 
         case GET_APPS.REQUEST:
+            delete state.applications;
             return {
                 ...state,
                 error: null,
@@ -230,6 +233,33 @@ export default function companyReducer(state = initialState, action) {
                 isLoading: false,
                 hasError: true
             };
+        case UPDATE_APP.REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                hasError: false,
+                status: null
+            }
+        case UPDATE_APP.SUCCESS:
+            var updatedApplication = action.response.data;
+            var apps = state.applications;
+            var idx = apps.findIndex(app => app.id === updatedApplication.id);
+            apps[idx] = updatedApplication;
+            return {
+                ...state,
+                status: action.response.status,
+                isLoading: false,
+                applications: apps
+            }
+        case UPDATE_APP.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                status: action.error.response.status,
+                isLoading: false,
+                hasError: true
+            }
         default:
             return state;
     }
