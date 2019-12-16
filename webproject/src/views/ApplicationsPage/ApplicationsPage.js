@@ -95,12 +95,6 @@ class ApplicationsPage extends Component {
     render() {
         console.log(this.state.selectedAd);
         const { classes, applications, advertisements } = this.props;
-        const actions = [<EditIcon onClick={this.onClickEdit} />,
-        <DeleteIcon onClick={this.onClickDelete} />];
-        const skillAddAction = [<AddIcon onClick={this.onClickEdit} />];
-        const skillRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
-        const skillGroupAddAction = [<AddIcon onClick={this.onClickEdit} />];
-        const skillGroupRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
         var tableHead;
         if (applications && advertisements) {
             var details = [...applications];

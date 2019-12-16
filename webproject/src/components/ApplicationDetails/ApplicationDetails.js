@@ -70,8 +70,8 @@ function ApplicationDetails(props) {
     const ad = data.body;
     const skills = applicant.skills;
     const requirements = ad.requirements;
-
     const [feedback, setFeedback] = React.useState(data.feedback);
+
     return (
         <div className={classes.root}>
             <GridContainer>
@@ -107,12 +107,13 @@ function ApplicationDetails(props) {
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={12}>
                                     <CustomInput
-                                        labelText="Give feedback to the applicant"
+                                        labelText={data.header.resolved || data.header.accepted ? "Your feedback" : "Give feedback to the applicant"}
                                         id="feedback"
                                         formControlProps={{
                                             fullWidth: true
                                         }}
                                         inputProps={{
+                                            disabled: data.header.resolved || data.header.accepted,
                                             multiline: true,
                                             rows: 5,
                                             onChange: e => { setFeedback(e.currentTarget.value) },
@@ -123,7 +124,7 @@ function ApplicationDetails(props) {
                             </GridContainer>
                         </CardBody>
                         <CardFooter>
-                            {!data.header.isResolved && !data.header.isAccepted ?
+                            {!data.header.resolved && !data.header.accepted ?
                                 <Button
                                     color={feedback.length > 10 && data.feedback !== feedback ? 'primary' : 'transparent'}
                                     disabled={feedback.length > 10 && data.feedback !== feedback ? false : true}
@@ -134,7 +135,7 @@ function ApplicationDetails(props) {
                                     </div>
                                 </Button>
                                 : null}
-                            {data.header.issuedBy !== "Company" || (!data.header.isResolved && !data.header.isAccepted) ?
+                            {data.header.issuedBy !== "Company" || (!data.header.resolved && !data.header.accepted) ?
                                 <div>
                                     <Button
                                         color={feedback.length > 10 && data.feedback !== feedback ? 'danger' : 'transparent'}
