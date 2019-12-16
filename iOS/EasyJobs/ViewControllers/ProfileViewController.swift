@@ -58,6 +58,11 @@ extension ProfileViewController: UserHelperDelegate{
             surnameTextField.text = userHelper.bigLoadedUser.surname
             professionTextField.text = userHelper.bigLoadedUser.profession.title
             oldSkills = userHelper.bigLoadedUser.skills
+            if let picture = userHelper.bigLoadedUser.picture{
+                if let url = URL(string: picture){
+                    profileImage.load(url: url)
+                }
+            }
         }else{
             nameTextField.text = userHelper.loadedUser.name
             surnameTextField.text = userHelper.loadedUser.surname
@@ -73,7 +78,7 @@ extension ProfileViewController: UIImagePickerControllerDelegate{
         
         profileImage.image = image
         
-        userHelper.UploadImageWithAlamofire(image: profileImage.image!)
+        userHelper.uploadImage(image: profileImage.image!)
         
         picker.dismiss(animated: true, completion: nil)
     }
@@ -334,15 +339,7 @@ class ProfileViewController: UIViewController {
         
         self.present(actionSheet, animated: true, completion: nil)
         
-    }
-    @IBAction func uploadImage(_ sender: Any) {
-        
-        let imageData = profileImage.image?.jpegData(compressionQuality: 0.7)
-        print("ProfileImageData: \(imageData)")
-        
-        userHelper.UploadImageWithAlamofire(image: profileImage.image!)
-    }
-    
+    }   
         
     
 }

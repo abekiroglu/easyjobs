@@ -15,6 +15,11 @@ extension MenuViewController: UserHelperDelegate{
         print("Filling Username")
         if self.userHelper.bigUser{
             self.welcomeLabel.text = "\(self.userHelper.bigLoadedUser.name)"
+            if let picture = userHelper.bigLoadedUser.picture{
+                if let url = URL(string: picture){
+                    profileButton.load(url: url)
+                }
+            }
         }else{
             self.welcomeLabel.text = "\(self.userHelper.loadedUser.name)"
         }

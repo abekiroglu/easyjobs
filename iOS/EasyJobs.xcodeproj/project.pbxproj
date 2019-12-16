@@ -31,6 +31,7 @@
 		965615D42393743100612128 /* AdvertisementsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965615D32393743100612128 /* AdvertisementsTableViewCell.swift */; };
 		965745A823A5541900FB420A /* ApplicationDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965745A723A5541900FB420A /* ApplicationDetailViewController.swift */; };
 		965C85A423A5C716005F8F61 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965C85A323A5C716005F8F61 /* UIImageViewExtension.swift */; };
+		965C85A623A7E85C005F8F61 /* DesignableButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965C85A523A7E85C005F8F61 /* DesignableButtonExtension.swift */; };
 		966911AE2395967400F3A307 /* AdvertisementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966911AD2395967400F3A307 /* AdvertisementDetailViewController.swift */; };
 		966E185D23A5244B00AED236 /* ApplicationsViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966E185C23A5244B00AED236 /* ApplicationsViewControllerExtension.swift */; };
 		966E185F23A52E0400AED236 /* AdvertisementViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 966E185E23A52E0400AED236 /* AdvertisementViewControllerExtension.swift */; };
@@ -100,6 +101,7 @@
 		965615D32393743100612128 /* AdvertisementsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementsTableViewCell.swift; sourceTree = "<group>"; };
 		965745A723A5541900FB420A /* ApplicationDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDetailViewController.swift; sourceTree = "<group>"; };
 		965C85A323A5C716005F8F61 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		965C85A523A7E85C005F8F61 /* DesignableButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableButtonExtension.swift; sourceTree = "<group>"; };
 		966911AD2395967400F3A307 /* AdvertisementDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementDetailViewController.swift; sourceTree = "<group>"; };
 		966E185C23A5244B00AED236 /* ApplicationsViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationsViewControllerExtension.swift; sourceTree = "<group>"; };
 		966E185E23A52E0400AED236 /* AdvertisementViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisementViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 				966E185C23A5244B00AED236 /* ApplicationsViewControllerExtension.swift */,
 				966E185E23A52E0400AED236 /* AdvertisementViewControllerExtension.swift */,
 				965C85A323A5C716005F8F61 /* UIImageViewExtension.swift */,
+				965C85A523A7E85C005F8F61 /* DesignableButtonExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -663,6 +666,7 @@
 				96022BE22385774600CBF399 /* ProfileViewControllerExtension.swift in Sources */,
 				96B74EB82385EC7C001163B5 /* SignUpViewControllerExtension.swift in Sources */,
 				96FEDDF8239889E1009A94E1 /* DesignableImageView.swift in Sources */,
+				965C85A623A7E85C005F8F61 /* DesignableButtonExtension.swift in Sources */,
 				96A74B95237CAE8E0017CD43 /* ProfessionDataSource.swift in Sources */,
 				965745A823A5541900FB420A /* ApplicationDetailViewController.swift in Sources */,
 				96F73EBE2387268A007AEC7E /* SimpleObjects.swift in Sources */,
