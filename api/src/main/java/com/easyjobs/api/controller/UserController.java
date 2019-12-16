@@ -65,4 +65,8 @@ public class UserController {
     public Response uploadImage(@RequestParam("file")MultipartFile file, Authentication authentication){
         return service.updateImageUrl(awsService.uploadImage(file), authentication.getName());
     }
+    @PatchMapping("/cancel/{applicationId}")
+    public Response cancelApplication(@PathVariable int applicationId, Authentication authentication){
+        return service.cancelApplication(applicationId, authentication.getName());
+    }
 }

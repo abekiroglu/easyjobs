@@ -43,7 +43,7 @@ public class RecommendedUser {
         this.matchRate = matchRate;
     }
 
-    private Double calculateMatchRate(List<Skill> skills, List<Assessment> assessments) {
+    public static Double calculateMatchRate(List<Skill> skills, List<Assessment> assessments) {
         List<Skill> skillsCopy = new ArrayList<>(skills);
         Double sum = 0.0;
         Double total = 0.0;

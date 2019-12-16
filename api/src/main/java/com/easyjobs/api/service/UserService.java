@@ -11,10 +11,7 @@ import com.easyjobs.api.integration.aws.AwsService;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
 import com.easyjobs.api.model.*;
-import com.easyjobs.api.repository.CompanyRepository;
-import com.easyjobs.api.repository.ProfessionRepository;
-import com.easyjobs.api.repository.SkillRepository;
-import com.easyjobs.api.repository.UserRepository;
+import com.easyjobs.api.repository.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +45,7 @@ public class UserService {
     private UserRepository userRepository;
     private SkillRepository skillRepository;
     private CompanyRepository companyRepository;
+    private JobApplicationRepository jobApplicationRepository;
     private FirebaseApp firebaseApp;
 
     @Autowired
@@ -55,12 +53,14 @@ public class UserService {
                        UserRepository userRepository,
                        FirebaseApp firebaseApp,
                        CompanyRepository companyRepository,
-                       SkillRepository skillRepository) {
+                       SkillRepository skillRepository,
+                       JobApplicationRepository jobApplicationRepository) {
         this.professionRepository = professionRepository;
         this.userRepository = userRepository;
         this.companyRepository = companyRepository;
         this.skillRepository = skillRepository;
         this.firebaseApp = firebaseApp;
+        this.jobApplicationRepository = jobApplicationRepository;
     }
 
     public Response signup(UserSignupRequest userSignupRequest) {
@@ -230,5 +230,15 @@ public class UserService {
         }
 
         return response;
+    }
+
+    public Response cancelApplication(int applicationId, String email) {
+        JobApplication dbApplication = jobApplicationRepository.findOneById(applicationId);
+        if(dbApplication.getApplicant().getEmail().equals(email)){
+            dbApplication.setResolved(true);
+            return new Response<>(dbApplication, HttpStatus.OK);
+        }else{
+            return new Response<>(new ErrorResponse("401", "Application does not belong to the authenticated user"), HttpStatus.NOT_FOUND);
+        }
     }
 }

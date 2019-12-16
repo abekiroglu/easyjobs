@@ -24,6 +24,12 @@ const useStyles = makeStyles(theme => ({
 export default function ExpandableRow(props) {
     const classes = useStyles();
     const { data } = props;
+    const applicant = data.header.applicant;
+    const ad = data.body;
+
+    const skills = applicant.skills;
+    const requirements = ad.requirements;
+    debugger;
     return (
         <div className={classes.root}>
             <GridContainer>
@@ -31,12 +37,32 @@ export default function ExpandableRow(props) {
                     <Card profile>
                         <CardHeader color="warning">
                             <CardAvatar profile>
-                                {data.applicant.picture ? <img src={avatar1} alt="..." /> : null}
+                                {applicant.picture ? <img src={avatar1} alt="..." /> : null}
                             </CardAvatar>
+                            <div> {applicant.name + ' ' + applicant.surname} </div>
+                            <div> {applicant.profession.title} </div>
                         </CardHeader>
                         <CardBody>
-                            <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-                            <p className={classes.cardCategory}>Last Campaign Performance</p>
+                            <GridContainer>
+                                <GridItem xs={12} sm={12} md={6}>
+                                    <div>Email: {applicant.email}</div>
+                                    <div>Birth Date: {applicant.birthDate}</div>
+                                    <div> Skills:
+                                        {skills.map(s => {
+                                            return <div> {s.description} </div>
+                                        })}
+                                    </div>
+                                </GridItem>
+                                <GridItem xs={12} sm={12} md={6}>
+                                    <div>Title: {ad.title}</div>
+                                    <div>Valid Until: {ad.validUntil}</div>
+                                    <div> Skills:
+                                        {requirements.map(r => {
+                                            return <div> {r.skill.description} </div>
+                                        })}
+                                    </div>
+                                </GridItem>
+                            </GridContainer>
                         </CardBody>
                     </Card>
                 </GridItem>

@@ -167,7 +167,7 @@ export default function ExpandableTable(props) {
                                     id="panel1bh-header"
                                     classes={{ content: classes.content }}
                                 >
-                                    {<ExpandableRow data={row} />}
+                                    {<ExpandableRow data={row.header} />}
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
                                     <props.tableBody data={row} />

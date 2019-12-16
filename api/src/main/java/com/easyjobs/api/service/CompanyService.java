@@ -2,10 +2,7 @@ package com.easyjobs.api.service;
 
 import com.easyjobs.api.dto.request.CompanySignupRequest;
 import com.easyjobs.api.dto.request.CompanyUpdateRequest;
-import com.easyjobs.api.dto.response.CompanyResponse;
-import com.easyjobs.api.dto.response.ErrorResponse;
-import com.easyjobs.api.dto.response.Response;
-import com.easyjobs.api.dto.response.SimpleProfession;
+import com.easyjobs.api.dto.response.*;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
 import com.easyjobs.api.model.*;
@@ -189,6 +186,7 @@ public class CompanyService {
             jobApplication.setAppliedTo(dbAdvertisement.getCompany());
             jobApplication.setApplicant(dbUser);
             jobApplication.setAdvertisementId(dbAdvertisement.getId());
+            jobApplication.setMatchRate(RecommendedUser.calculateMatchRate(dbUser.getSkills(), dbAdvertisement.getRequirements()));
             //TODO Enumerate
             jobApplication.setIssuedBy("Company");
 
@@ -207,7 +205,9 @@ public class CompanyService {
         try {
             Company dbCompany = companyRepository.findOneByEmail(name);
 
-            return new Response<>(dbCompany.getApplications().stream().map(CompanyResponse.JobApplicationWrapper::new).collect(Collectors.toList()), HttpStatus.CREATED);
+            return new Response<>(dbCompany.getApplications().stream()
+                    .filter(jobApplication -> !jobApplication.isResolved() && !jobApplication.getDeleted())
+                    .map(CompanyResponse.JobApplicationWrapper::new).collect(Collectors.toList()), HttpStatus.CREATED);
         } catch (Exception e) {
             return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

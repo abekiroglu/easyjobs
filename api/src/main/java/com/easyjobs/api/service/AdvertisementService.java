@@ -233,6 +233,7 @@ public class AdvertisementService {
             jobApplication.setPostDate(new Date());
             jobApplication.setResolved(false);
             jobApplication.setAdvertisementId(advertisement.getId());
+            jobApplication.setMatchRate(RecommendedUser.calculateMatchRate(dbUser.getSkills(), advertisement.getRequirements()));
             //TODO Enumerate
             jobApplication.setIssuedBy("User");
 

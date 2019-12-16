@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface JobApplicationRepository extends JpaRepository<JobApplication, Integer> {
-
+    JobApplication findOneById(int id);
 }

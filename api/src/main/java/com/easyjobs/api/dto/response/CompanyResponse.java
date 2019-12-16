@@ -124,6 +124,7 @@ public class CompanyResponse {
         private UserWrapper applicant;
         private String issuedBy;
         private int advertisementId;
+        private Double matchRate;
 
 
         public JobApplicationWrapper(JobApplication jobApplication) {
@@ -133,6 +134,7 @@ public class CompanyResponse {
             this.applicant = new UserWrapper(jobApplication.getApplicant());
             this.issuedBy = jobApplication.getIssuedBy();
             this.advertisementId = jobApplication.getAdvertisementId();
+            this.matchRate = jobApplication.getMatchRate();
         }
 
         public int getId() {
@@ -181,6 +183,14 @@ public class CompanyResponse {
 
         public void setAdvertisementId(int advertisementId) {
             this.advertisementId = advertisementId;
+        }
+
+        public Double getMatchRate() {
+            return matchRate;
+        }
+
+        public void setMatchRate(Double matchRate) {
+            this.matchRate = matchRate;
         }
     }
 

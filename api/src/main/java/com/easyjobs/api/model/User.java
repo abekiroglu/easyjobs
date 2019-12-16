@@ -1,9 +1,6 @@
 package com.easyjobs.api.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -25,6 +22,7 @@ public class User extends BaseModel{
     @JsonIgnore
     @Column(nullable = true)
     private Long lastActionTime;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date birthDate;
     private String name;
     private String surname;

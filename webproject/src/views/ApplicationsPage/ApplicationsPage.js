@@ -17,7 +17,7 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import { TextField } from "@material-ui/core"
 import AddIcon from '@material-ui/icons/Add';
 import { getAdvr } from "redux/actions/advertisement";
-import { getApps } from "redux/actions/company";
+import { getApps, getAdvrs } from "redux/actions/company";
 import { select } from '../../../node_modules/redux-saga/effects';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ExpansionPanel from "components/ExpansionPanel/ExpansionPanel.js"
@@ -33,8 +33,9 @@ class ApplicationsPage extends Component {
     }
 
     componentDidMount() {
-        const { getApplications } = this.props;
+        const { getApplications, getAdvertisements } = this.props;
         getApplications();
+        getAdvertisements();
     }
 
     getApplicationsAsArray = () => {
@@ -93,13 +94,20 @@ class ApplicationsPage extends Component {
 
     render() {
         console.log(this.state.selectedAd);
-        const { classes, applications } = this.props;
+        const { classes, applications, advertisements } = this.props;
         const actions = [<EditIcon onClick={this.onClickEdit} />,
         <DeleteIcon onClick={this.onClickDelete} />];
         const skillAddAction = [<AddIcon onClick={this.onClickEdit} />];
         const skillRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
         const skillGroupAddAction = [<AddIcon onClick={this.onClickEdit} />];
         const skillGroupRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
+        if (applications && advertisements) {
+            var details = [...applications];
+            details = details.map(app => {
+                const advertisement = advertisements.filter(ad => ad.id === app.advertisementId)[0];
+                return { header: app, body: advertisement }
+            })
+        }
 
         return (
             <GridContainer>
@@ -112,12 +120,13 @@ class ApplicationsPage extends Component {
                             </p>
                         </CardHeader>
                         <CardBody>
-                            <ExpandableTable
-                                tableHeaderColor="info"
-                                tableHead={applications ? Object.keys(applications[0]) : []}
-                                tableData={applications ? applications : []}
-                                tableBody={ApplicationDetails}
-                            />
+                            {applications && advertisements ?
+                                <ExpandableTable
+                                    tableHeaderColor="info"
+                                    tableHead={Object.keys(applications[0])}
+                                    tableData={details}
+                                    tableBody={ApplicationDetails}
+                                /> : null}
                         </CardBody>
                     </Card>
                 </GridItem>
@@ -136,14 +145,16 @@ const mapStateToProps = state => {
         company: state.company.company,
         professions: state.profession.professions,
         advertisement: state.advertisement.advertisement,
-        applications: state.company.applications
+        applications: state.company.applications,
+        advertisements: state.company.advertisements
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         getAdvertisement: bindActionCreators(getAdvr.request, dispatch),
-        getApplications: bindActionCreators(getApps.request, dispatch)
+        getApplications: bindActionCreators(getApps.request, dispatch),
+        getAdvertisements: bindActionCreators(getAdvrs.request, dispatch)
     };
 };
 

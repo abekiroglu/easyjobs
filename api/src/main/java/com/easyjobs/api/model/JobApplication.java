@@ -25,6 +25,7 @@ public class JobApplication extends BaseModel{
     private Company appliedTo;
     private String issuedBy;
     private int advertisementId;
+    private Double matchRate;
 
     @Override
     public int getId() {
@@ -83,5 +84,13 @@ public class JobApplication extends BaseModel{
 
     public void setAdvertisementId(int advertisementId) {
         this.advertisementId = advertisementId;
+    }
+
+    public Double getMatchRate() {
+        return matchRate;
+    }
+
+    public void setMatchRate(Double matchRate) {
+        this.matchRate = matchRate;
     }
 }
