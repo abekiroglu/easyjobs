@@ -49,7 +49,6 @@ function EnhancedTableHead(props) {
     const createSortHandler = property => event => {
         onRequestSort(event, property);
     };
-    debugger;
     return (
         <TableRow classes={{ root: classes.row }}>
             {headCells.map(headCell => (

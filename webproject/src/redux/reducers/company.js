@@ -4,8 +4,14 @@ import {
     SIGNUP_COMPANY,
     UPDATE_PROFILE_COMPANY,
     HIRE, DELETE_COMPANY,
-    UPLOAD_IMAGE
+    UPLOAD_IMAGE,
+    PUT_ADVR,
+    GET_ADVRS,
+    GET_APPS,
+    UPDATE_APP,
+    LOGOUT
 } from '../../constants/actionTypes';
+import Logout from 'views/Logout/Logout';
 
 const initialState = {};
 
@@ -14,7 +20,8 @@ export default function companyReducer(state = initialState, action) {
         case LOGIN_COMPANY.REQUEST:
             return {
                 ...state,
-                error: null
+                error: null,
+                status: null
             };
         case LOGIN_COMPANY.SUCCESS:
             return {
@@ -24,7 +31,8 @@ export default function companyReducer(state = initialState, action) {
         case LOGIN_COMPANY.FAILURE:
             return {
                 ...state,
-                error: action.error.message
+                error: action.error.message,
+                status: 401
             };
 
         case GET_ME.REQUEST:
@@ -32,11 +40,13 @@ export default function companyReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 isLoading: true,
-                hasError: false
+                hasError: false,
+                status: null
             };
         case GET_ME.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 company: action.response.data,
                 isLoading: false
             };
@@ -53,11 +63,13 @@ export default function companyReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 isLoading: true,
-                hasError: false
+                hasError: false,
+                status: null
             };
         case SIGNUP_COMPANY.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 company: action.response.data,
                 isLoading: false
             };
@@ -65,6 +77,7 @@ export default function companyReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };
@@ -75,10 +88,12 @@ export default function companyReducer(state = initialState, action) {
                 error: null,
                 isLoading: true,
                 hasError: false,
+                status: null
             };
         case UPDATE_PROFILE_COMPANY.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 company: action.response.data,
                 isLoading: false
             };
@@ -86,6 +101,7 @@ export default function companyReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };
@@ -95,10 +111,12 @@ export default function companyReducer(state = initialState, action) {
                 error: null,
                 isLoading: true,
                 hasError: false,
+                status: null
             };
         case HIRE.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 application: action.response.data,
                 isLoading: false
             };
@@ -106,6 +124,7 @@ export default function companyReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };
@@ -115,16 +134,19 @@ export default function companyReducer(state = initialState, action) {
                 error: null,
                 isLoading: true,
                 hasError: false,
+                status: null
             };
         case DELETE_COMPANY.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 isLoading: false
             };
         case DELETE_COMPANY.FAILURE:
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };
@@ -133,11 +155,13 @@ export default function companyReducer(state = initialState, action) {
                 ...state,
                 error: null,
                 isLoading: true,
-                hasError: false
+                hasError: false,
+                status: null
             };
         case UPLOAD_IMAGE.SUCCESS:
             return {
                 ...state,
+                status: action.response.status,
                 isLoading: false,
                 company: { ...state.company, picture: action.response.data }
             };
@@ -145,10 +169,97 @@ export default function companyReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
+                isLoading: false,
+                hasError: true
+            };
+        case PUT_ADVR.SUCCESS:
+            return {
+                ...state,
+                company: {
+                    ...state.company,
+                    advertisements: [...state.company.advertisements,
+                    { ...action.response, comments: [] }]
+                }
+            }
+        case LOGOUT.SUCCESS:
+            return initialState;
+        case GET_ADVRS.REQUEST:
+            delete state.advertisements;
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                hasError: false,
+                status: null
+            };
+        case GET_ADVRS.SUCCESS:
+            return {
+                ...state,
+                status: action.response.status,
+                isLoading: false,
+                advertisements: action.response.data
+            };
+        case GET_ADVRS.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };
 
+        case GET_APPS.REQUEST:
+            delete state.applications;
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                hasError: false,
+                status: null
+            };
+        case GET_APPS.SUCCESS:
+            return {
+                ...state,
+                status: action.response.status,
+                isLoading: false,
+                applications: action.response.data
+            };
+        case GET_APPS.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                status: action.error.response.status,
+                isLoading: false,
+                hasError: true
+            };
+        case UPDATE_APP.REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                hasError: false,
+                status: null
+            }
+        case UPDATE_APP.SUCCESS:
+            var updatedApplication = action.response.data;
+            var apps = state.applications;
+            var idx = apps.findIndex(app => app.id === updatedApplication.id);
+            apps[idx] = updatedApplication;
+            return {
+                ...state,
+                status: action.response.status,
+                isLoading: false,
+                applications: apps
+            }
+        case UPDATE_APP.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                status: action.error.response.status,
+                isLoading: false,
+                hasError: true
+            }
         default:
             return state;
     }

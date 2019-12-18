@@ -89,109 +89,118 @@ class UserProfile extends Component {
   }
 
   render() {
-    const { classes } = this.props;
-    return (
-      <div>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={8}>
-            <Card>
-              <CardHeader color="primary" plain>
-                <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
-                <p className={classes.cardCategoryWhite}>Change the desired parts of your profile</p>
-              </CardHeader>
-              <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={8}>
-                    <CustomInput
-                      labelText="Company Name"
-                      id="companyName"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{ onChange: this.onCompanyNameChange }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={6} md={4}>
-                    <TextField
-                      id="date"
-                      label="Foundation Date"
-                      type="date"
-                      defaultValue={`${new Date().getUTCFullYear()}-${new Date().getMonth()}-${new Date().getDay}`}
-                      className={classes.textField}
-                      style={{ marginTop: 27, marginBottom: 35 }}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      inputProps={{ onChange: this.onDateChange }}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={6} md={4}>
-                    {!this.state.image ? <h5> Choose a picture </h5> :
-                      <div>
-                        <h5> Preview: </h5>
-                        <CardAvatar profile>
-                          <img src={this.state.fileUrl} />
-                        </CardAvatar>
-                      </div>
-                    }
-                    <Button
-                      color="info"
-                      variant="contained"
-                      component="label"
-                      style={{ marginBottom: 35 }}
-                    >
-                      Upload File
-                      <input
-                        type="file"
-                        style={{ display: "none" }}
-                        onChange={this.onFileChange}
-                      />
-                    </Button>
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={12}>
-                    <InputLabel style={{ color: "#AAAAAA" }}>About</InputLabel>
-                    <CustomInput
-                      labelText="Type a short explanation about your company."
-                      id="about-company"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      inputProps={{
-                        multiline: true,
-                        rows: 5,
-                        onChange: this.onDescriptionChange
-                      }}
-                    />
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-              <CardFooter>
-                <Button color="success" onClick={this.onClickUpdate}>Update Profile</Button>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
-            <Card profile>
-              <CardAvatar profile>
-                {this.props.company ? <img src={this.props.company.picture} alt="..." /> : null}
-              </CardAvatar>
-              <CardBody profile>
-                {this.props.company ?
-                  <div>
-                    <h6 className={classes.cardCategory}>{this.props.company.name}</h6>
-                    <h4 className={classes.cardTitle}>{this.props.company.foundedDate}</h4>
-                    <p className={classes.description}>
-                      {this.props.company.description}
-                    </p>
-                  </div>
-                  : null}
+    const { classes, company } = this.props;
+    if (company) {
+      var dateStr = company.foundedDate.split('-');
 
-              </CardBody>
-            </Card>
-          </GridItem>
-          <GridItem xs={12} sm={12} md={12}>
+      return (
+        <div>
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={8}>
+              <Card>
+                <CardHeader color="primary" plain>
+                  <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
+                  <p className={classes.cardCategoryWhite}>Change the desired parts of your profile</p>
+                </CardHeader>
+                <CardBody>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={8}>
+                      <CustomInput
+                        labelText="Company Name"
+                        id="companyName"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          onChange: this.onCompanyNameChange,
+                          defaultValue: company.name
+                        }}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={6} md={4}>
+                      <TextField
+                        id="date"
+                        label="Foundation Date"
+                        type="date"
+                        className={classes.textField}
+                        defaultValue={`${dateStr[2]}-${dateStr[1]}-${dateStr[0]}`}
+                        style={{ marginTop: 27, marginBottom: 35 }}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        inputProps={{
+                          onChange: this.onDateChange
+                        }}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={6} md={4}>
+                      {!this.state.image ? <h5> Choose a picture </h5> :
+                        <div>
+                          <h5> Preview: </h5>
+                          <CardAvatar profile>
+                            <img src={this.state.fileUrl} />
+                          </CardAvatar>
+                        </div>
+                      }
+                      <Button
+                        color="info"
+                        variant="contained"
+                        component="label"
+                        style={{ marginBottom: 35 }}
+                      >
+                        Upload File
+                      <input
+                          type="file"
+                          style={{ display: "none" }}
+                          onChange={this.onFileChange}
+                        />
+                      </Button>
+                    </GridItem>
+                  </GridContainer>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={12}>
+                      <InputLabel style={{ color: "#AAAAAA" }}>About</InputLabel>
+                      <CustomInput
+                        labelText="Type a short explanation about your company."
+                        id="about-company"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          multiline: true,
+                          rows: 5,
+                          onChange: this.onDescriptionChange,
+                          defaultValue: company.description
+                        }}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                </CardBody>
+                <CardFooter>
+                  <Button color="success" onClick={this.onClickUpdate}>Update Profile</Button>
+                </CardFooter>
+              </Card>
+            </GridItem>
+            <GridItem xs={12} sm={12} md={4}>
+              <Card profile>
+                <CardAvatar profile>
+                  {this.props.company ? <img src={this.props.company.picture} alt="..." /> : null}
+                </CardAvatar>
+                <CardBody profile>
+                  {this.props.company ?
+                    <div>
+                      <h6 className={classes.cardCategory}>{this.props.company.name}</h6>
+                      <h4 className={classes.cardTitle}>{this.props.company.foundedDate}</h4>
+                      <p className={classes.description}>
+                        {this.props.company.description}
+                      </p>
+                    </div>
+                    : null}
+
+                </CardBody>
+              </Card>
+            </GridItem>
+            {/* <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader plain color="primary">
                 <h4 className={classes.cardTitleWhite}>
@@ -209,10 +218,14 @@ class UserProfile extends Component {
                 />
               </CardBody>
             </Card>
-          </GridItem>
-        </GridContainer>
-      </div >
-    );
+          </GridItem> */}
+          </GridContainer>
+        </div >
+      );
+    }
+    else {
+      return null;
+    }
   }
 }
 

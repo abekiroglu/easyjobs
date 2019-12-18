@@ -6,7 +6,12 @@ import {
     UPDATE_PROFILE_COMPANY,
     DELETE_COMPANY,
     UPLOAD_IMAGE,
-    HIRE
+    HIRE,
+    PUT_ADVR,
+    GET_ADVRS,
+    GET_APPS,
+    UPDATE_APP,
+    LOGOUT
 } from '../../constants/actionTypes';
 
 export const loginCompany = {
@@ -49,4 +54,34 @@ export const hire = {
     request: () => action(HIRE.REQUEST, {}),
     success: response => action(HIRE.SUCCESS, { response }),
     failure: error => action(HIRE.FAILURE, { error })
+}
+
+export const putAdvr = {
+    request: () => action(PUT_ADVR.REQUEST, {}),
+    success: response => action(PUT_ADVR.SUCCESS, { response }),
+    failure: error => action(PUT_ADVR.FAILURE, { error })
+}
+
+export const logout = {
+    request: () => action(LOGOUT.REQUEST, {}),
+    success: response => action(LOGOUT.SUCCESS, { response }),
+    failure: error => action(LOGOUT.FAILURE, { error })
+}
+
+export const getAdvrs = {
+    request: () => action(GET_ADVRS.REQUEST, {}),
+    success: response => action(GET_ADVRS.SUCCESS, { response }),
+    failure: error => action(GET_ADVRS.FAILURE, { error })
+}
+
+export const getApps = {
+    request: () => action(GET_APPS.REQUEST, {}),
+    success: response => action(GET_APPS.SUCCESS, { response }),
+    failure: error => action(GET_APPS.FAILURE, { error })
+}
+
+export const updateApp = {
+    request: body => action(UPDATE_APP.REQUEST, { body }),
+    success: response => action(UPDATE_APP.SUCCESS, { response }),
+    failure: error => action(UPDATE_APP.FAILURE, { error })
 }

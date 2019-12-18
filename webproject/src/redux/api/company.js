@@ -35,7 +35,6 @@ export function signupCompany(body) {
 
 export function updateProfileCompany(request) {
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
-  debugger;
   return axios.request({
     method: 'patch',
     headers: {
@@ -87,3 +86,37 @@ export function uploadImage(body) {
   })
 }
 
+export function getAdvrs() {
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  return axios.request({
+    method: 'get',
+    headers: {
+      auth: TOKEN
+    },
+    url: `${COMPANY}/advertisements`
+  })
+}
+
+export function getApps() {
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  return axios.request({
+    method: 'get',
+    headers: {
+      auth: TOKEN
+    },
+    url: `${COMPANY}/applications`
+  })
+}
+
+export function updateApp(request) {
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  debugger;
+  return axios.request({
+    method: 'patch',
+    headers: {
+      auth: TOKEN
+    },
+    data: request.body,
+    url: `${COMPANY}/applications/${request.applicationId}`
+  })
+}

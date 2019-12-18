@@ -1,4 +1,4 @@
-import { GET_PROFESSION } from '../../constants/actionTypes';
+import { GET_PROFESSION, CLEAR_PROFESSIONS } from '../../constants/actionTypes';
 
 const initialState = {};
 
@@ -8,12 +8,14 @@ export default function professionReducer(state = initialState, action) {
         case GET_PROFESSION.REQUEST:
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
+                status: null
             };
         case GET_PROFESSION.SUCCESS:
             return {
                 ...state,
                 professions: action.response.data,
+                status: action.response.status,
                 isLoading: false,
                 hasError: false
             };
@@ -21,9 +23,12 @@ export default function professionReducer(state = initialState, action) {
             return {
                 ...state,
                 error: action.error.response.data.message,
+                status: action.error.response.status,
                 isLoading: false,
                 hasError: true
             };
+        case CLEAR_PROFESSIONS.SUCCESS:
+            return initialState;
 
         default:
             return state;

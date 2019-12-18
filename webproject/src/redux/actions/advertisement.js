@@ -5,6 +5,7 @@ import {
     UPDATE_ADVR,
     DELETE_ADVR,
     GET_RECOMMENDED_USERS,
+    CLEAR_ADS
 } from '../../constants/actionTypes';
 
 export const addAdvr = {
@@ -32,4 +33,10 @@ export const getRecommendedUsers = {
     request: body => action(GET_RECOMMENDED_USERS.REQUEST, { body }),
     success: response => action(GET_RECOMMENDED_USERS.SUCCESS, { response }),
     failure: error => action(GET_RECOMMENDED_USERS.FAILURE, { error })
+}
+
+export const clearAds = {
+    request: () => action(CLEAR_ADS.REQUEST, {}),
+    success: response => action(CLEAR_ADS.SUCCESS, { response }),
+    failure: error => action(CLEAR_ADS.FAILURE, { error })
 }

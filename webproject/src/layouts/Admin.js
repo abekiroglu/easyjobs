@@ -16,7 +16,10 @@ import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
 import bgImage from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withStyles } from '@material-ui/core/styles';
+import history from "history.js"
 
 const switchRoutes = (
   <Switch>
@@ -38,9 +41,12 @@ const switchRoutes = (
 
 const useStyles = makeStyles(styles);
 
-export default function Admin({ ...rest }) {
+function Admin({ ...rest }) {
+  if (rest.aStatus === 401 || rest.cStatus === 401 || rest.pStatus === 401) {
+    history.push('/landing/login');
+  }
   // styles
-  const classes = useStyles();
+  const classes = rest.classes;
   // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
   // states and functions
@@ -105,3 +111,21 @@ export default function Admin({ ...rest }) {
     </div>
   );
 }
+
+
+const mapStateToProps = state => {
+  return {
+    aStatus: state.advertisement.status,
+    cStatus: state.company.status,
+    pStatus: state.profession.status
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Admin));

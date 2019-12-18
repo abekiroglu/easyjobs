@@ -54,7 +54,6 @@ class SignupPage extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const { company } = this.props;
-        debugger;
         if (company) {
             history.push('/landing/login')
         }

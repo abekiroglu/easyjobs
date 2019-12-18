@@ -26,7 +26,6 @@ class LoginChecker extends Component {
     }
 
     // componentDidUpdate(prevProps, prevState) {
-    //     debugger;
     //     var token = localStorage.getItem(LOCAL_STORAGE);
     //     const { company, error, getMe } = this.props;
     //     if (!token) {

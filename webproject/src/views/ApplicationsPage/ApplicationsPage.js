@@ -16,8 +16,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CustomInput from "components/CustomInput/CustomInput.js";
 import { TextField } from "@material-ui/core"
 import AddIcon from '@material-ui/icons/Add';
-import { getProfession } from "redux/actions/profession";
 import { getAdvr } from "redux/actions/advertisement";
+import { getApps, getAdvrs } from "redux/actions/company";
 import { select } from '../../../node_modules/redux-saga/effects';
 import RemoveIcon from '@material-ui/icons/Remove';
 import ExpansionPanel from "components/ExpansionPanel/ExpansionPanel.js"
@@ -33,7 +33,9 @@ class ApplicationsPage extends Component {
     }
 
     componentDidMount() {
-
+        const { getApplications, getAdvertisements } = this.props;
+        getApplications();
+        getAdvertisements();
     }
 
     getApplicationsAsArray = () => {
@@ -92,14 +94,20 @@ class ApplicationsPage extends Component {
 
     render() {
         console.log(this.state.selectedAd);
-        const { classes, advertisement, professions } = this.props;
-        const actions = [<EditIcon onClick={this.onClickEdit} />,
-        <DeleteIcon onClick={this.onClickDelete} />];
-        const skillAddAction = [<AddIcon onClick={this.onClickEdit} />];
-        const skillRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
-        const skillGroupAddAction = [<AddIcon onClick={this.onClickEdit} />];
-        const skillGroupRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
-
+        const { classes, applications, advertisements } = this.props;
+        debugger;
+        var tableHead;
+        if (applications && advertisements) {
+            var details = [...applications];
+            details = details.map(detail => {
+                var app = { ...detail };
+                const advertisement = advertisements.filter(ad => ad.id === app.advertisementId)[0];
+                var feedback = app.feedback;
+                delete app.feedback;
+                return { header: app, body: advertisement, feedback: feedback }
+            })
+            tableHead = Object.keys(applications[0]).filter(key => key !== "feedback");
+        }
         return (
             <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
@@ -111,12 +119,13 @@ class ApplicationsPage extends Component {
                             </p>
                         </CardHeader>
                         <CardBody>
-                            <ExpandableTable
-                                tableHeaderColor="info"
-                                tableHead={this.props.company ? Object.keys(this.props.company.applications[0]) : []}
-                                tableData={this.props.company ? this.props.company.applications : []}
-                                tableBody={ApplicationDetails}
-                            />
+                            {applications && advertisements ?
+                                <ExpandableTable
+                                    tableHeaderColor="info"
+                                    tableHead={tableHead}
+                                    tableData={details}
+                                    tableBody={ApplicationDetails}
+                                /> : null}
                         </CardBody>
                     </Card>
                 </GridItem>
@@ -134,14 +143,17 @@ const mapStateToProps = state => {
     return {
         company: state.company.company,
         professions: state.profession.professions,
-        advertisement: state.advertisement.advertisement
+        advertisement: state.advertisement.advertisement,
+        applications: state.company.applications,
+        advertisements: state.company.advertisements
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getProfessions: bindActionCreators(getProfession.request, dispatch),
-        getAdvertisement: bindActionCreators(getAdvr.request, dispatch)
+        getAdvertisement: bindActionCreators(getAdvr.request, dispatch),
+        getApplications: bindActionCreators(getApps.request, dispatch),
+        getAdvertisements: bindActionCreators(getAdvrs.request, dispatch)
     };
 };
 

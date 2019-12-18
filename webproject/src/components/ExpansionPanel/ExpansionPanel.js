@@ -42,7 +42,6 @@
 //     const handleChange = panel => (event, isExpanded) => {
 //         setExpanded(isExpanded ? panel : false);
 //     };
-//     debugger;
 //     return (
 //         <div className={classes.root}>
 //             <ExpansionPanelSummary
@@ -53,7 +52,6 @@
 //             >
 //                 {Object.keys(prop).map((key, index) => {
 //                     let data = prop[key];
-//                     debugger;
 //                     return (
 //                         <div className={classes.cell}>
 //                             {key}
@@ -73,7 +71,6 @@
 //                         >
 //                             {Object.keys(prop).map((key, index) => {
 //                                 let data = prop[key];
-//                                 debugger;
 //                                 return (
 //                                     <div className={classes.cell}>
 //                                         {key}: {typeof data === 'boolean' ? data ? "true" : "false" : data}
