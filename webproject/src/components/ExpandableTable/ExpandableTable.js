@@ -151,7 +151,7 @@ export default function ExpandableTable(props) {
                                     {<ExpandableRow data={row.header} />}
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
-                                    <props.tableBody data={row} />
+                                    <props.tableBody {...props.bodyArgs} data={row} />
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
                         );

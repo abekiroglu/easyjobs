@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function onClickFeedback(feedback, data, callback) {
+function onClickFeedback(feedback, data, dispatch) {
     let payload = {
         applicationId: data.header.id,
         body: {
@@ -34,10 +34,10 @@ function onClickFeedback(feedback, data, callback) {
             isResolved: false
         }
     }
-    callback(payload);
+    dispatch(payload);
 }
 
-function onClickAccept(feedback, data, callback) {
+function onClickAccept(feedback, data, dispatch, setAccepted, setResolved) {
     let payload = {
         applicationId: data.header.id,
         body: {
@@ -46,20 +46,24 @@ function onClickAccept(feedback, data, callback) {
             isResolved: true
         }
     }
-    callback(payload);
+    dispatch(payload);
+    setAccepted(true);
+    setResolved(true);
 }
 
 
-function onClickReject(feedback, data, callback) {
+function onClickReject(feedback, data, dispatch, setAccepted, setResolved) {
     let payload = {
         applicationId: data.header.id,
         body: {
             feedback: feedback,
-            isAccepted: true,
+            isAccepted: false,
             isResolved: true
         }
     }
-    callback(payload);
+    dispatch(payload);
+    setAccepted(false);
+    setResolved(true);
 }
 
 
@@ -71,6 +75,8 @@ function ApplicationDetails(props) {
     const skills = applicant.skills;
     const requirements = ad.requirements;
     const [feedback, setFeedback] = React.useState(data.feedback);
+    const [resolved, setResolved] = React.useState(data.header.resolved);
+    const [accepted, setAccepted] = React.useState(data.header.feedback);
 
     return (
         <div className={classes.root}>
@@ -107,13 +113,13 @@ function ApplicationDetails(props) {
                                 </GridItem>
                                 <GridItem xs={12} sm={12} md={12}>
                                     <CustomInput
-                                        labelText={data.header.resolved || data.header.accepted ? "Your feedback" : "Give feedback to the applicant"}
+                                        labelText={resolved || accepted ? "Your feedback" : "Give feedback to the applicant"}
                                         id="feedback"
                                         formControlProps={{
                                             fullWidth: true
                                         }}
                                         inputProps={{
-                                            disabled: data.header.resolved || data.header.accepted,
+                                            disabled: resolved || accepted,
                                             multiline: true,
                                             rows: 5,
                                             onChange: e => { setFeedback(e.currentTarget.value) },
@@ -124,7 +130,7 @@ function ApplicationDetails(props) {
                             </GridContainer>
                         </CardBody>
                         <CardFooter>
-                            {!data.header.resolved && !data.header.accepted ?
+                            {!resolved && !accepted ?
                                 <Button
                                     color={feedback.length > 10 && data.feedback !== feedback ? 'primary' : 'transparent'}
                                     disabled={feedback.length > 10 && data.feedback !== feedback ? false : true}
@@ -135,12 +141,12 @@ function ApplicationDetails(props) {
                                     </div>
                                 </Button>
                                 : null}
-                            {data.header.issuedBy !== "Company" || (!data.header.resolved && !data.header.accepted) ?
+                            {data.header.issuedBy !== "Company" || (!resolved && !accepted) ?
                                 <div>
                                     <Button
                                         color={feedback.length > 10 && data.feedback !== feedback ? 'danger' : 'transparent'}
                                         disabled={feedback.length > 10 && data.feedback !== feedback ? false : true}
-                                        onClick={e => { onClickReject(feedback, data, updateApp) }}>
+                                        onClick={e => { onClickReject(feedback, data, updateApp, setAccepted, setResolved) }}>
                                         <ClearIcon />
                                         <div>
                                             Reject
@@ -149,7 +155,7 @@ function ApplicationDetails(props) {
                                     <Button
                                         color={feedback.length > 10 && data.feedback !== feedback ? 'success' : 'transparent'}
                                         disabled={feedback.length > 10 && data.feedback !== feedback ? false : true}
-                                        onClick={e => { onClickAccept(feedback, data, updateApp) }}>
+                                        onClick={e => { onClickAccept(feedback, data, updateApp, setAccepted, setResolved) }}>
                                         <CheckIcon />
                                         <div>
                                             Accept

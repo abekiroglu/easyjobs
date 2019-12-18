@@ -95,6 +95,7 @@ class ApplicationsPage extends Component {
     render() {
         console.log(this.state.selectedAd);
         const { classes, applications, advertisements } = this.props;
+        debugger;
         var tableHead;
         if (applications && advertisements) {
             var details = [...applications];
