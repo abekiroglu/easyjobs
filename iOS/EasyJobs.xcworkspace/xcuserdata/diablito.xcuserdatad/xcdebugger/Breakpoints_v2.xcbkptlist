@@ -30,8 +30,8 @@
             filePath = "EasyJobs/Model/UserHelper.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
             landmarkName = "uploadImage(image:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "EasyJobs/Model/UserHelper.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
             landmarkName = "uploadImage(image:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "EasyJobs/Model/UserHelper.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
             landmarkName = "uploadImage(image:)"
             landmarkType = "7">
          </BreakpointContent>

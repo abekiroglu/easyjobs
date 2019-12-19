@@ -26,21 +26,22 @@ extension AdvertisementViewController{
         var advertisementList: [SimpleAdvertisement] = []
         print("Advertisements: \(advertisements.count)")
         print("Applications: \(advertisementIds.count)")
-        
-        
-        
-        for i in 0...advertisements.count-1{
-            var add: Bool = true
-            for j in 0...advertisementIds.count-1 {
-                if advertisements[i].id == advertisementIds[j]{
-                    add = false
+        if advertisementIds.count>0{
+            for i in 0...advertisements.count-1{
+                var add: Bool = true
+                for j in 0...advertisementIds.count-1 {
+                    if advertisements[i].id == advertisementIds[j]{
+                        add = false
+                    }
+                }
+                if add{
+                    advertisementList.append(advertisements[i])
                 }
             }
-            if add{
-                advertisementList.append(advertisements[i])
-            }
+            return advertisementList
         }
+        
         print("Final Advertisements: \(advertisementList.count)")
-        return advertisementList
+        return advertisements
     }
 }

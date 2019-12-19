@@ -63,6 +63,9 @@ extension ProfileViewController: UserHelperDelegate{
                     profileImage.load(url: url)
                 }
             }
+            if let birthDate = userHelper.bigLoadedUser.birthDate{
+                birthDateTextField.text = birthDate
+            }
         }else{
             nameTextField.text = userHelper.loadedUser.name
             surnameTextField.text = userHelper.loadedUser.surname
@@ -317,7 +320,7 @@ class ProfileViewController: UIViewController {
             }
             
             
-            userHelper.updateProfile(name: name, surname: surname, profession: professionInt, newSkills: newSkills, deletedSkills: deletedSkills)
+            userHelper.updateProfile(name: name, surname: surname, profession: professionInt, newSkills: newSkills, deletedSkills: deletedSkills, birthDate: birthDate)
             oldSkills =  selectedSkills
             selectedSkills = []
             possibleSkills = []

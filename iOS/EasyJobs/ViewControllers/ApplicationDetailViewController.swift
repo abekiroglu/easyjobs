@@ -8,21 +8,26 @@
 
 import UIKit
 
-extension ApplicationDetailViewController: AdvertisementDataSourceDelegate{
-    func jobApplied(){
-        applyButton.setTitle("Cancel Application", for: .normal)
-    }
-}
+
+
 extension ApplicationDetailViewController: UserHelperDelegate{
-    func applicationCanceled() {
+    func jobAccepted() {
+        offerView.alpha = 0
         applyButton.isEnabled = false
-        applyButton.setTitle("Not Accepted", for: .normal)
+        applyButton.setTitle("Accepted", for: .normal)
+        resolvedLabel.text = "True"
+    }
+    func applicationCanceled() {
+        offerView.alpha = 0
+        applyButton.isEnabled = false
+        applyButton.setTitle("Declined", for: .normal)
         resolvedLabel.text = "True"
     }
 }
 
 class ApplicationDetailViewController: UIViewController {
     
+    @IBOutlet weak var offerView: UIView!
     @IBOutlet weak var companyImage: UIImageView!
     
     @IBOutlet weak var resolvedLabel: UILabel!
@@ -37,7 +42,8 @@ class ApplicationDetailViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     
     @IBOutlet weak var applyButton: DesignableButton!
-    @IBOutlet weak var feedbackTextView: UITextView!
+  
+    @IBOutlet weak var feedbackTextView: DesignableTextView!
     
     /*
     @IBOutlet weak var companyImage: UIImageView!
@@ -58,7 +64,6 @@ class ApplicationDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        advertisementDataSource.delegate = self
         userHelper.delegate = self
         userHelper.loadUser()
         companyEmailLabel.adjustsFontSizeToFitWidth = true
@@ -94,14 +99,19 @@ class ApplicationDetailViewController: UIViewController {
             matchRateLabel.alpha = 0.6
         }
         if let application = application{
-            feedbackTextView.text =  application.feedback
+            feedbackTextView.text =  "Feedback: \(application.feedback)"
+            if application.issuedBy != "User" && application.resolved == false{
+                applyButton.isEnabled = false
+                offerView.alpha = 1
+            }
             if application.resolved == true{
+                offerView.alpha = 0
                 resolvedLabel.text = "True"
                 applyButton.isEnabled = false
                 if application.accepted ==  true{
                     applyButton.setTitle("Accepted!", for: .normal)
                 }else{
-                    applyButton.setTitle("Not Accepted", for: .normal)
+                    applyButton.setTitle("Declined", for: .normal)
                 }
                 
                 
@@ -118,16 +128,31 @@ class ApplicationDetailViewController: UIViewController {
                 advertisementDataSource.applyForJob(advertisementID: selectedAdvertisement.id)
             }
         }else{
-            if let application = application{
-                userHelper.cancelApplication(applicationId: application.id)
-                print("Application removed: appId: \(application.id)")
+            if let application = application {
+                if application.issuedBy == "User"{
+                    userHelper.cancelApplication(applicationId: application.id)
+                    print("Application removed: appId: \(application.id)")
+                }
+                
             }
         }
     }
     
     
-        
-        
+    @IBAction func acceptButton(_ sender: Any) {
+        if let application = application{
+            userHelper.acceptApplication(applicationId: application.id)
+            print("Application accepted: appId: \(application.id)")
+        }
+    }
+    
+    @IBAction func declineButton(_ sender: Any) {
+        if let application = application{
+            userHelper.cancelApplication(applicationId: application.id)
+            print("Application removed: appId: \(application.id)")
+        }
+    }
+    
         
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.

@@ -67,6 +67,7 @@ struct Experience: Codable{
     var user: User
 }
 
+
 struct JobApplication: Codable{
     var id: Int
     var postDate: String

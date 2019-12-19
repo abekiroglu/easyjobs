@@ -72,6 +72,8 @@ extension ApplicationsViewController: UserHelperDelegate{
             print("It is isOffers")
             applicationList = getApplications(advertisementIds: offeredAdvertisementIds, advertisements: self.advertisementList).sorted(by: { $0.matchRate > $1.matchRate })
             oldApplications = getApplications(advertisementIds: oldOfferedAdvertisementIds, advertisements: self.advertisementList)
+            print("Offer count: \(applicationList.count)")
+            print("Old offer count: \(oldApplications.count)")
         }else{
             applicationList = getApplications(advertisementIds: advertisementIds, advertisements: self.advertisementList).sorted(by: { $0.matchRate > $1.matchRate })
             oldApplications = getApplications(advertisementIds: oldAdvertisementIds, advertisements: self.advertisementList)

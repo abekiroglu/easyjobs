@@ -16,7 +16,7 @@ extension ProfileViewController{
     
     @objc func dateChanged(datePicker: UIDatePicker){
         let dateFormatter =  DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dateFormatter.dateFormat = "dd-MM-yyyy"
         birthDateTextField.text = dateFormatter.string(from: datePicker.date)
         //view.endEditing(true)
     }

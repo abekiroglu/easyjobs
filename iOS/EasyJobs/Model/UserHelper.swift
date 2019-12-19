@@ -22,6 +22,7 @@ protocol UserHelperDelegate{
     func applicationAdIdsLoaded(advertisementIds: [Int], oldAdvertisementIds: [Int], offeredAdvertisementIds: [Int], oldOfferedAdvertisementIds: [Int])
     func applicationsToRemoveLoaded(advertisementIds: [Int])
     func applicationCanceled()
+    func jobAccepted()
 }
 
 extension UserHelperDelegate{
@@ -34,6 +35,7 @@ extension UserHelperDelegate{
     func applicationAdIdsLoaded(advertisementIds: [Int], oldAdvertisementIds: [Int], offeredAdvertisementIds: [Int], oldOfferedAdvertisementIds: [Int]){}
     func applicationsToRemoveLoaded(advertisementIds: [Int]){}
     func applicationCanceled(){}
+    func jobAccepted(){}
 
 }
 
@@ -107,34 +109,71 @@ class UserHelper{
     }
     
     func cancelApplication(applicationId: Int){
-        
-        let session = URLSession.shared
-        var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/cancel/\(applicationId)")!)
-        request.httpMethod = "PATCH"
-        
-        let currentUser = Auth.auth().currentUser
-        currentUser?.getIDToken() { idToken, error in
-          if let error = error {
-            // Handle error
-            return;
-          }
+            
+            var userApplicationUpdateRequest = UserApplicationUpdateRequest(accepted: false)
+            let session = URLSession.shared
+            var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/applications/\(applicationId)")!)
+            request.httpMethod = "PATCH"
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            guard let uploadData = try? JSONEncoder().encode(userApplicationUpdateRequest) else{
+                return
+            }
+            
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDToken(completion: { (idToken, error) in
             request.addValue(idToken!, forHTTPHeaderField: "auth" )
-            let dataTask = session.dataTask(with: request) {(data, response, error) in
+            let uploadTask = session.uploadTask(with: request, from: uploadData) { (data, response, error) in
                 if error == nil{
-                    print("Application canceled!")
+        
+                    print("Token received")
+                    print(response)
                     DispatchQueue.main.async {
                         self.delegate?.applicationCanceled()
                     }
-                }else{
-                    print("Error canceling application")
+                    print("Application canceled")
+                } else{
+                    print(error)
+                    print("Couldn`t cancel application")
                 }
-                    }
-          dataTask.resume()
-          // Send token to your backend via HTTPS
-          // ...
+            }
+            uploadTask.resume()
+        })
+
         }
+    
+    func acceptApplication(applicationId: Int){
+        var userApplicationUpdateRequest = UserApplicationUpdateRequest(accepted: true)
+        let session = URLSession.shared
+        var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/applications/\(applicationId)")!)
+        print(request.url?.absoluteString)
+        request.httpMethod = "PATCH"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let uploadData = try? JSONEncoder().encode(userApplicationUpdateRequest) else{
+            return
+        }
+        
+    let currentUser = Auth.auth().currentUser
+    currentUser?.getIDToken(completion: { (idToken, error) in
+        request.addValue(idToken!, forHTTPHeaderField: "auth" )
+        let uploadTask = session.uploadTask(with: request, from: uploadData) { (data, response, error) in
+            if error == nil{
+    
+                print("Token received")
+                //print(response)
+                DispatchQueue.main.async {
+                    self.delegate?.jobAccepted()
+                }
+                print("Job taken!")
+            } else{
+                print(error)
+                print("Couldn`t accept job")
+            }
+        }
+        uploadTask.resume()
+    })
+        
     }
+    
     
     func loadUser(){
         
@@ -180,6 +219,7 @@ class UserHelper{
                                 }else{
                                     if application.resolved ==  false{
                                         offeredAdvertisementIds.append(application.advertisementId)
+                                    
                                         //print("\(application.advertisementId) added to offeredAdvertisementIDs")
                                     }else{
                                         oldOfferedAdvertisementIds.append(application.advertisementId)
@@ -192,7 +232,10 @@ class UserHelper{
                             self.delegate?.applicationAdIdsLoaded(advertisementIds: advertisementIds, oldAdvertisementIds:oldAdvertisementIds, offeredAdvertisementIds: offeredAdvertisementIds, oldOfferedAdvertisementIds: oldOfferedAdvertisementIds)
                             self.delegate?.applicationsToRemoveLoaded(advertisementIds: applicationsToRemove)
                         }
-                        
+                    }
+                    DispatchQueue.main.async {
+                        let applicationsToRemove: [Int] = []
+                        self.delegate?.applicationsToRemoveLoaded(advertisementIds: applicationsToRemove)
                     }
                 } else {
                     self.loadedUser = try! decoder.decode(LoadedUser.self, from: data!)
@@ -249,11 +292,11 @@ class UserHelper{
     
     
     
-    func updateProfile(name: String, surname: String, profession: Int, newSkills: [Skill], deletedSkills: [Skill]){
+    func updateProfile(name: String, surname: String, profession: Int, newSkills: [Skill], deletedSkills: [Skill], birthDate: String){
         
         self.delegate?.showLoadingScreen()
         
-        userUpdateRequest = UserUpdateRequest(birthDate: nil, name: name, surname: surname, profession: profession, newExperiences: [], deletedExperiences: [], newSkills: newSkills, deletedSkills: deletedSkills)
+        userUpdateRequest = UserUpdateRequest(birthDate: birthDate, name: name, surname: surname, profession: profession, newExperiences: [], deletedExperiences: [], newSkills: newSkills, deletedSkills: deletedSkills)
         let session = URLSession.shared
         
         var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/")!)

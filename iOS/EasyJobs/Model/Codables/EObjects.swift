@@ -78,7 +78,7 @@ struct LoadUserUser: Codable{
     var comments: [Comment]
     var applications: [JobApplication]
     //var lastActionTime: Int?
-    var birthDate: Date?
+    var birthDate: String?
     var name: String
     var surname: String
     var profession: LoadUserProfession
@@ -93,7 +93,7 @@ struct LoadUserUser: Codable{
         comments = []
         applications = []
         //lastActionTime = 0
-        birthDate = Date()
+        birthDate = ""
         name = ""
         surname = ""
         profession = LoadUserProfession()
@@ -158,6 +158,15 @@ struct Media: Codable{
             print("Couldn`t get data image")
             return nil}
         self.data = data
+    }
+}
+
+struct UserApplicationUpdateRequest: Codable{
+    var accepted: Bool
+    var resolved: Bool = true
+    
+    init(accepted: Bool){
+        self.accepted = accepted
     }
 }
 

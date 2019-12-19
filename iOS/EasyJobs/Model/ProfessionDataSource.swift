@@ -83,8 +83,9 @@ class ProfessionDataSource{
         if selectedSkills.count < 1{
             deletedSkills = oldSkills
         }else{
-            var addElement: Bool = true
+            
             for i in 0...oldSkills.count-1{
+                var addElement: Bool = true
                 for j in 0...selectedSkills.count-1{
                     if selectedSkills[j].description == oldSkills[i].description{
                         addElement = false
