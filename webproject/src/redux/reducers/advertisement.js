@@ -51,6 +51,7 @@ export default function advertisementReducer(state = initialState, action) {
                 status: null
             };
         case UPDATE_ADVR.SUCCESS:
+            debugger;
             return {
                 ...state,
                 status: action.response.status,

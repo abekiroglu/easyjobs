@@ -12,10 +12,19 @@ public class AdvertisementUpdateRequest {
     private String description;
     private List<AssessmentWrapper> newRequirements;
     private List<AssessmentWrapper> deletedRequirements;
+    private List<AssessmentWrapper> updatedRequirements;
     private List<Comment> newComments;
     private List<Comment> deletedComments;
     private Integer professionId;
 
+
+    public List<AssessmentWrapper> getUpdatedRequirements() {
+        return updatedRequirements;
+    }
+
+    public void setUpdatedRequirements(List<AssessmentWrapper> updatedRequirements) {
+        this.updatedRequirements = updatedRequirements;
+    }
 
     public Date getValidUntil() {
         return validUntil;

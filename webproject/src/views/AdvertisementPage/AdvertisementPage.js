@@ -17,10 +17,15 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import { TextField } from "@material-ui/core"
 import AddIcon from '@material-ui/icons/Add';
 import { getProfession } from "redux/actions/profession";
-import { getAdvr } from "redux/actions/advertisement";
-import { select } from '../../../node_modules/redux-saga/effects';
+import { getAdvr, deleteAdvr, updateAdvr } from "redux/actions/advertisement";
 import RemoveIcon from '@material-ui/icons/Remove';
 import { getAdvrs } from 'redux/actions/company';
+import { isEqual } from 'lodash';
+import SkillWeightAdjuster from './SkillWeightAdjuster.js';
+import CardFooter from "components/Card/CardFooter.js";
+import Button from "components/CustomButtons/Button.js";
+import SaveIcon from '@material-ui/icons/Save';
+import { select } from '../../../node_modules/redux-saga/effects';
 
 class AdvertisementPage extends Component {
     constructor(props) {
@@ -51,8 +56,67 @@ class AdvertisementPage extends Component {
             getAdvertisement(payload);
         }
         if (this.props.advertisement !== prevProps.advertisement) {
+            const { advertisement, professions } = this.props;
+            const profession = professions.filter(p => p.id === advertisement.professionId)[0];
+            var selectedSGs = [];
+            var selectedSkills = [];
+            var availableSGs = [];
+            var availableSkills = [];
+
+            let contains = (sg, req) => {
+                var i;
+                for (i = 0; i < sg.skills.length; i++) {
+                    if (isEqual(sg.skills[i], req.skill)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            let containsSG = (sg, selectedSGs) => {
+                var i;
+                for (i = 0; i < selectedSGs.length; i++) {
+                    if (selectedSGs[i].id === sg.id) {
+                        return true
+                    }
+                }
+                return false;
+            }
+
+            let containsSkill = (skill, selectedSkills) => {
+                var i;
+                for (i = 0; i < selectedSkills.length; i++) {
+                    if (selectedSkills[i].skill.id === skill.id) {
+                        return true
+                    }
+                }
+                return false;
+            }
+
+            var i;
+            for (i = 0; i < advertisement.requirements.length; i++) {
+                const req = advertisement.requirements[i];
+                selectedSkills.push({
+                    ...req,
+                    display: [req.skill.id, req.skill.description]
+                });
+                var selectedSG = profession.skills.filter(sg => contains(sg, req))[0];
+                selectedSGs.push(selectedSG);
+            }
+            availableSGs = profession.skills.filter(sg => !containsSG(sg, selectedSGs)).map(sg => { return { ...sg, display: [sg.id, sg.description, sg.skills.length] } });
+            selectedSGs = selectedSGs.filter((v, i) => selectedSGs.indexOf(v) === i).map(sg => { return { ...sg, display: [sg.id, sg.description, sg.skills.length] } });
+            var allSkills = [];
+            selectedSGs.map(sg => sg.skills).forEach(sArr => {
+                allSkills = allSkills.concat(sArr);
+            });
+            availableSkills = allSkills.filter(s => !containsSkill(s, selectedSkills)).map(s => { return { id: -1, weight: 1, skill: { ...s }, display: [s.id, s.description] } })
+
             this.setState({
-                selectedAd: this.props.advertisement
+                selectedAd: this.props.advertisement,
+                selectedSGs: selectedSGs,
+                selectedSkills: selectedSkills,
+                availableSGs: availableSGs,
+                availableSkills: availableSkills
             })
         }
 
@@ -66,18 +130,12 @@ class AdvertisementPage extends Component {
         });
         return adsArr;
     }
+
     getSelectedAdvertisementAsArray = () => {
         const { selectedAd } = this.state;
         return [[selectedAd.id, selectedAd.publishDate, selectedAd.validUntil, selectedAd.description, selectedAd.requirements.length, selectedAd.comments.length]];
     }
-    onClickView = e => {
-        var adId = e.currentTarget.parentElement.parentElement.children[0].innerHTML;
-        this.setState({
-            selectedAd: null,
-            adId: adId,
-            action: 'view'
-        })
-    }
+
     onClickEdit = e => {
         var adId = e.currentTarget.parentElement.parentElement.children[0].innerHTML;
         this.setState({
@@ -86,9 +144,16 @@ class AdvertisementPage extends Component {
             action: 'edit'
         })
     }
+
     onClickDelete = e => {
-        const { advertisements } = this.props;
+        const { advertisements, deleteAdvertisement } = this.props;
+
         var adId = e.currentTarget.parentElement.parentElement.children[0].innerHTML;
+        let payload = {
+            advertisementId: adId
+        }
+        deleteAdvertisement(payload);
+
         var selectedAd = advertisements.filter(ad => ad.id === parseInt(adId))[0];
         this.setState({
             selectedAd: selectedAd,
@@ -105,6 +170,17 @@ class AdvertisementPage extends Component {
             }
         })
     }
+
+    onTitleChange = e => {
+        var newTitle = e.currentTarget.value;
+        this.setState({
+            selectedAd: {
+                ...this.state.selectedAd,
+                title: newTitle
+            }
+        })
+    }
+
     onDateChange = e => {
         var modifiedDate = e.currentTarget.value.split('-');
         modifiedDate = `${modifiedDate[2]}-${modifiedDate[1]}-${modifiedDate[0]}`
@@ -115,6 +191,7 @@ class AdvertisementPage extends Component {
             }
         })
     }
+
     toStandardDate(date, pattern) {
         var patternArr = pattern.split('-');
         var dateArr = date.split('-');
@@ -136,139 +213,186 @@ class AdvertisementPage extends Component {
         return `${year}-${month}-${day}`;
     }
 
-    getAvailableSkillGroups = () => {
-        const { advertisement, professions } = this.props
-        const profession = professions.filter(p => p.id === advertisement.professionId)[0];
-        const professionSkillGroups = profession['skills'];
-        var selectedSGs = [];
-        // {sgid, sid}
-        var professionSkills = []
-        // [...id]
-        const adSkills = advertisement.requirements.map(req => req.skill.id);
-        var i;
-        for (i = 0; i < professionSkillGroups.length; i++) {
-            var sg = professionSkillGroups[i];
-            var skills = sg.skills.map(s => s.id);
+    _getAvailableSkillGroups = () => {
+        var display = [];
+        this.state.availableSGs.forEach(sg => {
+            display.push(sg.display);
+        })
+        return display;
+    }
+    _getSelectedSkillGroups = () => {
+        var display = [];
+        this.state.selectedSGs.forEach(sg => {
+            display.push(sg.display);
+        })
+        return display;
+    }
 
-            var j;
-            for (j = 0; j < sg.skills.length; j++) {
-                let obj = {
-                    sgid: sg.id,
-                    sid: skills[j]
+    _getAvailableSkills = () => {
+        var display = [];
+        this.state.availableSkills.forEach(s => {
+            display.push(s.display);
+        })
+        return display;
+    }
+
+    onSkillWeightChange(e, newVal) {
+        const { selectedSkills } = this.state
+        var rArr = [...selectedSkills];
+        var id = parseInt(e.currentTarget.id);
+        var weight = newVal / 100;
+        var idx = rArr.map(r => { return r.skill.id }).indexOf(id);
+        if (idx !== -1) {
+            rArr[idx] = { ...rArr[idx], weight: weight };
+        }
+        this.setState({
+            selectedSkills: rArr
+        })
+        return null;
+    }
+
+    _getSelectedSkills = (classes) => {
+        var display = [];
+        this.state.selectedSkills.forEach(s => {
+            display.push([...s.display,
+            <SkillWeightAdjuster
+                classes={classes}
+                skills={[{ id: s.skill.id, weight: s.weight }]}
+                onChange={(e, newVal) => { this.onSkillWeightChange(e, newVal) }}
+                tags={tags}
+            />]);
+        })
+
+        return display;
+    }
+
+    onClickSkillAdd = e => {
+        const { availableSkills, selectedSkills } = this.state;
+
+        var id = parseInt(e.currentTarget.parentElement.parentElement.id);
+        var aS = [...availableSkills];
+        var idx = aS.map(s => { return s.skill.id }).indexOf(id);
+        var sS = aS.splice(idx, 1)[0];
+        this.setState({
+            availableSkills: aS,
+            selectedSkills: [...selectedSkills, sS]
+        })
+    }
+
+    onClickSkillRemove = e => {
+        const { availableSkills, selectedSkills } = this.state;
+
+        var id = parseInt(e.currentTarget.parentElement.parentElement.id);
+        var sS = [...selectedSkills];
+
+        var idx = sS.map(s => { return s.skill.id }).indexOf(id);
+        var aS = sS.splice(idx, 1)[0];
+
+        this.setState({
+            availableSkills: [...availableSkills, aS],
+            selectedSkills: sS
+        })
+    }
+
+    onClickSGAdd = e => {
+        const { availableSGs, selectedSGs, availableSkills } = this.state;
+
+        var aSG = [...availableSGs];
+        var id = parseInt(e.currentTarget.parentElement.parentElement.id);
+
+        var idx = availableSGs.map(sg => { return sg.id }).indexOf(id);
+        var sSG = aSG.splice(idx, 1)[0];
+
+        var aS = sSG.skills.map(s => { return { id: -1, weight: 1, skill: { ...s }, display: [s.id, s.description] } });
+
+        this.setState({
+            selectedSGs: [...selectedSGs, sSG],
+            availableSGs: aSG,
+            availableSkills: [...availableSkills, ...aS]
+        })
+    }
+
+    onClickSGRemove = e => {
+        const {
+            availableSGs,
+            selectedSGs,
+            availableSkills,
+            selectedSkills } = this.state;
+
+        var sSG = [...selectedSGs];
+        var id = parseInt(e.currentTarget.parentElement.parentElement.id);
+
+        var idx = selectedSGs.map(sg => { return sg.id }).indexOf(id);
+        var aSG = sSG.splice(idx, 1)[0];
+
+        var aS = [...availableSkills];
+        var sS = [...selectedSkills];
+
+        aS = aS.filter(s => !aSG.skills.map(skills => skills.id).includes(s.skill.id));
+        sS = sS.filter(s => !aSG.skills.map(skills => skills.id).includes(s.skill.id));
+
+        this.setState({
+            selectedSGs: sSG,
+            availableSGs: [...availableSGs, aSG],
+            availableSkills: aS,
+            selectedSkills: sS
+        })
+    }
+
+    onClickSave() {
+        const { selectedAd, selectedSkills } = this.state;
+        const { updateAdvertisement } = this.props;
+
+        var newRequirements = [];
+        var deletedRequirements = [];
+        var updatedRequirements = [];
+        var validUntil = selectedAd.validUntil;
+        var description = selectedAd.description;
+        var title = selectedAd.title;
+
+        const prevSkills = selectedAd.requirements;
+        prevSkills.forEach(r => {
+            debugger;
+            var idx = selectedSkills.map(s => { return s.skill.id }).indexOf(r.skill.id);
+            if (idx === -1) {
+                // deleted skills
+                deletedRequirements.push({ skillId: r.skill.id, weight: 0.0 });
+            } else {
+                // already available skills
+                var alreadyAvailableSkill = selectedSkills.splice(idx, 1)[0];
+                //is weight changed?
+                if (alreadyAvailableSkill.weight !== r.weight) {
+                    updatedRequirements.push({ weight: alreadyAvailableSkill.weight, skillId: r.skill.id });
                 }
-                professionSkills.push(obj);
+            }
+        })
+        // added skills
+        selectedSkills.forEach(s => {
+            newRequirements.push({ weight: s.weight, skillId: s.skill.id });
+        })
+
+        let payload = {
+            advertisementId: selectedAd.id,
+            body: {
+                newRequirements: newRequirements,
+                deletedRequirements: deletedRequirements,
+                updatedRequirements: updatedRequirements,
+                validUntil: validUntil,
+                description: description,
+                title: title
             }
         }
-        selectedSGs = professionSkills.filter(ps => adSkills.includes(ps.sid)).map(sg => sg.sgid);
-        selectedSGs = selectedSGs.filter((id, idx) => selectedSGs.indexOf(id) === idx);
-        selectedSGs = professionSkillGroups.filter(sg => !selectedSGs.includes(sg.id));
-        var sgArr = []
-        selectedSGs.forEach(obj => {
-            sgArr.push([obj.id, obj.description, obj.skills.length]);
-        });
-        return sgArr;
-    }
-    getSelectedSkillGroups = () => {
-        const { advertisement, professions } = this.props
-        const profession = professions.filter(p => p.id === advertisement.professionId)[0];
-        const professionSkillGroups = profession['skills'];
-        var selectedSGs = [];
-        // {sgid, sid}
-        var professionSkills = []
-        // [...id]
-        const adSkills = advertisement.requirements.map(req => req.skill.id);
-        var i;
-        for (i = 0; i < professionSkillGroups.length; i++) {
-            var sg = professionSkillGroups[i];
-            var skills = sg.skills.map(s => s.id);
-
-            var j;
-            for (j = 0; j < sg.skills.length; j++) {
-                let obj = {
-                    sgid: sg.id,
-                    sid: skills[j]
-                }
-                professionSkills.push(obj);
-            }
-        }
-
-        selectedSGs = professionSkills.filter(ps => adSkills.includes(ps.sid)).map(sg => sg.sgid);
-        selectedSGs = selectedSGs.filter((id, idx) => selectedSGs.indexOf(id) === idx);
-        selectedSGs = professionSkillGroups.filter(sg => selectedSGs.includes(sg.id));
-        var sgArr = []
-        selectedSGs.forEach(obj => {
-            sgArr.push([obj.id, obj.description, obj.skills.length]);
-        });
-        return sgArr;
-    }
-
-    getAvailableSkills = () => {
-        const { advertisement, professions } = this.props
-        const profession = professions.filter(p => p.id === advertisement.professionId)[0];
-        const professionSkillGroups = profession['skills'];
-        var availableSkills = [];
-        // {sgid, sid}
-        var professionSkills = []
-        // [...id]
-        const adSkills = advertisement.requirements.map(req => req.skill.id);
-        var i;
-        for (i = 0; i < professionSkillGroups.length; i++) {
-            var sg = professionSkillGroups[i];
-            var skills = sg.skills;
-
-            var j;
-            for (j = 0; j < sg.skills.length; j++) {
-                professionSkills.push(skills[j]);
-            }
-        }
-
-        var selectedSGs = professionSkills.filter(ps => adSkills.includes(ps.id)).map(sg => sg.sgid);
-        selectedSGs = selectedSGs.filter((id, idx) => selectedSGs.indexOf(id) === idx);
-        selectedSGs = professionSkillGroups.filter(sg => selectedSGs.includes(sg.id));
-
-        availableSkills = professionSkills.filter(ps => !adSkills.includes(ps.id));
-        var sArr = []
-        availableSkills.forEach(obj => {
-            sArr.push([obj.id, obj.description]);
-        });
-        return sArr;
-    }
-    getSelectedSkills = () => {
-        const { advertisement, professions } = this.props
-        const profession = professions.filter(p => p.id === advertisement.professionId)[0];
-        const professionSkillGroups = profession['skills'];
-        var selectedSkills = [];
-        // {sgid, sid}
-        var professionSkills = []
-        // [...id]
-        const adSkills = advertisement.requirements.map(req => req.skill.id);
-        var i;
-        for (i = 0; i < professionSkillGroups.length; i++) {
-            var sg = professionSkillGroups[i];
-            var skills = sg.skills;
-
-            var j;
-            for (j = 0; j < sg.skills.length; j++) {
-                professionSkills.push(skills[j]);
-            }
-        }
-        selectedSkills = professionSkills.filter(ps => adSkills.includes(ps.id));
-
-        var sArr = []
-        selectedSkills.forEach(obj => {
-            sArr.push([obj.id, obj.description]);
-        });
-        return sArr;
+        updateAdvertisement(payload);
     }
 
     render() {
         const { classes, advertisement, professions, advertisements } = this.props;
         const actions = [<EditIcon onClick={this.onClickEdit} />,
         <DeleteIcon onClick={this.onClickDelete} />];
-        const skillAddAction = [<AddIcon onClick={this.onClickEdit} />];
-        const skillRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
-        const skillGroupAddAction = [<AddIcon onClick={this.onClickEdit} />];
-        const skillGroupRemoveAction = [<RemoveIcon onClick={this.onClickDelete} />]
+        const skillAddAction = [<AddIcon onClick={this.onClickSkillAdd} />];
+        const skillRemoveAction = [<RemoveIcon onClick={this.onClickSkillRemove} />]
+        const skillGroupAddAction = [<AddIcon onClick={this.onClickSGAdd} />];
+        const skillGroupRemoveAction = [<RemoveIcon onClick={this.onClickSGRemove} />]
         return (
             <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
@@ -323,6 +447,21 @@ class AdvertisementPage extends Component {
                                     </GridItem>
                                     <GridItem xs={12} sm={12} md={12}>
                                         <CustomInput
+                                            labelText="Job Title"
+                                            id="job-title"
+                                            formControlProps={{
+                                                fullWidth: true
+                                            }}
+                                            inputProps={{
+                                                multiline: true,
+                                                rows: 1,
+                                                onChange: this.onTitleChange,
+                                                value: this.state.selectedAd.title
+                                            }}
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={12} sm={12} md={12}>
+                                        <CustomInput
                                             labelText="Type a new advertisement description"
                                             id="about-ad"
                                             formControlProps={{
@@ -346,7 +485,7 @@ class AdvertisementPage extends Component {
                                                     <Table
                                                         tableHeaderColor="success"
                                                         tableHead={["Id", "Description", "Skills"]}
-                                                        tableData={this.getAvailableSkillGroups()}
+                                                        tableData={this._getAvailableSkillGroups()}
                                                         actions={skillGroupAddAction}
                                                     />
                                                     : null}
@@ -364,7 +503,7 @@ class AdvertisementPage extends Component {
                                                     <Table
                                                         tableHeaderColor="warning"
                                                         tableHead={["Id", "Description", "Skills"]}
-                                                        tableData={this.props.professions ? this.getSelectedSkillGroups() : []}
+                                                        tableData={this.props.professions ? this._getSelectedSkillGroups() : []}
                                                         actions={skillGroupRemoveAction}
                                                     />
                                                     : null}
@@ -381,7 +520,7 @@ class AdvertisementPage extends Component {
                                                     <Table
                                                         tableHeaderColor="success"
                                                         tableHead={["Id", "Description"]}
-                                                        tableData={this.props.professions ? this.getAvailableSkills() : []}
+                                                        tableData={this.props.professions ? this._getAvailableSkills() : []}
                                                         actions={skillAddAction}
                                                     />
                                                     : null}
@@ -398,7 +537,7 @@ class AdvertisementPage extends Component {
                                                     <Table
                                                         tableHeaderColor="warning"
                                                         tableHead={["Id", "Description"]}
-                                                        tableData={this.props.professions ? this.getSelectedSkills() : []}
+                                                        tableData={this.props.professions ? this._getSelectedSkills(classes) : []}
                                                         actions={skillRemoveAction}
                                                     />
                                                     : null}
@@ -407,6 +546,17 @@ class AdvertisementPage extends Component {
                                     </GridItem>
                                 </GridContainer>
                             </CardBody>
+                            <CardFooter>
+                                <div />
+                                <Button
+                                    color={'primary'}
+                                    onClick={e => { this.onClickSave() }}>
+                                    <SaveIcon />
+                                    <div>
+                                        Update Advertisement
+                                    </div>
+                                </Button>
+                            </CardFooter>
                         </Card>
                     </GridItem>
                     :
@@ -430,10 +580,34 @@ const mapDispatchToProps = dispatch => {
     return {
         getProfessions: bindActionCreators(getProfession.request, dispatch),
         getAdvertisement: bindActionCreators(getAdvr.request, dispatch),
-        getAdvertisements: bindActionCreators(getAdvrs.request, dispatch)
+        getAdvertisements: bindActionCreators(getAdvrs.request, dispatch),
+        deleteAdvertisement: bindActionCreators(deleteAdvr.request, dispatch),
+        updateAdvertisement: bindActionCreators(updateAdvr.request, dispatch)
     };
 };
 
+const tags = [
+    {
+        value: 0,
+        label: 'Good to have',
+    },
+    {
+        value: 25,
+        label: '',
+    },
+    {
+        value: 50,
+        label: '',
+    },
+    {
+        value: 75,
+        label: '',
+    },
+    {
+        value: 100,
+        label: 'Necessary',
+    },
+];
 
 const styles = {
     cardCategoryWhite: {
@@ -489,6 +663,16 @@ const styles = {
             fontWeight: "400",
             lineHeight: "1"
         }
+    },
+    swaWrapper: {
+        display: 'grid',
+        justifyContent: 'center'
+    },
+    waWrapper: {
+        width: '300px'
+    },
+    sliderRoot: {
+        color: 'rgb(167, 67, 186)'
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AdvertisementPage));

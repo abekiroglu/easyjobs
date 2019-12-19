@@ -128,6 +128,16 @@ public class AdvertisementService {
                         request.getDeletedRequirements().forEach(deletedAssessment -> assessments.removeIf(
                                 assessment -> assessment.getSkill().getId() == deletedAssessment.getSkillId()));
                     }
+                    if (request.getUpdatedRequirements() != null && request.getUpdatedRequirements().size() != 0) {
+                        List<AdvertisementUpdateRequest.AssessmentWrapper> assessments = request.getUpdatedRequirements();
+                        for (int i = 0; i < assessments.size(); i++){
+                            for(int j = 0; j < dbAdvertisement.getRequirements().size(); j++){
+                                if(dbAdvertisement.getRequirements().get(j).getSkill().getId() == assessments.get(i).getSkillId()){
+                                    dbAdvertisement.getRequirements().get(j).setWeight(assessments.get(i).getWeight());
+                                }
+                            }
+                        }
+                    }
                     if (request.getDescription() != null) {
                         dbAdvertisement.setDescription(request.getDescription());
                     }
@@ -148,7 +158,7 @@ public class AdvertisementService {
                     return new Response<>(new ErrorResponse("401", "Advertisement does not belong to the authenticated company"), HttpStatus.UNAUTHORIZED);
                 }
             }
-            return new Response<>(advertisementRepository.save(dbAdvertisement), HttpStatus.OK);
+            return new Response<>(new AdvertisementResponse(dbAdvertisement), HttpStatus.OK);
         } catch (Exception e) {
             return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -163,7 +173,8 @@ public class AdvertisementService {
             if (email.equalsIgnoreCase(advertisement.getCompany().getEmail())) {
                 advertisement.setDeleted(true);
                 advertisementRepository.save(advertisement);
-                return new Response<>(null, HttpStatus.NO_CONTENT);
+
+                return new Response<>(advertisement.getCompany().getAdvertisements().stream().filter(ad -> !ad.getDeleted()), HttpStatus.OK);
             } else {
                 return new Response<>(new ErrorResponse("500", "Advertisement does not belong to the authenticated company"), HttpStatus.INTERNAL_SERVER_ERROR);
             }

@@ -7,7 +7,7 @@ import {
     GET_RECOMMENDED_USERS,
 } from '../../constants/actionTypes';
 import * as actions from '../actions/advertisement';
-import { putAdvr } from '../actions/company'
+import { putAdvr, putAdvrs } from '../actions/company'
 import * as api from '../api/advertisement';
 
 
@@ -43,6 +43,7 @@ export function* deleteAdvr({ body }) {
     try {
         const response = yield call(api.deleteAdvr, body);
         yield put(actions.deleteAdvr.success(response));
+        yield put(putAdvrs.success(response.data));
     } catch (e) {
         yield put(actions.deleteAdvr.failure(e));
     }

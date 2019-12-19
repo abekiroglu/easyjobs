@@ -217,7 +217,7 @@ public class CompanyService {
         try {
             Company dbCompany = companyRepository.findOneByEmail(name);
 
-            return new Response<>(dbCompany.getAdvertisements(), HttpStatus.CREATED);
+            return new Response<>(dbCompany.getAdvertisements().stream().filter(ad -> !ad.getDeleted()), HttpStatus.CREATED);
         } catch (Exception e) {
             return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

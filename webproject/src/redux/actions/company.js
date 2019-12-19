@@ -8,6 +8,7 @@ import {
     UPLOAD_IMAGE,
     HIRE,
     PUT_ADVR,
+    PUT_ADVRS,
     GET_ADVRS,
     GET_APPS,
     UPDATE_APP,
@@ -60,6 +61,12 @@ export const putAdvr = {
     request: () => action(PUT_ADVR.REQUEST, {}),
     success: response => action(PUT_ADVR.SUCCESS, { response }),
     failure: error => action(PUT_ADVR.FAILURE, { error })
+}
+
+export const putAdvrs = {
+    request: () => action(PUT_ADVRS.REQUEST, {}),
+    success: response => action(PUT_ADVRS.SUCCESS, { response }),
+    failure: error => action(PUT_ADVRS.FAILURE, { error })
 }
 
 export const logout = {

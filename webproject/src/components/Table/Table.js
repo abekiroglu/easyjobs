@@ -44,11 +44,15 @@ export default function CustomTable(props) {
             return (
               <TableRow key={key} className={classes.tableBodyRow} id={prop[0]}>
                 {prop.map((prop, key) => {
-                  return (
-                    <TableCell className={classes.tableCell} key={key} id={`row-${key}`}>
-                      {prop.length > 150 ? prop.substring(0, 150) + '...' : prop}
-                    </TableCell>
-                  );
+                  if (typeof prop !== 'object') {
+                    return (
+                      <TableCell className={classes.tableCell} key={key} id={`row-${key}`}>
+                        {prop.length > 150 ? prop.substring(0, 150) + '...' : prop}
+                      </TableCell>
+                    );
+                  } else {
+                    return <div> {prop} </div>
+                  }
                 })}
                 {actions ?
                   <TableCell className={classes.tableCell} key={`f-${key}`} id={`row-${key}-f`}>

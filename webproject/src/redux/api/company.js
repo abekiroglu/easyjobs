@@ -110,7 +110,6 @@ export function getApps() {
 
 export function updateApp(request) {
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
-  debugger;
   return axios.request({
     method: 'patch',
     headers: {

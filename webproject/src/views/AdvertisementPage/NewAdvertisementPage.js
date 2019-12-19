@@ -88,7 +88,7 @@ class NewAdvertisementPage extends Component {
 
                 var requirements = []
                 selectedSkills.forEach(skill => {
-                    requirements.push({ weight: 1.0, skillId: skill.id })
+                    requirements.push({ weight: 0.0, skillId: skill.id })
                 })
                 this.setState({
                     page: this.state.page + 1,
@@ -223,6 +223,7 @@ class NewAdvertisementPage extends Component {
             selectedSkills: sS
         })
     }
+
     onDescriptionChange = (e) => {
         this.setState({
             description: e.currentTarget.value

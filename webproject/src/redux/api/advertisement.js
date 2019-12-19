@@ -25,6 +25,7 @@ export function getAdvr(request) {
   })
 }
 export function updateAdvr(request) {
+  debugger;
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
   return axios.request({
     headers: {
@@ -32,7 +33,7 @@ export function updateAdvr(request) {
     },
     method: 'patch',
     data: request.body,
-    url: `${ADVERTISEMENT}/`,
+    url: `${ADVERTISEMENT}/${request.advertisementId}`,
     params: { advertisementId: request.advertisementId }
   })
 }
@@ -43,7 +44,7 @@ export function deleteAdvr(request) {
       auth: TOKEN
     },
     method: 'delete',
-    url: `${ADVERTISEMENT}/`,
+    url: `${ADVERTISEMENT}/${request.advertisementId}`,
     params: { advertisementId: request.advertisementId }
   })
 }

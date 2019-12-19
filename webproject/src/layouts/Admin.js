@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 import history from "history.js"
+import { logout } from "redux/actions/company"
 
 const switchRoutes = (
   <Switch>
@@ -43,7 +44,7 @@ const useStyles = makeStyles(styles);
 
 function Admin({ ...rest }) {
   if (rest.aStatus === 401 || rest.cStatus === 401 || rest.pStatus === 401) {
-    history.push('/landing/login');
+    rest.logout();
   }
   // styles
   const classes = rest.classes;
@@ -123,7 +124,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-
+    logout: bindActionCreators(logout.request, dispatch)
   };
 };
 

@@ -1,8 +1,6 @@
 package com.easyjobs.api.controller;
 
-import com.easyjobs.api.dto.request.ChangePasswordRequest;
-import com.easyjobs.api.dto.request.UserSignupRequest;
-import com.easyjobs.api.dto.request.UserUpdateRequest;
+import com.easyjobs.api.dto.request.*;
 import com.easyjobs.api.dto.response.Response;
 import com.easyjobs.api.integration.aws.AwsService;
 import com.easyjobs.api.service.UserService;
@@ -65,8 +63,8 @@ public class UserController {
     public Response uploadImage(@RequestParam("file")MultipartFile file, Authentication authentication){
         return service.updateImageUrl(awsService.uploadImage(file), authentication.getName());
     }
-    @PatchMapping("/cancel/{applicationId}")
-    public Response cancelApplication(@PathVariable int applicationId, Authentication authentication){
-        return service.cancelApplication(applicationId, authentication.getName());
+    @PatchMapping("/applications/{applicationId}")
+    public Response cancelApplication(@PathVariable int applicationId, @RequestBody UserApplicationUpdateRequest request, Authentication authentication){
+        return service.updateApplication(applicationId, request, authentication.getName());
     }
 }

@@ -6,6 +6,7 @@ import {
     HIRE, DELETE_COMPANY,
     UPLOAD_IMAGE,
     PUT_ADVR,
+    PUT_ADVRS,
     GET_ADVRS,
     GET_APPS,
     UPDATE_APP,
@@ -181,6 +182,11 @@ export default function companyReducer(state = initialState, action) {
                     advertisements: [...state.company.advertisements,
                     { ...action.response, comments: [] }]
                 }
+            }
+        case PUT_ADVRS.SUCCESS:
+            return {
+                ...state,
+                advertisements: action.response
             }
         case LOGOUT.SUCCESS:
             return initialState;

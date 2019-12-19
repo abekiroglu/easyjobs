@@ -1,8 +1,10 @@
 package com.easyjobs.api.service;
 
 import com.easyjobs.api.dto.request.ChangePasswordRequest;
+import com.easyjobs.api.dto.request.UserApplicationUpdateRequest;
 import com.easyjobs.api.dto.request.UserSignupRequest;
 import com.easyjobs.api.dto.request.UserUpdateRequest;
+import com.easyjobs.api.dto.response.CompanyResponse;
 import com.easyjobs.api.dto.response.ErrorResponse;
 import com.easyjobs.api.dto.response.Response;
 import com.easyjobs.api.dto.response.SimpleUser;
@@ -239,6 +241,25 @@ public class UserService {
             return new Response<>(dbApplication, HttpStatus.OK);
         }else{
             return new Response<>(new ErrorResponse("401", "Application does not belong to the authenticated user"), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public Response updateApplication(int applicationId, UserApplicationUpdateRequest request, String email) {
+        try {
+            JobApplication dbApplication = jobApplicationRepository.findOneById(applicationId);
+            if(dbApplication.getApplicant().getEmail().equals(email)){
+                if(request.isResolved()){
+                    dbApplication.setResolved(true);
+                    dbApplication.setAccepted(request.isAccepted());
+                }
+                return new Response<>(new CompanyResponse.JobApplicationWrapper(dbApplication), HttpStatus.OK);
+            }
+            else {
+                return new Response<>(new ErrorResponse("404", "Application does not belong to the authenticated user"), HttpStatus.NOT_FOUND);
+            }
+
+        } catch (Exception e) {
+            return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

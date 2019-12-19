@@ -6,19 +6,19 @@ import React from 'react';
 const marks = [
     {
         value: 0,
-        label: 'Not important',
+        label: 'Good to have',
     },
     {
         value: 25,
-        label: 'Slighly important',
+        label: '',
     },
     {
         value: 50,
-        label: 'Important',
+        label: '',
     },
     {
         value: 75,
-        label: 'Very Important',
+        label: '',
     },
     {
         value: 100,
@@ -31,34 +31,37 @@ function valuetext(value) {
 }
 
 function valueLabelFormat(value) {
-    var mark = marks.findIndex(mark => mark.value === value) / 5;
+    var mark = `${value}%`;
 
     return mark;
 }
 
 export default function skillWeightAdjuster(props) {
     const classes = props.classes;
-    const { skills, onChange } = props;
+    const { skills, onChange, tags } = props;
+    debugger;
     return (
 
         <div className={classes.swaWrapper}>
             {
                 skills.map(skill => {
                     return (<div className={classes.waWrapper}>
-                        <Typography id="discrete-slider-restrict" gutterBottom>
-                            {skill.description}
-                        </Typography>
+                        {skill.description ?
+                            <Typography id="discrete-slider-restrict" gutterBottom>
+                                {skill.description}
+                            </Typography>
+                            : null}
                         <Slider
                             id={skill.id}
                             onChange={onChange}
                             classes={{ root: classes.sliderRoot }}
-                            defaultValue={100}
+                            defaultValue={skill.weight ? skill.weight * 100 : 0}
                             valueLabelFormat={valueLabelFormat}
                             getAriaValueText={valuetext}
                             aria-labelledby="discrete-slider-restrict"
                             step={null}
                             valueLabelDisplay="auto"
-                            marks={marks}
+                            marks={tags ? tags : marks}
                         />
                     </div>)
                 })
