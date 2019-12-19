@@ -77,7 +77,7 @@ function ApplicationDetails(props) {
     const [feedback, setFeedback] = React.useState(data.feedback);
     const [resolved, setResolved] = React.useState(data.header.resolved);
     const [accepted, setAccepted] = React.useState(data.header.feedback);
-
+    debugger;
     return (
         <div className={classes.root}>
             <GridContainer>
@@ -141,7 +141,7 @@ function ApplicationDetails(props) {
                                     </div>
                                 </Button>
                                 : null}
-                            {data.header.issuedBy !== "Company" || (!resolved && !accepted) ?
+                            {data.header.issuedBy !== "Company" && (!resolved && !accepted) ?
                                 <div>
                                     <Button
                                         color={feedback.length > 10 && data.feedback !== feedback ? 'danger' : 'transparent'}
