@@ -40,6 +40,9 @@
 		967767A9236FC33E001F3F12 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967767A6236FC33E001F3F12 /* ProfileViewController.swift */; };
 		968A8A742384CCAE0049B792 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A8A732384CCAE0049B792 /* DesignableView.swift */; };
 		968A8A7C2384E3C50049B792 /* BounceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968A8A7B2384E3C50049B792 /* BounceButton.swift */; };
+		9694F7D323AAAE7800069327 /* DesignableTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694F7D223AAAE7800069327 /* DesignableTableViewCell.swift */; };
+		9694F7D523AAB25800069327 /* DesignableAdvertisementsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694F7D423AAB25800069327 /* DesignableAdvertisementsTableViewCell.swift */; };
+		9694F7D723AB1C0000069327 /* DesignableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694F7D623AB1C0000069327 /* DesignableTextView.swift */; };
 		969E67BC236FA1B60070D497 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 969E67BB236FA1B60070D497 /* GoogleService-Info.plist */; };
 		969E67BD236FA1B60070D497 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 969E67BB236FA1B60070D497 /* GoogleService-Info.plist */; };
 		969E67BE236FA1B60070D497 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 969E67BB236FA1B60070D497 /* GoogleService-Info.plist */; };
@@ -61,6 +64,8 @@
 		96F73EC023873C53007AEC7E /* EObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F73EBF23873C53007AEC7E /* EObjects.swift */; };
 		96FEDDF8239889E1009A94E1 /* DesignableImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEDDF7239889E0009A94E1 /* DesignableImageView.swift */; };
 		96FEDDFC23988ECB009A94E1 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FEDDFB23988ECB009A94E1 /* GradientView.swift */; };
+		96FF59BD23AB21830065BB10 /* OffersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FF59BC23AB21830065BB10 /* OffersTableViewCell.swift */; };
+		96FF59BF23AB24630065BB10 /* DesignableOffersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96FF59BE23AB24630065BB10 /* DesignableOffersTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +113,9 @@
 		967767A6236FC33E001F3F12 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		968A8A732384CCAE0049B792 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 		968A8A7B2384E3C50049B792 /* BounceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BounceButton.swift; sourceTree = "<group>"; };
+		9694F7D223AAAE7800069327 /* DesignableTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableTableViewCell.swift; sourceTree = "<group>"; };
+		9694F7D423AAB25800069327 /* DesignableAdvertisementsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableAdvertisementsTableViewCell.swift; sourceTree = "<group>"; };
+		9694F7D623AB1C0000069327 /* DesignableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableTextView.swift; sourceTree = "<group>"; };
 		969E67BB236FA1B60070D497 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		96A74B94237CAE8E0017CD43 /* ProfessionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessionDataSource.swift; sourceTree = "<group>"; };
 		96B74EB72385EC7C001163B5 /* SignUpViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -131,6 +139,8 @@
 		96F73EBF23873C53007AEC7E /* EObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EObjects.swift; sourceTree = "<group>"; };
 		96FEDDF7239889E0009A94E1 /* DesignableImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableImageView.swift; sourceTree = "<group>"; };
 		96FEDDFB23988ECB009A94E1 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		96FF59BC23AB21830065BB10 /* OffersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffersTableViewCell.swift; sourceTree = "<group>"; };
+		96FF59BE23AB24630065BB10 /* DesignableOffersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableOffersTableViewCell.swift; sourceTree = "<group>"; };
 		AE8983FFC0BFEAE6403FFBF5 /* Pods-EasyJobsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyJobsUITests.debug.xcconfig"; path = "Target Support Files/Pods-EasyJobsUITests/Pods-EasyJobsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		DA4262A22F9BE7C14017FA5D /* Pods-EasyJobs.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyJobs.release.xcconfig"; path = "Target Support Files/Pods-EasyJobs/Pods-EasyJobs.release.xcconfig"; sourceTree = "<group>"; };
 		ED56119534CA1B9078A1F439 /* Pods-EasyJobsUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EasyJobsUITests.release.xcconfig"; path = "Target Support Files/Pods-EasyJobsUITests/Pods-EasyJobsUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -227,6 +237,10 @@
 				96D2FB5E2388A26D0085A118 /* DesignableTextField.swift */,
 				96FEDDF7239889E0009A94E1 /* DesignableImageView.swift */,
 				96FEDDFB23988ECB009A94E1 /* GradientView.swift */,
+				9694F7D223AAAE7800069327 /* DesignableTableViewCell.swift */,
+				9694F7D423AAB25800069327 /* DesignableAdvertisementsTableViewCell.swift */,
+				9694F7D623AB1C0000069327 /* DesignableTextView.swift */,
+				96FF59BE23AB24630065BB10 /* DesignableOffersTableViewCell.swift */,
 			);
 			path = IBDesignables;
 			sourceTree = "<group>";
@@ -246,6 +260,7 @@
 			children = (
 				965615D32393743100612128 /* AdvertisementsTableViewCell.swift */,
 				96317CC5239E07130013D6F4 /* ApplicationTableViewCell.swift */,
+				96FF59BC23AB21830065BB10 /* OffersTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -657,16 +672,20 @@
 				966911AE2395967400F3A307 /* AdvertisementDetailViewController.swift in Sources */,
 				96FEDDFC23988ECB009A94E1 /* GradientView.swift in Sources */,
 				967767A7236FC33E001F3F12 /* ProfileViewController.swift in Sources */,
+				96FF59BD23AB21830065BB10 /* OffersTableViewCell.swift in Sources */,
 				965C85A423A5C716005F8F61 /* UIImageViewExtension.swift in Sources */,
 				963F5C92238486BD00BBFC7B /* DesignableButton.swift in Sources */,
 				96080BC2236F8AAF00E9854F /* SignUpViewController.swift in Sources */,
+				9694F7D323AAAE7800069327 /* DesignableTableViewCell.swift in Sources */,
 				96D561C0236A12080063AEBB /* SceneDelegate.swift in Sources */,
 				96317CC6239E07130013D6F4 /* ApplicationTableViewCell.swift in Sources */,
 				96317CC8239E07E50013D6F4 /* ApplicationsViewController.swift in Sources */,
+				9694F7D723AB1C0000069327 /* DesignableTextView.swift in Sources */,
 				96022BE22385774600CBF399 /* ProfileViewControllerExtension.swift in Sources */,
 				96B74EB82385EC7C001163B5 /* SignUpViewControllerExtension.swift in Sources */,
 				96FEDDF8239889E1009A94E1 /* DesignableImageView.swift in Sources */,
 				965C85A623A7E85C005F8F61 /* DesignableButtonExtension.swift in Sources */,
+				96FF59BF23AB24630065BB10 /* DesignableOffersTableViewCell.swift in Sources */,
 				96A74B95237CAE8E0017CD43 /* ProfessionDataSource.swift in Sources */,
 				965745A823A5541900FB420A /* ApplicationDetailViewController.swift in Sources */,
 				96F73EBE2387268A007AEC7E /* SimpleObjects.swift in Sources */,
@@ -675,6 +694,7 @@
 				9632709623860CE9008532F2 /* MenuViewControllerExtension.swift in Sources */,
 				963270942385FA87008532F2 /* LoginViewControllerExtension.swift in Sources */,
 				9619099723865FFE0098F9DE /* AdvertisementViewController.swift in Sources */,
+				9694F7D523AAB25800069327 /* DesignableAdvertisementsTableViewCell.swift in Sources */,
 				968A8A7C2384E3C50049B792 /* BounceButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

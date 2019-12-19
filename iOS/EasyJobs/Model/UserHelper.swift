@@ -19,7 +19,9 @@ protocol UserHelperDelegate{
     func closeLoadingScreen()
     func showProfileUpdatedLabel()
     func fillUI()
-    func applicationAdIdsLoaded(advertisementIds: [Int])
+    func applicationAdIdsLoaded(advertisementIds: [Int], oldAdvertisementIds: [Int], offeredAdvertisementIds: [Int], oldOfferedAdvertisementIds: [Int])
+    func applicationsToRemoveLoaded(advertisementIds: [Int])
+    func applicationCanceled()
 }
 
 extension UserHelperDelegate{
@@ -29,7 +31,10 @@ extension UserHelperDelegate{
     func closeLoadingScreen(){}
     func showProfileUpdatedLabel(){}
     func fillUI(){}
-    func applicationAdIdsLoaded(advertisementIds: [Int]){}
+    func applicationAdIdsLoaded(advertisementIds: [Int], oldAdvertisementIds: [Int], offeredAdvertisementIds: [Int], oldOfferedAdvertisementIds: [Int]){}
+    func applicationsToRemoveLoaded(advertisementIds: [Int]){}
+    func applicationCanceled(){}
+
 }
 
 extension Data {
@@ -101,6 +106,36 @@ class UserHelper{
         uploadTask.resume()
     }
     
+    func cancelApplication(applicationId: Int){
+        
+        let session = URLSession.shared
+        var request = URLRequest(url: URL(string: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/cancel/\(applicationId)")!)
+        request.httpMethod = "PATCH"
+        
+        let currentUser = Auth.auth().currentUser
+        currentUser?.getIDToken() { idToken, error in
+          if let error = error {
+            // Handle error
+            return;
+          }
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue(idToken!, forHTTPHeaderField: "auth" )
+            let dataTask = session.dataTask(with: request) {(data, response, error) in
+                if error == nil{
+                    print("Application canceled!")
+                    DispatchQueue.main.async {
+                        self.delegate?.applicationCanceled()
+                    }
+                }else{
+                    print("Error canceling application")
+                }
+                    }
+          dataTask.resume()
+          // Send token to your backend via HTTPS
+          // ...
+        }
+    }
+    
     func loadUser(){
         
         let session = URLSession.shared
@@ -118,7 +153,7 @@ class UserHelper{
             
             //print("User will load")
             let dataTask = session.dataTask(with: request) {(data, response, error) in
-                //print("HERE: \(String.init(data: data!, encoding: .utf8))")
+                print("HERE: \(String.init(data: data!, encoding: .utf8))")
                 let decoder = JSONDecoder()
                 //print("Loading User")
                 //print(data!.count)
@@ -128,12 +163,34 @@ class UserHelper{
                     if self.bigLoadedUser.applications.count>0{
                         print("There are applications")
                         var advertisementIds : [Int] = []
+                        var oldAdvertisementIds: [Int] = []
+                        var offeredAdvertisementIds: [Int] = []
+                        var oldOfferedAdvertisementIds: [Int] = []
+                        var applicationsToRemove: [Int] = []
                         for application in self.bigLoadedUser.applications{
-                            advertisementIds.append(application.advertisementId)
+                            applicationsToRemove.append(application.advertisementId)
+                                if application.issuedBy == "User"{
+                                    if application.resolved == false{
+                                        advertisementIds.append(application.advertisementId)
+                                        //print("\(application.advertisementId) added to advertisementIDs")
+                                    }else{
+                                        oldAdvertisementIds.append(application.advertisementId)
+                                        //print("\(application.advertisementId) added to oldAdvertisementIDs")
+                                    }
+                                }else{
+                                    if application.resolved ==  false{
+                                        offeredAdvertisementIds.append(application.advertisementId)
+                                        //print("\(application.advertisementId) added to offeredAdvertisementIDs")
+                                    }else{
+                                        oldOfferedAdvertisementIds.append(application.advertisementId)
+                                        //print("\(application.advertisementId) added to oldOfferedAdvertisementIDs")
+                                    }
+                                }
                         }
                         print("Loading applications")
                         DispatchQueue.main.async {
-                            self.delegate?.applicationAdIdsLoaded(advertisementIds: advertisementIds)
+                            self.delegate?.applicationAdIdsLoaded(advertisementIds: advertisementIds, oldAdvertisementIds:oldAdvertisementIds, offeredAdvertisementIds: offeredAdvertisementIds, oldOfferedAdvertisementIds: oldOfferedAdvertisementIds)
+                            self.delegate?.applicationsToRemoveLoaded(advertisementIds: applicationsToRemove)
                         }
                         
                     }

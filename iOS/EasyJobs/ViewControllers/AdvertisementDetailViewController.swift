@@ -9,14 +9,10 @@
 import UIKit
 
 
-
-
 extension AdvertisementDetailViewController: AdvertisementDataSourceDelegate{
-    func advertisementDetailLoaded(advertisement: SimpleAdvertisement){
-        
-    }
-    func jobApplied(){
-        applyButton.setTitle("Cancel Application", for: .normal)
+    func jobApplied() {
+        applyButton.setTitle("Already Applied!", for: .normal)
+        applyButton.isEnabled = false
     }
 }
 
@@ -35,15 +31,15 @@ class AdvertisementDetailViewController: UIViewController {
     var advertisement: SimpleAdvertisement?
     let advertisementDataSource = AdvertisementDataSource()
     let userHelper = UserHelper()
-    var isAlreadyApplied: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        advertisementDataSource.delegate = self
         userHelper.loadUser()
-      /*  if let isApplied = isAlreadyApplied{
-            applyButton.setTitle("Cancel Application", for: .normal)
-        }*/
+        advertisementDataSource.delegate = self
+        
+        companyLabel.adjustsFontSizeToFitWidth = true
+        companyEmailLabel.adjustsFontSizeToFitWidth = true
+     
         
     }
     
@@ -72,28 +68,11 @@ class AdvertisementDetailViewController: UIViewController {
             }
             matchRateLabel.alpha = 0.6
         }
-        if let isAlreadyApplied = isAlreadyApplied{
-            applyButton.setTitle("Cancel Application", for: .normal)
-        }else{
-            if userHelper.bigUser{
-                if userHelper.bigLoadedUser.applications.count>0{
-                    for application in userHelper.bigLoadedUser.applications{
-                        if application.advertisementId == self.advertisement?.id{
-                            applyButton.title(for: .normal) == "Cancel Application"
-                        }
-                    }
-                }
-            }
-        }
     }
     
     @IBAction func applyButtonTapped(_ sender: Any) {
-        if applyButton.title(for: .normal) == "Apply!"{
             if let selectedAdvertisement = advertisement{
                 advertisementDataSource.applyForJob(advertisementID: selectedAdvertisement.id)
-            }
-        }else{
-            // Cancel application
         }
     }
     

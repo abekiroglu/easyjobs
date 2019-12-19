@@ -9,11 +9,15 @@
 import UIKit
 
 extension ApplicationDetailViewController: AdvertisementDataSourceDelegate{
-    func advertisementDetailLoaded(advertisement: SimpleAdvertisement){
-        
-    }
     func jobApplied(){
         applyButton.setTitle("Cancel Application", for: .normal)
+    }
+}
+extension ApplicationDetailViewController: UserHelperDelegate{
+    func applicationCanceled() {
+        applyButton.isEnabled = false
+        applyButton.setTitle("Not Accepted", for: .normal)
+        resolvedLabel.text = "True"
     }
 }
 
@@ -21,6 +25,7 @@ class ApplicationDetailViewController: UIViewController {
     
     @IBOutlet weak var companyImage: UIImageView!
     
+    @IBOutlet weak var resolvedLabel: UILabel!
     @IBOutlet weak var advertisementIDLabel: UILabel!
     @IBOutlet weak var matchRateLabel: UILabel!
     @IBOutlet weak var companyLabel: UILabel!
@@ -32,6 +37,7 @@ class ApplicationDetailViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     
     @IBOutlet weak var applyButton: DesignableButton!
+    @IBOutlet weak var feedbackTextView: UITextView!
     
     /*
     @IBOutlet weak var companyImage: UIImageView!
@@ -48,12 +54,15 @@ class ApplicationDetailViewController: UIViewController {
     var advertisement: SimpleAdvertisement?
     let advertisementDataSource = AdvertisementDataSource()
     let userHelper = UserHelper()
-    var isAlreadyApplied: Bool?
+    var application: JobApplication?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         advertisementDataSource.delegate = self
+        userHelper.delegate = self
         userHelper.loadUser()
+        companyEmailLabel.adjustsFontSizeToFitWidth = true
+        companyLabel.adjustsFontSizeToFitWidth = true
       /*  if let isApplied = isAlreadyApplied{
             applyButton.setTitle("Cancel Application", for: .normal)
         }*/
@@ -84,19 +93,21 @@ class ApplicationDetailViewController: UIViewController {
             }
             matchRateLabel.alpha = 0.6
         }
-        if let isAlreadyApplied = isAlreadyApplied{
-            applyButton.setTitle("Cancel Application", for: .normal)
-        }else{
-            if userHelper.bigUser{
-                if userHelper.bigLoadedUser.applications.count>0{
-                    for application in userHelper.bigLoadedUser.applications{
-                        if application.advertisementId == self.advertisement?.id{
-                            applyButton.title(for: .normal) == "Cancel Application"
-                        }
-                    }
+        if let application = application{
+            feedbackTextView.text =  application.feedback
+            if application.resolved == true{
+                resolvedLabel.text = "True"
+                applyButton.isEnabled = false
+                if application.accepted ==  true{
+                    applyButton.setTitle("Accepted!", for: .normal)
+                }else{
+                    applyButton.setTitle("Not Accepted", for: .normal)
                 }
+                
+                
             }
         }
+        
     }
     
     
@@ -107,9 +118,20 @@ class ApplicationDetailViewController: UIViewController {
                 advertisementDataSource.applyForJob(advertisementID: selectedAdvertisement.id)
             }
         }else{
-            // Cancel application
+            if let application = application{
+                userHelper.cancelApplication(applicationId: application.id)
+                print("Application removed: appId: \(application.id)")
+            }
         }
     }
+    
+    
+        
+        
+        
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        
     
 }
 

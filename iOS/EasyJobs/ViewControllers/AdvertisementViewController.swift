@@ -47,7 +47,16 @@ extension AdvertisementViewController: AdvertisementDataSourceDelegate{
     
     func advertisementListLoaded(advertisementList: [SimpleAdvertisement]) {
         self.advertisementList = advertisementList.sorted(by: { $0.matchRate > $1.matchRate })
-        print("Number of advertisements: \(advertisementList.count)")
+        print("Number of advertisements before removing applications: \(advertisementList.count)")
+        userHelper.loadUser()
+        
+    }
+}
+extension AdvertisementViewController: UserHelperDelegate{
+    func applicationsToRemoveLoaded(advertisementIds: [Int]) {
+        advertisementList = removeApplications(advertisementIds: advertisementIds, advertisements: advertisementList)
+        
+        print("Number of advertisements after removing applications: \(advertisementList.count)")
         advertisementsTableView.reloadData()
     }
 }
@@ -63,8 +72,9 @@ class AdvertisementViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userHelper.loadUser()
+        
         advertisementDataSource.delegate = self
+        userHelper.delegate = self
         advertisementDataSource.loadAdvertisementList()
     }
     
@@ -85,9 +95,7 @@ class AdvertisementViewController: UIViewController {
             
             
             destination.advertisement = advertisement
-            if isAlreadyApplied(advertisementId: advertisement.id){
-                destination.isAlreadyApplied = true
-            }
+            
         }
     }
 

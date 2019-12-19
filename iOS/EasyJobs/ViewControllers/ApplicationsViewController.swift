@@ -11,50 +11,74 @@ import UIKit
 
 extension ApplicationsViewController: UITableViewDataSource{
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let isOffers = isOffers{
+            if section == 0{
+                return "Active Offers"
+            }
+            return "Old Offers"
+        }
+        if section == 0{
+            return "Active Applications"
+        }
+        return "Old Applications"
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         print("numberOfSections Done")
-        return 1
+        return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("numberOfRows Done: \(applicationList.count)")
-        return applicationList.count
+        if section == 0{
+            return applicationList.count
+        }
+        return oldApplications.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        print("Dequeing cell")
-        let cell =  tableView.dequeueReusableCell(withIdentifier: "ApplicationsCell", for: indexPath) as! ApplicationsTableViewCell
-        let advertisement =  applicationList[indexPath.row]
         
-        cell.companyNameLabel.text = advertisement.company.name
-        cell.matchRateLabel.text = "Match Rate: \(advertisement.matchRate)"
-        cell.descriptionLabel.text = advertisement.description
-        if let url = URL(string: advertisement.company.picture){
-            cell.companyImageView.load(url: url)
-        }
+            let cell =  tableView.dequeueReusableCell(withIdentifier: "ApplicationsCell", for: indexPath) as! ApplicationsTableViewCell
+            var advertisement = totalApplicationsList[indexPath.section][indexPath.row]
+            
+            cell.companyNameLabel.text = advertisement.company.name
+            cell.matchRateLabel.text = "Match Rate: \(advertisement.matchRate)"
+            cell.descriptionLabel.text = advertisement.description
+            if let url = URL(string: advertisement.company.picture){
+                cell.companyImageView.load(url: url)
+            }
 
-        if advertisement.matchRate < 0.61{
-            cell.matchRateLabel.textColor = UIColor.orange
-        }else if advertisement.matchRate < 0.81 {
-            cell.matchRateLabel.textColor = UIColor.green
-        }else{
-            cell.matchRateLabel.textColor = UIColor.yellow
-        }
-        cell.matchRateLabel.alpha = 0.6
+            if advertisement.matchRate < 0.61{
+                cell.matchRateLabel.textColor = UIColor.orange
+            }else if advertisement.matchRate < 0.81 {
+                cell.matchRateLabel.textColor = UIColor.green
+            }else{
+                cell.matchRateLabel.textColor = UIColor.yellow
+            }
+            cell.matchRateLabel.alpha = 0.6
+            return cell
         
-        return cell
     }
     
 }
 
 extension ApplicationsViewController: UserHelperDelegate{
     
-    func applicationAdIdsLoaded(advertisementIds: [Int]) {
-        applicationList = getApplications(advertisementIds: advertisementIds, advertisements: self.advertisementList).sorted(by: { $0.matchRate > $1.matchRate })
-        print("Number of advertisements: \(advertisementList.count)")
-        
-        //print("Count: \(applicationList.count)")
+    func applicationAdIdsLoaded(advertisementIds: [Int], oldAdvertisementIds: [Int], offeredAdvertisementIds: [Int], oldOfferedAdvertisementIds: [Int]) {
+        print("OfferedAdvertisementIds count: \(offeredAdvertisementIds.count)")
+        if let isOffers = isOffers{
+            print("It is isOffers")
+            applicationList = getApplications(advertisementIds: offeredAdvertisementIds, advertisements: self.advertisementList).sorted(by: { $0.matchRate > $1.matchRate })
+            oldApplications = getApplications(advertisementIds: oldOfferedAdvertisementIds, advertisements: self.advertisementList)
+        }else{
+            applicationList = getApplications(advertisementIds: advertisementIds, advertisements: self.advertisementList).sorted(by: { $0.matchRate > $1.matchRate })
+            oldApplications = getApplications(advertisementIds: oldAdvertisementIds, advertisements: self.advertisementList)
+        }
+            
+        totalApplicationsList.append(applicationList)
+        totalApplicationsList.append(oldApplications)
         self.applicationsTableView.reloadData()
     }
     
@@ -76,10 +100,13 @@ class ApplicationsViewController: UIViewController {
 
     @IBOutlet weak var applicationsTableView: UITableView!
 
+    var totalApplicationsList : [[SimpleAdvertisement]] = []
     var advertisementList : [SimpleAdvertisement] = []
     var applicationList : [SimpleAdvertisement] = []
+    var oldApplications : [SimpleAdvertisement] = []
     let userHelper = UserHelper()
     let advertisementDataSource = AdvertisementDataSource()
+    var isOffers: Bool?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,12 +131,12 @@ class ApplicationsViewController: UIViewController {
         // Pass the selected object to the new view controller.
         if let indexPath = indexPath{
             
-            let advertisement = applicationList[indexPath.row]
+            let advertisement = totalApplicationsList[indexPath.section][indexPath.row]
             
             let destination = segue.destination as! ApplicationDetailViewController
             
             destination.advertisement = advertisement
-            destination.isAlreadyApplied = true
+            destination.application = getApplication(applicationList: userHelper.bigLoadedUser.applications, adId: advertisement.id)
         }
 
     }

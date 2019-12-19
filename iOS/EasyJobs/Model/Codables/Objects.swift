@@ -73,6 +73,8 @@ struct JobApplication: Codable{
     var resolved: Bool
     var issuedBy: String
     var advertisementId: Int
+    var accepted: Bool
+    var feedback: String
 }
 
 struct Profession: Codable{

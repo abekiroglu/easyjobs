@@ -72,4 +72,15 @@ class MenuViewController: UIViewController {
     }
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+        let button = sender as! DesignableButton
+               
+        if button.title(for: .normal) == "OFFERS"{
+            let destination = segue.destination as! ApplicationsViewController
+            destination.isOffers = true
+        }
+        
+    }
+    
 }
