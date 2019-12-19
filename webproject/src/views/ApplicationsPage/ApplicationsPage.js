@@ -28,7 +28,9 @@ class ApplicationsPage extends Component {
         super(props);
         this.state = {
             selectedAd: null,
-            action: null
+            action: null,
+            orderBy: 'id',
+            order: 'desc'
         };
     }
 
@@ -92,6 +94,14 @@ class ApplicationsPage extends Component {
         return `${year}-${month}-${day}`;
     }
 
+    setSort(orderBy, order) {
+        debugger;
+        this.setState({
+            order,
+            orderBy
+        })
+    }
+
     render() {
         const { classes, applications, advertisements } = this.props;
         var tableHead;
@@ -113,12 +123,13 @@ class ApplicationsPage extends Component {
                         <CardHeader color="info" plain>
                             <h4 className={classes.cardTitleDark}>Incoming Applications</h4>
                             <p className={classes.cardCategoryDark}>
-                                Sorted by arrival date
+                                Sorted by {`${this.state.orderBy} ${this.state.order}ending`}
                             </p>
                         </CardHeader>
                         <CardBody>
                             {applications && advertisements ?
                                 <ExpandableTable
+                                    setSort={(orderBy, order) => { this.setSort(orderBy, order) }}
                                     tableHeaderColor="info"
                                     tableHead={tableHead}
                                     tableData={details}

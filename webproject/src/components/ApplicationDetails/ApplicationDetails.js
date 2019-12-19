@@ -85,7 +85,7 @@ function ApplicationDetails(props) {
                     <Card profile>
                         <CardHeader color="warning">
                             <CardAvatar profile>
-                                {applicant.picture ? <img src={avatar1} alt="..." /> : null}
+                                {applicant.picture ? <img src={applicant.picture} alt="..." /> : null}
                             </CardAvatar>
                             <div> {applicant.name + ' ' + applicant.surname} </div>
                             <div> {applicant.profession.title} </div>
