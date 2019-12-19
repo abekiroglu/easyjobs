@@ -5,6 +5,7 @@ import {
     UPDATE_ADVR,
     DELETE_ADVR,
     GET_RECOMMENDED_USERS,
+    CLEAR_RECOMMENDATIONS
 } from '../../constants/actionTypes';
 import * as actions from '../actions/advertisement';
 import { putAdvr, putAdvrs } from '../actions/company'
@@ -56,6 +57,14 @@ export function* getRecommendedUsers({ body }) {
     } catch (e) {
         yield put(actions.getRecommendedUsers.failure(e));
     }
+}
+
+export function* clearRecommendations(){
+    yield put(actions.clearRecommendations.success());
+}
+
+export function*  watchClearRecommendations(){
+    yield takeLatest(CLEAR_RECOMMENDATIONS.REQUEST, clearRecommendations);
 }
 
 export function* watchAddAdvr() {

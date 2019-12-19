@@ -74,9 +74,10 @@ function ApplicationDetails(props) {
     const ad = data.body;
     const skills = applicant.skills;
     const requirements = ad.requirements;
+    debugger;
     const [feedback, setFeedback] = React.useState(data.feedback);
     const [resolved, setResolved] = React.useState(data.header.resolved);
-    const [accepted, setAccepted] = React.useState(data.header.feedback);
+    const [accepted, setAccepted] = React.useState(data.header.accepted);
 
     return (
         <div className={classes.root}>
@@ -85,7 +86,7 @@ function ApplicationDetails(props) {
                     <Card profile>
                         <CardHeader color="warning">
                             <CardAvatar profile>
-                                {applicant.picture ? <img src={avatar1} alt="..." /> : null}
+                                {applicant.picture ? <img src={applicant.picture} alt="..." /> : null}
                             </CardAvatar>
                             <div> {applicant.name + ' ' + applicant.surname} </div>
                             <div> {applicant.profession.title} </div>
@@ -141,7 +142,7 @@ function ApplicationDetails(props) {
                                     </div>
                                 </Button>
                                 : null}
-                            {data.header.issuedBy !== "Company" || (!resolved && !accepted) ?
+                            {data.header.issuedBy !== "Company" && (!resolved && !accepted) ?
                                 <div>
                                     <Button
                                         color={feedback.length > 10 && data.feedback !== feedback ? 'danger' : 'transparent'}

@@ -42,6 +42,8 @@ export const GET_RECOMMENDED_USERS = createRequestTypes("GET_RECOMMENDED_USERS")
 
 export const CLEAR_ADS = createRequestTypes("CLEAR_ADS");
 
+export const CLEAR_RECOMMENDATIONS = createRequestTypes("CLEAR_RECOMMENDATIONS");
+
 //Profession
 export const GET_PROFESSION = createRequestTypes("GET_PROFESSION");
 

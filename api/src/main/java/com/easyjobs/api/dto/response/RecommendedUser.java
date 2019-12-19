@@ -1,6 +1,7 @@
 package com.easyjobs.api.dto.response;
 
 import com.easyjobs.api.model.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,11 +10,11 @@ import java.util.List;
 public class RecommendedUser {
     private int id;
     private String email;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date birthDate;
     private String name;
     private String surname;
     private List<Skill> skills;
-    private List<Experience> experiences;
     private String picture;
     private Double matchRate;
 
@@ -24,21 +25,19 @@ public class RecommendedUser {
         this.name = user.getName();
         this.surname = user.getSurname();
         this.skills = user.getSkills();
-        this.experiences = user.getExperiences();
         this.picture = user.getPicture();
         this.matchRate = calculateMatchRate(this.getSkills(), assessments);
     }
 
 
 
-    public RecommendedUser(int id, String email, Date birthDate, String name, String surname, List<Skill> skills, List<Experience> experiences, String picture, Double matchRate) {
+    public RecommendedUser(int id, String email, Date birthDate, String name, String surname, List<Skill> skills, String picture, Double matchRate) {
         this.id = id;
         this.email = email;
         this.birthDate = birthDate;
         this.name = name;
         this.surname = surname;
         this.skills = skills;
-        this.experiences = experiences;
         this.picture = picture;
         this.matchRate = matchRate;
     }
@@ -103,14 +102,6 @@ public class RecommendedUser {
 
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
-    }
-
-    public List<Experience> getExperiences() {
-        return experiences;
-    }
-
-    public void setExperiences(List<Experience> experiences) {
-        this.experiences = experiences;
     }
 
     public String getPicture() {

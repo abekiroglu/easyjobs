@@ -44,10 +44,11 @@ export default function ExpandableRow(props) {
         let cell = data[key];
         return (
             <div className={classes.cell}>
-                {typeof cell === 'boolean' ?
-                    cell
-                        ? "True" : "False" :
-                    typeof cell === 'object' ? cell.id : cell}
+                {typeof cell === 'boolean' ? cell ? "True" : "False" :
+                    cell === null ? null :
+                        Array.isArray(cell) ? cell.length :
+                            typeof cell === 'object' ? cell.id :
+                             cell}
             </div>
         )
     });

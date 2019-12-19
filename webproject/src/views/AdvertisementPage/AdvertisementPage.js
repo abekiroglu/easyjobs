@@ -17,7 +17,13 @@ import CustomInput from "components/CustomInput/CustomInput.js";
 import { TextField } from "@material-ui/core"
 import AddIcon from '@material-ui/icons/Add';
 import { getProfession } from "redux/actions/profession";
-import { getAdvr, deleteAdvr, updateAdvr } from "redux/actions/advertisement";
+import {
+    getAdvr,
+    deleteAdvr,
+    updateAdvr,
+    getRecommendedUsers,
+    clearRecommendations
+} from "redux/actions/advertisement";
 import RemoveIcon from '@material-ui/icons/Remove';
 import { getAdvrs } from 'redux/actions/company';
 import { isEqual } from 'lodash';
@@ -25,19 +31,26 @@ import SkillWeightAdjuster from './SkillWeightAdjuster.js';
 import CardFooter from "components/Card/CardFooter.js";
 import Button from "components/CustomButtons/Button.js";
 import SaveIcon from '@material-ui/icons/Save';
-import { select } from '../../../node_modules/redux-saga/effects';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Col, Row } from 'reactstrap'
+import ExpandableTable from "components/ExpandableTable/ExpandableTable.js";
+import RecommendedUserDetails from "components/RecommendedUserDetails/RecommendedUserDetails.js"
 
 class AdvertisementPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selectedAd: null,
-            action: null,
+            action: 'view',
             selectedSGs: [],
             availableSGs: [],
             selectedSkills: [],
             availableSkills: [],
-            adId: null
+            adId: null,
+            header: 'Your Advertisements',
+            title: 'Sorted by publishment order',
+            color: 'info'
         };
     }
 
@@ -55,7 +68,20 @@ class AdvertisementPage extends Component {
             }
             getAdvertisement(payload);
         }
-        if (this.props.advertisement !== prevProps.advertisement) {
+        if (prevState.adId !== this.state.adId && this.state.action === 'hire') {
+            const { getRecommendedUsers } = this.props;
+            let payload = {
+                advertisementId: parseInt(this.state.adId)
+            }
+            getRecommendedUsers(payload);
+        }
+        if (this.props.advertisement !== prevProps.advertisement && this.state.action === 'hire') {
+            const { advertisement } = this.props;
+            this.setState({
+                selectedAd: advertisement
+            })
+        }
+        if (this.props.advertisement !== prevProps.advertisement && this.state.action === 'edit') {
             const { advertisement, professions } = this.props;
             const profession = professions.filter(p => p.id === advertisement.professionId)[0];
             var selectedSGs = [];
@@ -136,12 +162,28 @@ class AdvertisementPage extends Component {
         return [[selectedAd.id, selectedAd.publishDate, selectedAd.validUntil, selectedAd.description, selectedAd.requirements.length, selectedAd.comments.length]];
     }
 
+    onClickHire = e => {
+        var adId = e.currentTarget.parentElement.parentElement.children[0].innerHTML;
+
+        this.setState({
+            selectedAd: null,
+            adId: adId,
+            action: 'hire',
+            header: 'View Suitable Candidates',
+            title: 'Sorted by id ascending',
+            color: 'info'
+        })
+    }
+
     onClickEdit = e => {
         var adId = e.currentTarget.parentElement.parentElement.children[0].innerHTML;
         this.setState({
             selectedAd: null,
             adId: adId,
-            action: 'edit'
+            action: 'edit',
+            header: 'Edit Advertisement',
+            title: 'Spaces can be left empty',
+            color: 'info'
         })
     }
 
@@ -156,8 +198,24 @@ class AdvertisementPage extends Component {
 
         var selectedAd = advertisements.filter(ad => ad.id === parseInt(adId))[0];
         this.setState({
-            selectedAd: selectedAd,
-            action: 'delete'
+            selectedAd: selectedAd
+        })
+    }
+
+    onClickReturn = e => {
+        const { clearRecommendations } = this.props;
+        clearRecommendations();
+        this.setState({
+            selectedAd: null,
+            action: 'view',
+            selectedSGs: [],
+            availableSGs: [],
+            selectedSkills: [],
+            availableSkills: [],
+            adId: null,
+            header: 'Your Advertisements',
+            title: 'Sorted by publishment order',
+            color: 'info'
         })
     }
 
@@ -352,7 +410,6 @@ class AdvertisementPage extends Component {
 
         const prevSkills = selectedAd.requirements;
         prevSkills.forEach(r => {
-            debugger;
             var idx = selectedSkills.map(s => { return s.skill.id }).indexOf(r.skill.id);
             if (idx === -1) {
                 // deleted skills
@@ -385,10 +442,37 @@ class AdvertisementPage extends Component {
         updateAdvertisement(payload);
     }
 
+    setSort(orderBy, order) {
+        this.setState({
+            title: `Sorted by ${orderBy} ${order}ending`
+        })
+    }
+
+    expandableTableArgs() {
+        const { recommendedUsers, professions } = this.props;
+        var details = [...recommendedUsers];
+        const advertisement = this.state.selectedAd;
+        var profession = professions.filter(p => p.id === advertisement.professionId)[0];
+        details = details.map(detail => {
+            var user = { ...detail };
+            var picture = user.picture;
+            delete user.picture;
+            user.matchRate = Math.round(user.matchRate * 100)
+            return { header: user, body: advertisement, picture: picture, profession: profession }
+        })
+
+        return {
+            tableHead: Object.keys(recommendedUsers[0]).filter(key => key !== "picture"),
+            tableData: details
+        }
+    }
+
     render() {
         const { classes, advertisement, professions, advertisements } = this.props;
-        const actions = [<EditIcon onClick={this.onClickEdit} />,
-        <DeleteIcon onClick={this.onClickDelete} />];
+        const actions = [
+            <PersonAddIcon onClick={this.onClickHire} />,
+            <EditIcon onClick={this.onClickEdit} />,
+            <DeleteIcon onClick={this.onClickDelete} />];
         const skillAddAction = [<AddIcon onClick={this.onClickSkillAdd} />];
         const skillRemoveAction = [<RemoveIcon onClick={this.onClickSkillRemove} />]
         const skillGroupAddAction = [<AddIcon onClick={this.onClickSGAdd} />];
@@ -397,155 +481,165 @@ class AdvertisementPage extends Component {
             <GridContainer>
                 <GridItem xs={12} sm={12} md={12}>
                     <Card>
-                        <CardHeader color="info" plain>
-                            <h4 className={classes.cardTitleDark}>Your Advertisements</h4>
-                            <p className={classes.cardCategoryDark}>
-                                Sorted by publishment order
-                            </p>
+                        <CardHeader color={this.state.color} plain>
+                            <Row style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <Col lg={7} >
+                                    <h4 className={classes.cardTitleDark}>{this.state.header}</h4>
+                                    <p className={classes.cardCategoryDark}>
+                                        {this.state.title}
+                                    </p>
+                                </Col>
+                                <Col lg={1}>
+                                    {this.state.action !== 'view' ?
+                                        <Button
+                                            onClick={this.onClickReturn}
+                                            color='transparent'>
+                                            <ArrowBackIcon style={{ color: 'rgb(255, 94, 94)' }} />
+                                            <div style={{ color: 'rgb(255, 94, 94)' }}>
+                                                Return
+                                        </div>
+                                        </Button>
+                                        : null}
+                                </Col>
+                            </Row>
                         </CardHeader>
                         <CardBody>
-                            <Table
-                                tableHeaderColor="info"
-                                tableHead={["Id", "Published At",
-                                    "Valid Until", "Description",
-                                    "Requirements", "Comments"]}
-                                tableData={advertisements ? this.getAdvertisementsAsArray() : []}
-                                actions={actions}
-                            />
-                        </CardBody>
-                    </Card>
-                </GridItem>
-                {this.state.selectedAd && this.state.action === 'edit' ?
-                    <GridItem xs={12} sm={12} md={12}>
-                        <Card>
-                            <CardHeader color="primary" plain>
-                                <h4 className={classes.cardTitleWhite}>Edit Advertisement</h4>
-                                <p className={classes.cardCategoryWhite}>Spaces can be left empty</p>
-                            </CardHeader>
-                            <CardBody>
+                            {this.state.action === 'view' ?
                                 <Table
-                                    tableHeaderColor="primary"
+                                    tableHeaderColor="info"
                                     tableHead={["Id", "Published At",
                                         "Valid Until", "Description",
                                         "Requirements", "Comments"]}
-                                    tableData={this.getSelectedAdvertisementAsArray()}
+                                    tableData={advertisements ? this.getAdvertisementsAsArray() : []}
+                                    actions={actions}
                                 />
-                                <GridContainer>
-                                    <GridItem xs={12} sm={12} md={6}>
-                                        <TextField
-                                            id="date"
-                                            label="Valid Until"
-                                            type="date"
-                                            defaultValue={this.toStandardDate(this.state.selectedAd.validUntil, "dd-MM-yyyy")}
-                                            className={classes.textField}
-                                            style={{ marginTop: 27, marginBottom: 35 }}
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                            inputProps={{ onChange: this.onDateChange }}
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12} md={12}>
-                                        <CustomInput
-                                            labelText="Job Title"
-                                            id="job-title"
-                                            formControlProps={{
-                                                fullWidth: true
-                                            }}
-                                            inputProps={{
-                                                multiline: true,
-                                                rows: 1,
-                                                onChange: this.onTitleChange,
-                                                value: this.state.selectedAd.title
-                                            }}
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12} md={12}>
-                                        <CustomInput
-                                            labelText="Type a new advertisement description"
-                                            id="about-ad"
-                                            formControlProps={{
-                                                fullWidth: true
-                                            }}
-                                            inputProps={{
-                                                multiline: true,
-                                                rows: 5,
-                                                onChange: this.onDescriptionChange,
-                                                value: this.state.selectedAd.description
-                                            }}
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12} md={6}>
-                                        <Card>
-                                            <CardHeader color="success" plain>
-                                                <h4 className={classes.cardTitleDark}>Available Skill Groups</h4>
-                                            </CardHeader>
-                                            <CardBody>
-                                                {advertisement && professions ?
-                                                    <Table
-                                                        tableHeaderColor="success"
-                                                        tableHead={["Id", "Description", "Skills"]}
-                                                        tableData={this._getAvailableSkillGroups()}
-                                                        actions={skillGroupAddAction}
-                                                    />
-                                                    : null}
+                                : this.state.selectedAd && this.state.action === 'edit' ?
+                                    <GridContainer>
 
-                                            </CardBody>
-                                        </Card>
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12} md={6}>
-                                        <Card>
-                                            <CardHeader color="warning" plain>
-                                                <h4 className={classes.cardTitleDark}>Selected Skill Groups</h4>
-                                            </CardHeader>
-                                            <CardBody>
-                                                {advertisement && professions ?
-                                                    <Table
-                                                        tableHeaderColor="warning"
-                                                        tableHead={["Id", "Description", "Skills"]}
-                                                        tableData={this.props.professions ? this._getSelectedSkillGroups() : []}
-                                                        actions={skillGroupRemoveAction}
-                                                    />
-                                                    : null}
-                                            </CardBody>
-                                        </Card>
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12} md={6}>
-                                        <Card>
-                                            <CardHeader color="success" plain>
-                                                <h4 className={classes.cardTitleDark}>Available Skills</h4>
-                                            </CardHeader>
-                                            <CardBody>
-                                                {advertisement && professions ?
-                                                    <Table
-                                                        tableHeaderColor="success"
-                                                        tableHead={["Id", "Description"]}
-                                                        tableData={this.props.professions ? this._getAvailableSkills() : []}
-                                                        actions={skillAddAction}
-                                                    />
-                                                    : null}
-                                            </CardBody>
-                                        </Card>
-                                    </GridItem>
-                                    <GridItem xs={12} sm={12} md={6}>
-                                        <Card>
-                                            <CardHeader color="warning" plain>
-                                                <h4 className={classes.cardTitleDark}>Selected Skills</h4>
-                                            </CardHeader>
-                                            <CardBody>
-                                                {advertisement && professions ?
-                                                    <Table
-                                                        tableHeaderColor="warning"
-                                                        tableHead={["Id", "Description"]}
-                                                        tableData={this.props.professions ? this._getSelectedSkills(classes) : []}
-                                                        actions={skillRemoveAction}
-                                                    />
-                                                    : null}
-                                            </CardBody>
-                                        </Card>
-                                    </GridItem>
-                                </GridContainer>
-                            </CardBody>
+                                        <GridItem xs={12} sm={12} md={12}>
+                                            <CustomInput
+                                                labelText="Job Title"
+                                                id="job-title"
+                                                formControlProps={{
+                                                    fullWidth: true
+                                                }}
+                                                inputProps={{
+                                                    multiline: true,
+                                                    rows: 1,
+                                                    onChange: this.onTitleChange,
+                                                    value: this.state.selectedAd.title
+                                                }}
+                                            />
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12} md={6}>
+                                            <TextField
+                                                id="date"
+                                                label="Valid Until"
+                                                type="date"
+                                                defaultValue={this.toStandardDate(this.state.selectedAd.validUntil, "dd-MM-yyyy")}
+                                                className={classes.textField}
+                                                style={{ marginTop: 27, marginBottom: 35 }}
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
+                                                inputProps={{ onChange: this.onDateChange }}
+                                            />
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12} md={12}>
+                                            <CustomInput
+                                                labelText="Type a new advertisement description"
+                                                id="about-ad"
+                                                formControlProps={{
+                                                    fullWidth: true
+                                                }}
+                                                inputProps={{
+                                                    multiline: true,
+                                                    rows: 5,
+                                                    onChange: this.onDescriptionChange,
+                                                    value: this.state.selectedAd.description
+                                                }}
+                                            />
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12} md={6}>
+                                            <Card>
+                                                <CardHeader color="success" plain>
+                                                    <h4 className={classes.cardTitleDark}>Available Skill Groups</h4>
+                                                </CardHeader>
+                                                <CardBody>
+                                                    {advertisement && professions ?
+                                                        <Table
+                                                            tableHeaderColor="success"
+                                                            tableHead={["Id", "Description", "Skills"]}
+                                                            tableData={this._getAvailableSkillGroups()}
+                                                            actions={skillGroupAddAction}
+                                                        />
+                                                        : null}
+
+                                                </CardBody>
+                                            </Card>
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12} md={6}>
+                                            <Card>
+                                                <CardHeader color="warning" plain>
+                                                    <h4 className={classes.cardTitleDark}>Selected Skill Groups</h4>
+                                                </CardHeader>
+                                                <CardBody>
+                                                    {advertisement && professions ?
+                                                        <Table
+                                                            tableHeaderColor="warning"
+                                                            tableHead={["Id", "Description", "Skills"]}
+                                                            tableData={this.props.professions ? this._getSelectedSkillGroups() : []}
+                                                            actions={skillGroupRemoveAction}
+                                                        />
+                                                        : null}
+                                                </CardBody>
+                                            </Card>
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12} md={6}>
+                                            <Card>
+                                                <CardHeader color="success" plain>
+                                                    <h4 className={classes.cardTitleDark}>Available Skills</h4>
+                                                </CardHeader>
+                                                <CardBody>
+                                                    {advertisement && professions ?
+                                                        <Table
+                                                            tableHeaderColor="success"
+                                                            tableHead={["Id", "Description"]}
+                                                            tableData={this.props.professions ? this._getAvailableSkills() : []}
+                                                            actions={skillAddAction}
+                                                        />
+                                                        : null}
+                                                </CardBody>
+                                            </Card>
+                                        </GridItem>
+                                        <GridItem xs={12} sm={12} md={6}>
+                                            <Card>
+                                                <CardHeader color="warning" plain>
+                                                    <h4 className={classes.cardTitleDark}>Selected Skills</h4>
+                                                </CardHeader>
+                                                <CardBody>
+                                                    {advertisement && professions ?
+                                                        <Table
+                                                            tableHeaderColor="warning"
+                                                            tableHead={["Id", "Description"]}
+                                                            tableData={this.props.professions ? this._getSelectedSkills(classes) : []}
+                                                            actions={skillRemoveAction}
+                                                        />
+                                                        : null}
+                                                </CardBody>
+                                            </Card>
+                                        </GridItem>
+                                    </GridContainer>
+                                    : this.state.action === 'hire' && this.props.recommendedUsers ?
+                                        <ExpandableTable
+                                            setSort={(orderBy, order) => { this.setSort(orderBy, order) }}
+                                            tableHeaderColor="info"
+                                            tableBody={RecommendedUserDetails}
+                                            {...this.expandableTableArgs()}
+                                        />
+                                        : null}
+                        </CardBody>
+                        {this.state.selectedAd && this.state.action === 'edit' ?
                             <CardFooter>
                                 <div />
                                 <Button
@@ -554,13 +648,12 @@ class AdvertisementPage extends Component {
                                     <SaveIcon />
                                     <div>
                                         Update Advertisement
-                                    </div>
+                                        </div>
                                 </Button>
                             </CardFooter>
-                        </Card>
-                    </GridItem>
-                    :
-                    null}
+                            : null}
+                    </Card>
+                </GridItem>
             </GridContainer>
         );
     }
@@ -572,7 +665,8 @@ const mapStateToProps = state => {
     return {
         professions: state.profession.professions,
         advertisement: state.advertisement.advertisement,
-        advertisements: state.company.advertisements
+        advertisements: state.company.advertisements,
+        recommendedUsers: state.advertisement.recommendedUsers
     };
 };
 
@@ -582,7 +676,9 @@ const mapDispatchToProps = dispatch => {
         getAdvertisement: bindActionCreators(getAdvr.request, dispatch),
         getAdvertisements: bindActionCreators(getAdvrs.request, dispatch),
         deleteAdvertisement: bindActionCreators(deleteAdvr.request, dispatch),
-        updateAdvertisement: bindActionCreators(updateAdvr.request, dispatch)
+        updateAdvertisement: bindActionCreators(updateAdvr.request, dispatch),
+        getRecommendedUsers: bindActionCreators(getRecommendedUsers.request, dispatch),
+        clearRecommendations: bindActionCreators(clearRecommendations.request, dispatch)
     };
 };
 

@@ -28,7 +28,9 @@ class ApplicationsPage extends Component {
         super(props);
         this.state = {
             selectedAd: null,
-            action: null
+            action: null,
+            orderBy: 'id',
+            order: 'desc'
         };
     }
 
@@ -92,6 +94,13 @@ class ApplicationsPage extends Component {
         return `${year}-${month}-${day}`;
     }
 
+    setSort(orderBy, order) {
+        this.setState({
+            order,
+            orderBy
+        })
+    }
+
     render() {
         const { classes, applications, advertisements } = this.props;
         var tableHead;
@@ -102,8 +111,10 @@ class ApplicationsPage extends Component {
                 const advertisement = advertisements.filter(ad => ad.id === app.advertisementId)[0];
                 var feedback = app.feedback;
                 delete app.feedback;
+                app.matchRate = Math.round(app.matchRate * 100)
                 return { header: app, body: advertisement, feedback: feedback }
-            })
+            });
+            details = details.filter(detail => typeof detail.body === 'object');
             tableHead = Object.keys(applications[0]).filter(key => key !== "feedback");
         }
         return (
@@ -113,12 +124,13 @@ class ApplicationsPage extends Component {
                         <CardHeader color="info" plain>
                             <h4 className={classes.cardTitleDark}>Incoming Applications</h4>
                             <p className={classes.cardCategoryDark}>
-                                Sorted by arrival date
+                                Sorted by {`${this.state.orderBy} ${this.state.order}ending`}
                             </p>
                         </CardHeader>
                         <CardBody>
                             {applications && advertisements ?
                                 <ExpandableTable
+                                    setSort={(orderBy, order) => { this.setSort(orderBy, order) }}
                                     tableHeaderColor="info"
                                     tableHead={tableHead}
                                     tableData={details}

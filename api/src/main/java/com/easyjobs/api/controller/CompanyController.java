@@ -3,6 +3,7 @@ package com.easyjobs.api.controller;
 import com.easyjobs.api.dto.request.ApplicationUpdateRequest;
 import com.easyjobs.api.dto.request.CompanySignupRequest;
 import com.easyjobs.api.dto.request.CompanyUpdateRequest;
+import com.easyjobs.api.dto.request.HireRequest;
 import com.easyjobs.api.dto.response.Response;
 import com.easyjobs.api.integration.aws.AwsService;
 import com.easyjobs.api.service.CompanyService;
@@ -67,9 +68,9 @@ public class CompanyController {
         return service.updateImageUrl(awsService.uploadImage(file), authentication.getName());
     }
 
-    @GetMapping("/hire")
-    public ResponseEntity hireAUser(@RequestParam Integer advertisementId, @RequestParam Integer userId, Authentication authentication){
-        return service.hireAUser(advertisementId, userId, authentication);
+    @PostMapping("/hire")
+    public ResponseEntity hireAUser(@RequestParam Integer advertisementId, @RequestParam Integer userId, Authentication authentication, @RequestBody HireRequest request){
+        return service.hireAUser(advertisementId, userId, request, authentication);
     }
 
     @PatchMapping("/applications/{applicationId}")

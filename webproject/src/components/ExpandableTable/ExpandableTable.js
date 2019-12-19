@@ -104,8 +104,9 @@ export default function ExpandableTable(props) {
     const [expanded, setExpanded] = React.useState(false);
 
 
-    const handleRequestSort = (event, property) => {
+    const handleRequestSort = (event, property, setSort) => {
         const isDesc = orderBy === property && order === 'desc';
+        setSort(property, isDesc ? 'asc' : 'desc');
         setOrder(isDesc ? 'asc' : 'desc');
         setOrderBy(property);
         setExpanded(false);
@@ -124,14 +125,16 @@ export default function ExpandableTable(props) {
     const handleChange = panel => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
+    const { setSort } = props;
 
     return (
+
         <div className={classes.tableResponsive}>
             <Header
                 classes={classes}
                 order={order}
                 orderBy={orderBy}
-                onRequestSort={handleRequestSort}
+                onRequestSort={(e, p) => handleRequestSort(e, p, setSort)}
                 headCells={tableHead.map(data => {
                     return { id: data, label: space(data) }
                 })}
@@ -151,11 +154,12 @@ export default function ExpandableTable(props) {
                                     {<ExpandableRow data={row.header} />}
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
-                                    <props.tableBody {...props.bodyArgs} data={row} />
+                                    <props.tableBody data={row} />
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
                         );
                     })}
+                {/* {...props.bodyArgs} removed from prop.tablebody component */}
                 {/* {tableData.map((prop, index) => {
                     return (
                         <ExpansionPanel expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>

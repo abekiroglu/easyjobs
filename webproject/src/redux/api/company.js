@@ -48,7 +48,7 @@ export function updateProfileCompany(request) {
 export function hire(request) {
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
   return axios.request({
-    method: 'get',
+    method: 'post',
     headers: {
       auth: TOKEN
     },
