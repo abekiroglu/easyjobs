@@ -39,7 +39,6 @@ function valueLabelFormat(value) {
 export default function skillWeightAdjuster(props) {
     const classes = props.classes;
     const { skills, onChange, tags } = props;
-    debugger;
     return (
 
         <div className={classes.swaWrapper}>

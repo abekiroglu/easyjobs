@@ -74,10 +74,11 @@ function ApplicationDetails(props) {
     const ad = data.body;
     const skills = applicant.skills;
     const requirements = ad.requirements;
+    debugger;
     const [feedback, setFeedback] = React.useState(data.feedback);
     const [resolved, setResolved] = React.useState(data.header.resolved);
-    const [accepted, setAccepted] = React.useState(data.header.feedback);
-    debugger;
+    const [accepted, setAccepted] = React.useState(data.header.accepted);
+
     return (
         <div className={classes.root}>
             <GridContainer>

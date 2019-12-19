@@ -3,6 +3,7 @@ package com.easyjobs.api.service;
 import com.easyjobs.api.dto.request.ApplicationUpdateRequest;
 import com.easyjobs.api.dto.request.CompanySignupRequest;
 import com.easyjobs.api.dto.request.CompanyUpdateRequest;
+import com.easyjobs.api.dto.request.HireRequest;
 import com.easyjobs.api.dto.response.*;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
@@ -161,7 +162,7 @@ public class CompanyService {
     }
 
 
-    public ResponseEntity hireAUser(Integer advertisementId, Integer userId, Authentication auth) {
+    public ResponseEntity hireAUser(Integer advertisementId, Integer userId, HireRequest request, Authentication auth) {
         try {
             if(advertisementId == null || userId == null){
             return new Response<>(new ErrorResponse("400", "Parameters should not be empty"), HttpStatus.BAD_REQUEST);
@@ -185,6 +186,7 @@ public class CompanyService {
             jobApplication.setResolved(false);
             jobApplication.setAccepted(false);
             jobApplication.setPostDate(new Date());
+            jobApplication.setFeedback(request.getFeedback());
             jobApplication.setAppliedTo(dbAdvertisement.getCompany());
             jobApplication.setApplicant(dbUser);
             jobApplication.setAdvertisementId(dbAdvertisement.getId());
@@ -207,7 +209,9 @@ public class CompanyService {
         try {
             Company dbCompany = companyRepository.findOneByEmail(name);
             //.filter(jobApplication -> !jobApplication.isResolved() && !jobApplication.getDeleted())
-            return new Response<>(dbCompany.getApplications().stream().map(CompanyResponse.JobApplicationWrapper::new).collect(Collectors.toList()), HttpStatus.CREATED);
+            return new Response<>(dbCompany.getApplications().stream()
+                    .filter(jobApplication -> !jobApplication.getDeleted())
+                    .map(CompanyResponse.JobApplicationWrapper::new).collect(Collectors.toList()), HttpStatus.CREATED);
         } catch (Exception e) {
             return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

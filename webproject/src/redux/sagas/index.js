@@ -19,11 +19,13 @@ import {
     watchDeleteAdvr,
     watchGetAdvr,
     watchGetRecommendedUsers,
-    watchUpdateAdvr
+    watchUpdateAdvr,
+    watchClearRecommendations
 } from './advertisement';
 import { watchGetProfession } from './profession';
 
 export default function* root() {
+    yield fork(watchClearRecommendations);
     yield fork(watchUpdateApplication);
     yield fork(watchRedirect);
     yield fork(watchLoginCompany);

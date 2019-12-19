@@ -4,7 +4,8 @@ import {
     UPDATE_ADVR,
     DELETE_ADVR,
     GET_RECOMMENDED_USERS,
-    CLEAR_ADS
+    CLEAR_ADS,
+    CLEAR_RECOMMENDATIONS
 } from '../../constants/actionTypes';
 
 const initialState = {};
@@ -51,7 +52,6 @@ export default function advertisementReducer(state = initialState, action) {
                 status: null
             };
         case UPDATE_ADVR.SUCCESS:
-            debugger;
             return {
                 ...state,
                 status: action.response.status,
@@ -98,6 +98,11 @@ export default function advertisementReducer(state = initialState, action) {
             };
         case CLEAR_ADS.SUCCESS:
             return initialState;
+        case CLEAR_RECOMMENDATIONS.SUCCESS:
+            return {
+                ...state,
+                recommendedUsers: null
+            }
         default:
             return state;
     }

@@ -154,11 +154,12 @@ export default function ExpandableTable(props) {
                                     {<ExpandableRow data={row.header} />}
                                 </ExpansionPanelSummary>
                                 <ExpansionPanelDetails>
-                                    <props.tableBody {...props.bodyArgs} data={row} />
+                                    <props.tableBody data={row} />
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
                         );
                     })}
+                {/* {...props.bodyArgs} removed from prop.tablebody component */}
                 {/* {tableData.map((prop, index) => {
                     return (
                         <ExpansionPanel expanded={expanded === `panel${index}`} onChange={handleChange(`panel${index}`)}>

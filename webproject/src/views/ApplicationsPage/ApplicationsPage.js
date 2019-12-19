@@ -95,7 +95,6 @@ class ApplicationsPage extends Component {
     }
 
     setSort(orderBy, order) {
-        debugger;
         this.setState({
             order,
             orderBy
@@ -112,8 +111,10 @@ class ApplicationsPage extends Component {
                 const advertisement = advertisements.filter(ad => ad.id === app.advertisementId)[0];
                 var feedback = app.feedback;
                 delete app.feedback;
+                app.matchRate = Math.round(app.matchRate * 100)
                 return { header: app, body: advertisement, feedback: feedback }
-            })
+            });
+            details = details.filter(detail => typeof detail.body === 'object');
             tableHead = Object.keys(applications[0]).filter(key => key !== "feedback");
         }
         return (

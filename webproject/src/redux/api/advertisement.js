@@ -25,7 +25,6 @@ export function getAdvr(request) {
   })
 }
 export function updateAdvr(request) {
-  debugger;
   var TOKEN = localStorage.getItem(LOCAL_STORAGE);
   return axios.request({
     headers: {
@@ -55,7 +54,7 @@ export function getRecommendedUsers(request) {
       auth: TOKEN
     },
     method: 'get',
-    url: `${ADVERTISEMENT}/`,
+    url: `${ADVERTISEMENT}/${request.advertisementId}/recommended`,
     params: { advertisementId: request.advertisementId }
   })
 }

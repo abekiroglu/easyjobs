@@ -52,7 +52,7 @@ export const uploadImage = {
 }
 
 export const hire = {
-    request: () => action(HIRE.REQUEST, {}),
+    request: (body) => action(HIRE.REQUEST, { body }),
     success: response => action(HIRE.SUCCESS, { response }),
     failure: error => action(HIRE.FAILURE, { error })
 }
