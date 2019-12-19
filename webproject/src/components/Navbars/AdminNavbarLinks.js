@@ -173,6 +173,9 @@ export default function AdminNavbarLinks(props) {
         <div className={classes.manager}>
           {generateLink(props[5], classes, 6, false)}
         </div>
+        <div className={classes.manager}>
+          {generateLink(props[6], classes, 7, false)}
+        </div>
         {/* <div className={classes.manager}>
           <Button
             color={"white"}

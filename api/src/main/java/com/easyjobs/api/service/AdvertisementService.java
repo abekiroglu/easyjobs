@@ -53,6 +53,7 @@ public class AdvertisementService {
         try {
             Profession profession = professionRepository.findOneById(request.getProfessionId());
             Company company = companyRepository.findOneByEmail(email);
+            advertisement.setTitle(request.getTitle());
             advertisement.setValidUntil(request.getValidUntil());
             advertisement.setDescription(request.getDescription());
             advertisement.setProfession(profession);
@@ -231,7 +232,9 @@ public class AdvertisementService {
             jobApplication.setAppliedTo(advertisement.getCompany());
             jobApplication.setPostDate(new Date());
             jobApplication.setResolved(false);
+            jobApplication.setAccepted(false);
             jobApplication.setAdvertisementId(advertisement.getId());
+            jobApplication.setMatchRate(RecommendedUser.calculateMatchRate(dbUser.getSkills(), advertisement.getRequirements()));
             //TODO Enumerate
             jobApplication.setIssuedBy("User");
 

@@ -28,7 +28,7 @@ export default function SlideView(props) {
     const { value, onChange, onNavigateBefore, onNavigateNext, view } = props;
 
     return (
-        <div>
+        <div style={{ display: 'flex', minHeight: '75vh', flexDirection: 'column', justifyContent: 'space-between' }}>
             {view}
             <BottomNavigation
                 value={value}
@@ -39,6 +39,10 @@ export default function SlideView(props) {
                 <IconButton onClick={onNavigateBefore}>
                     <NavigateBeforeIcon />
                 </IconButton>
+                <BottomNavigationAction
+                    classes={{ root: classes.root, wrapper: classes.wrapper, selected: classes.selected }}
+                    icon={<FiberManualRecordIcon />}
+                    disabled={true} />
                 <BottomNavigationAction
                     classes={{ root: classes.root, wrapper: classes.wrapper, selected: classes.selected }}
                     icon={<FiberManualRecordIcon />}

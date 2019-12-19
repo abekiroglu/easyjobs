@@ -4,9 +4,10 @@ import {
     GET_ADVR,
     UPDATE_ADVR,
     DELETE_ADVR,
-    GET_RECOMMENDED_USERS
+    GET_RECOMMENDED_USERS,
 } from '../../constants/actionTypes';
 import * as actions from '../actions/advertisement';
+import { putAdvr } from '../actions/company'
 import * as api from '../api/advertisement';
 
 
@@ -14,6 +15,7 @@ export function* addAdvr({ body }) {
     try {
         const response = yield call(api.addAdvr, body);
         yield put(actions.addAdvr.success(response));
+        yield put(putAdvr.success(response.data));
     } catch (e) {
         yield put(actions.addAdvr.failure(e));
     }

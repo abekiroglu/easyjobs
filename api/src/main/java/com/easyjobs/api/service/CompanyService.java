@@ -1,10 +1,9 @@
 package com.easyjobs.api.service;
 
+import com.easyjobs.api.dto.request.ApplicationUpdateRequest;
 import com.easyjobs.api.dto.request.CompanySignupRequest;
 import com.easyjobs.api.dto.request.CompanyUpdateRequest;
-import com.easyjobs.api.dto.response.CompanyResponse;
-import com.easyjobs.api.dto.response.ErrorResponse;
-import com.easyjobs.api.dto.response.Response;
+import com.easyjobs.api.dto.response.*;
 import com.easyjobs.api.integration.firebase.auth.FirebaseUtil;
 import com.easyjobs.api.integration.sendgrid.SendGridUtil;
 import com.easyjobs.api.model.*;
@@ -27,6 +26,7 @@ import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -183,10 +183,12 @@ public class CompanyService {
 
             JobApplication jobApplication = new JobApplication();
             jobApplication.setResolved(false);
+            jobApplication.setAccepted(false);
             jobApplication.setPostDate(new Date());
             jobApplication.setAppliedTo(dbAdvertisement.getCompany());
             jobApplication.setApplicant(dbUser);
             jobApplication.setAdvertisementId(dbAdvertisement.getId());
+            jobApplication.setMatchRate(RecommendedUser.calculateMatchRate(dbUser.getSkills(), dbAdvertisement.getRequirements()));
             //TODO Enumerate
             jobApplication.setIssuedBy("Company");
 
@@ -201,4 +203,45 @@ public class CompanyService {
     }
 
 
+    public ResponseEntity getCompanyApplications(String name) {
+        try {
+            Company dbCompany = companyRepository.findOneByEmail(name);
+            //.filter(jobApplication -> !jobApplication.isResolved() && !jobApplication.getDeleted())
+            return new Response<>(dbCompany.getApplications().stream().map(CompanyResponse.JobApplicationWrapper::new).collect(Collectors.toList()), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity getCompanyAdvertisements(String name) {
+        try {
+            Company dbCompany = companyRepository.findOneByEmail(name);
+
+            return new Response<>(dbCompany.getAdvertisements(), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ResponseEntity updateApplication(Integer applicationId, ApplicationUpdateRequest request, String email) {
+        try {
+            JobApplication dbApplication = jobApplicationRepository.findOneById(applicationId);
+            if(dbApplication.getAppliedTo().getEmail().equals(email)){
+                if(request.getIsResolved()){
+                    dbApplication.setResolved(true);
+                    dbApplication.setAccepted(request.getIsAccepted());
+                }
+                if(request.getFeedback() != null){
+                    dbApplication.setFeedback(request.getFeedback());
+                }
+                return new Response<>(new CompanyResponse.JobApplicationWrapper(dbApplication), HttpStatus.OK);
+            }
+            else {
+                return new Response<>(new ErrorResponse("404", "Application does not belong to the authenticated company"), HttpStatus.NOT_FOUND);
+            }
+
+        } catch (Exception e) {
+            return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
