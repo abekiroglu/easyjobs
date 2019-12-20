@@ -78,4 +78,8 @@ public class CompanyController {
         return service.updateApplication(applicationId, request, authentication.getName());
     }
 
+    @PostMapping("/statistics")
+    public ResponseEntity getStatistics(Authentication authentication){
+        return service.getStatistics(authentication);
+    }
 }

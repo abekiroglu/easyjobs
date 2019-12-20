@@ -1,5 +1,5 @@
-import React from "react";
 // react plugin for creating charts
+import React, { Component } from 'react';
 import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
@@ -28,238 +28,338 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withStyles } from '@material-ui/core/styles';
 import { bugs, website, server } from "variables/general.js";
-
+import { getStatistics } from "redux/actions/company"
+import GroupIcon from '@material-ui/icons/Group';
 import {
   dailySalesChart,
   emailsSubscriptionChart,
   completedTasksChart
 } from "variables/charts.js";
-
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
+import BusinessIcon from '@material-ui/icons/Business';
+import moment from 'moment';
+import Chartist from 'chartist';
 
-const useStyles = makeStyles(styles);
+class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+  }
 
-export default function Dashboard() {
-  const classes = useStyles();
-  return (
-    <div>
-      <GridContainer>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="warning" stats icon>
-              <CardIcon color="warning">
-                <Icon>content_copy</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Used Space</p>
-              <h3 className={classes.cardTitle}>
-                49/50 <small>GB</small>
-              </h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <Danger>
-                  <Warning />
-                </Danger>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Get more space
-                </a>
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="success" stats icon>
-              <CardIcon color="success">
-                <Store />
-              </CardIcon>
-              <p className={classes.cardCategory}>Revenue</p>
-              <h3 className={classes.cardTitle}>$34,245</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <DateRange />
-                Last 24 Hours
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="danger" stats icon>
-              <CardIcon color="danger">
-                <Icon>info_outline</Icon>
-              </CardIcon>
-              <p className={classes.cardCategory}>Fixed Issues</p>
-              <h3 className={classes.cardTitle}>75</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <LocalOffer />
-                Tracked from Github
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={6} md={3}>
-          <Card>
-            <CardHeader color="info" stats icon>
-              <CardIcon color="info">
-                <Accessibility />
-              </CardIcon>
-              <p className={classes.cardCategory}>Followers</p>
-              <h3 className={classes.cardTitle}>+245</h3>
-            </CardHeader>
-            <CardFooter stats>
-              <div className={classes.stats}>
-                <Update />
-                Just Updated
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="success">
-              <ChartistGraph
-                className="ct-chart"
-                data={dailySalesChart.data}
-                type="Line"
-                options={dailySalesChart.options}
-                listener={dailySalesChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Daily Sales</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                </span>{" "}
-                increase in today sales.
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="warning">
-              <ChartistGraph
-                className="ct-chart"
-                data={emailsSubscriptionChart.data}
-                type="Bar"
-                options={emailsSubscriptionChart.options}
-                responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                listener={emailsSubscriptionChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Email Subscriptions</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart>
-            <CardHeader color="danger">
-              <ChartistGraph
-                className="ct-chart"
-                data={completedTasksChart.data}
-                type="Line"
-                options={completedTasksChart.options}
-                listener={completedTasksChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
-          <CustomTabs
-            title="Tasks:"
-            headerColor="primary"
-            tabs={[
-              {
-                tabName: "Bugs",
-                tabIcon: BugReport,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 3]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={bugs}
-                  />
-                )
-              },
-              {
-                tabName: "Website",
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
-                )
-              },
-              {
-                tabName: "Server",
-                tabIcon: Cloud,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[1]}
-                    tasksIndexes={[0, 1, 2]}
-                    tasks={server}
-                  />
-                )
+
+  applicationChart() {
+    var delays2 = 80, durations2 = 500;
+    const { company } = this.props;
+    var labels = []
+    for (let i = 0; i < 12; i++) {
+      labels[11 - i] = moment().subtract(i, "month").format('MMMM').substring(0, 3);
+    }
+
+    var series = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    company.applications.forEach(app => {
+      var month = moment().month(app.postDate.split('-')[1] - 1).format('MMM');
+      var idx = labels.indexOf(month);
+      series[idx]++;
+    });
+
+    var largestMonth = 0;
+    series.forEach(month => {
+      if (month > largestMonth) {
+        largestMonth = month
+      }
+    })
+
+    return {
+      data: {
+        labels,
+        series: [series]
+      },
+      options: {
+        axisX: {
+          showGrid: false
+        },
+        low: 0,
+        high: largestMonth,
+        chartPadding: {
+          top: 0,
+          right: 5,
+          bottom: 0,
+          left: 0
+        }
+      },
+      responsiveOptions: [
+        [
+          "screen and (max-width: 640px)",
+          {
+            seriesBarDistance: 5,
+            axisX: {
+              labelInterpolationFnc: function (value) {
+                return value[0];
               }
-            ]}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
-          <Card>
-            <CardHeader color="warning">
-              <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
-              <p className={classes.cardCategoryWhite}>
-                New employees on 15th September, 2016
-              </p>
-            </CardHeader>
-            <CardBody>
-              <Table
-                tableHeaderColor="warning"
-                tableHead={["ID", "Name", "Salary", "Country"]}
-                tableData={[
-                  ["1", "Dakota Rice", "$36,738", "Niger"],
-                  ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                  ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                  ["4", "Philip Chaney", "$38,735", "Korea, South"]
-                ]}
-              />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
-    </div>
-  );
+            }
+          }
+        ]
+      ],
+      animation: {
+        draw: function (data) {
+          if (data.type === "bar") {
+            data.element.animate({
+              opacity: {
+                begin: (data.index + 1) * delays2,
+                dur: durations2,
+                from: 0,
+                to: 1,
+                easing: "ease"
+              }
+            });
+          }
+        }
+      }
+    };
+  }
+
+  advertisementChart() {
+    var delays = 80, durations = 500;
+    const { company } = this.props;
+    var labels = []
+    for (let i = 0; i < 12; i++) {
+      labels[11 - i] = moment().subtract(i, "month").format('MMMM').substring(0, 3);
+    }
+
+    var series = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    company.advertisements.forEach(ad => {
+      var month = moment().month(ad.publishDate.split('-')[1] - 1).format('MMM');
+      var idx = labels.indexOf(month);
+      series[idx]++;
+    });
+
+    var largestMonth = 0;
+    series.forEach(month => {
+      if (month > largestMonth) {
+        largestMonth = month
+      }
+    })
+
+    return {
+      data: {
+        labels,
+        series: [series]
+      },
+      options: {
+        lineSmooth: Chartist.Interpolation.cardinal({
+          tension: 0
+        }),
+        low: 0,
+        high: largestMonth * 2,
+        chartPadding: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
+        }
+      },
+      animation: {
+        draw: function (data) {
+          if (data.type === "line" || data.type === "area") {
+            data.element.animate({
+              d: {
+                begin: 600,
+                dur: 700,
+                from: data.path
+                  .clone()
+                  .scale(1, 0)
+                  .translate(0, data.chartRect.height())
+                  .stringify(),
+                to: data.path.clone().stringify(),
+                easing: Chartist.Svg.Easing.easeOutQuint
+              }
+            });
+          } else if (data.type === "point") {
+            data.element.animate({
+              opacity: {
+                begin: (data.index + 1) * delays,
+                dur: durations,
+                from: 0,
+                to: 1,
+                easing: "ease"
+              }
+            });
+          }
+        }
+      }
+    };
+  }
+
+  componentDidMount() {
+    const { getStatistics } = this.props;
+    getStatistics();
+  }
+
+  render() {
+    const { classes, statistics, company } = this.props;
+
+    var applicationsChart;
+    var advertisementChart;
+    if (company) {
+      applicationsChart = this.applicationChart();
+      advertisementChart = this.advertisementChart();
+    }
+    return (
+      <div>
+        <GridContainer>
+          <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="success" stats icon>
+                <CardIcon color="success">
+                  <GroupIcon />
+                </CardIcon>
+                <p className={classes.cardCategory}>Active Users</p>
+                <h3 className={classes.cardTitle}>
+                  {statistics ? statistics.userCount : null}
+                </h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  <Update />
+                  Just Updated
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="warning" stats icon>
+                <CardIcon color="warning">
+                  <BusinessIcon />
+                </CardIcon>
+                <p className={classes.cardCategory}>Enrolled Companies</p>
+                <h3 className={classes.cardTitle}>
+                  {statistics ? statistics.companyCount : null}
+                </h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  <Update />
+                  Just Updated
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="warning" stats icon>
+                <CardIcon color="warning">
+                  <AttachMoneyIcon />
+                </CardIcon>
+                <p className={classes.cardCategory}>Published Advertisements</p>
+                <h3 className={classes.cardTitle}>
+                  {statistics ? statistics.advertisementCount : null}
+                </h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  <Update />
+                  Just Updated
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="info" stats icon>
+                <CardIcon color="info">
+                  <Accessibility />
+                </CardIcon>
+                <p className={classes.cardCategory}>Your Applications</p>
+                <h3 className={classes.cardTitle}>
+                  {company ? company.applications.length : null}
+                </h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  <Update />
+                  Just Updated
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+        </GridContainer>
+        <GridContainer>
+          <GridItem xs={12} sm={12} md={6}>
+            <Card chart>
+              <CardHeader color="success">
+                {company ?
+                  <ChartistGraph
+                    className="ct-chart"
+                    data={advertisementChart.data}
+                    type="Line"
+                    options={advertisementChart.options}
+                    listener={advertisementChart.animation}
+                  /> : null}
+              </CardHeader>
+              <CardBody>
+                <h4 className={classes.cardTitle}>Monthly Advertisements</h4>
+                <p className={classes.cardCategory}>
+                  Your companies recently published advertisements
+                </p>
+              </CardBody>
+              <CardFooter chart>
+                <div className={classes.stats}>
+                  <Update />
+                  Just Updated
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={6}>
+            <Card chart>
+              <CardHeader color="warning">
+                {company ?
+                  <ChartistGraph
+                    className="ct-chart"
+                    data={applicationsChart.data}
+                    type="Bar"
+                    options={applicationsChart.options}
+                    responsiveOptions={applicationsChart.responsiveOptions}
+                    listener={applicationsChart.animation}
+                  /> : null}
+              </CardHeader>
+              <CardBody>
+                <h4 className={classes.cardTitle}>Applications</h4>
+                <p className={classes.cardCategory}>Received applications during last year</p>
+              </CardBody>
+              <CardFooter chart>
+                <div className={classes.stats}>
+                  <Update />
+                  Just Updated
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+        </GridContainer>
+        <GridContainer>
+        </GridContainer>
+      </div>
+    );
+  }
 }
+
+const mapStateToProps = state => {
+  return {
+    company: state.company.company,
+    statistics: state.company.statistics
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getStatistics: bindActionCreators(getStatistics.request, dispatch)
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Dashboard));

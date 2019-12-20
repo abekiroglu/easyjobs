@@ -12,6 +12,7 @@ import {
     GET_ADVRS,
     GET_APPS,
     UPDATE_APP,
+    GET_STATISTICS,
     LOGOUT
 } from '../../constants/actionTypes';
 
@@ -91,4 +92,10 @@ export const updateApp = {
     request: body => action(UPDATE_APP.REQUEST, { body }),
     success: response => action(UPDATE_APP.SUCCESS, { response }),
     failure: error => action(UPDATE_APP.FAILURE, { error })
+}
+
+export const getStatistics = {
+    request: () => action(GET_STATISTICS.REQUEST, {}),
+    success: response => action(GET_STATISTICS.SUCCESS, { response }),
+    failure: error => action(GET_STATISTICS.FAILURE, { error })
 }

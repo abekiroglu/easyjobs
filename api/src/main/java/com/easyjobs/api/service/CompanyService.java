@@ -248,4 +248,16 @@ public class CompanyService {
             return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public ResponseEntity getStatistics(Authentication authentication) {
+        try {
+            StatisticsResponse response = new StatisticsResponse();
+            response.setUserCount(userRepository.findCount());
+            response.setAdvertisementCount(advertisementRepository.findCount());
+            response.setCompanyCount(companyRepository.findCount());
+            return new Response<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new Response<>(new ErrorResponse("500", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

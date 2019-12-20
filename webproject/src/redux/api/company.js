@@ -119,3 +119,14 @@ export function updateApp(request) {
     url: `${COMPANY}/applications/${request.applicationId}`
   })
 }
+
+export function getStatistics() {
+  var TOKEN = localStorage.getItem(LOCAL_STORAGE);
+  return axios.request({
+    method: 'post',
+    headers: {
+      auth: TOKEN
+    },
+    url: `${COMPANY}/statistics`
+  })
+}

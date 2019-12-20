@@ -10,6 +10,7 @@ import {
     GET_ADVRS,
     GET_APPS,
     UPDATE_APP,
+    GET_STATISTICS,
     LOGOUT
 } from '../../constants/actionTypes';
 import Logout from 'views/Logout/Logout';
@@ -259,6 +260,30 @@ export default function companyReducer(state = initialState, action) {
                 applications: apps
             }
         case UPDATE_APP.FAILURE:
+            return {
+                ...state,
+                error: action.error.response.data.message,
+                status: action.error.response.status,
+                isLoading: false,
+                hasError: true
+            }
+
+        case GET_STATISTICS.REQUEST:
+            return {
+                ...state,
+                error: null,
+                isLoading: true,
+                hasError: false,
+                status: null
+            }
+        case GET_STATISTICS.SUCCESS:
+            return {
+                ...state,
+                status: action.response.status,
+                isLoading: false,
+                statistics: action.response.data
+            }
+        case GET_STATISTICS.FAILURE:
             return {
                 ...state,
                 error: action.error.response.data.message,

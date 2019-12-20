@@ -29,6 +29,8 @@ export const GET_APPS = createRequestTypes("GET_APPS");
 export const UPDATE_APP = createRequestTypes("UPDATE_APP");
 
 export const LOGOUT = createRequestTypes("LOGOUT");
+
+export const GET_STATISTICS = createRequestTypes("GET_STATISTICS");
 //Advertisement
 export const ADD_ADVR = createRequestTypes("ADD_ADVR");
 

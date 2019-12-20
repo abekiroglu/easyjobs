@@ -10,6 +10,7 @@ import {
     GET_ADVRS,
     GET_APPS,
     UPDATE_APP,
+    GET_STATISTICS,
     LOGOUT
 } from '../../constants/actionTypes';
 import { LOCAL_STORAGE } from '../../constants/misc'
@@ -107,6 +108,15 @@ export function* getApps() {
     }
 }
 
+export function* getStatistics() {
+    try {
+        const response = yield call(api.getStatistics);
+        yield put(actions.getStatistics.success(response));
+    } catch (e) {
+        yield put(actions.getStatistics.failure(e));
+    }
+}
+
 export function* logout() {
     yield put(actions.logout.success());
     localStorage.removeItem(LOCAL_STORAGE);
@@ -122,6 +132,10 @@ export function* updateApplication({ body }) {
     } catch (e) {
         yield put(actions.updateApp.failure(e));
     }
+}
+
+export function* watchGetStatistics() {
+    yield takeLatest(GET_STATISTICS.REQUEST, getStatistics);
 }
 
 export function* watchUpdateApplication() {
