@@ -277,7 +277,7 @@ class UserHelper{
             AF.upload(
                 multipartFormData: multiPartFormData,
                 to: "http://ec2-18-197-78-52.eu-central-1.compute.amazonaws.com/v1/users/upload", method: .post , headers: headers)
-                .responseJSON { (resp) in
+                .responseString { (resp) in
                     print(resp);
             }
 //                .response{ response in
