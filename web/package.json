@@ -12,7 +12,7 @@
     "@material-ui/icons": "^4.5.1",
     "@material-ui/styles": "^4.7.1",
     "auth0-js": "^9.10.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "classcat": "^3.2.5",
     "connected-react-router": "^6.3.2",
